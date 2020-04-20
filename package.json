@@ -1,0 +1,19 @@
+{
+  "name": "amaliacardo-admin",
+  "version": "0.0.1",
+  "description": "Admin tool for amaliacardo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "cloudnode@git.cloudno.de:/git/antonio.dalessio/7645-0496f4cf708b20ec817ecf2f537cb2ab.git"
+  },
+  "author": "Antonio D'Alessio",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
