@@ -1,6 +1,12 @@
 const express = require('express')
+var fs = require('fs');
 
 const expressApp = express();
+var handlebars = require("Handlebars");
+
+const FTP = require('./utils/ftp');
+
+var clientftp = new FTP("ftp.amaliacardo.it", 21, "7489922@aruba.it", "password1846", false, fs);
 
 expressApp.use(express.json());
 expressApp.listen(15645, () => {
@@ -8,5 +14,23 @@ expressApp.listen(15645, () => {
 });
 
 expressApp.get('/', async (req, res) => {
-    res.end('Hello new World\n');
+
+    var source = "<p>Hello, my name is {{name}}. I am from {{hometown}}. I have " +
+             "{{kids.length}} kids:</p>" +
+             "<ul>{{#kids}}<li>{{name}} is {{age}}</li>{{/kids}}</ul>";
+    var template = handlebars.compile(source);
+    
+    var data = { "name": "Alan", "hometown": "Somewhere, TX",
+                "kids": [{"name": "Jimmy", "age": "12"}, {"name": "Sally", "age": "4"}]};
+    var result = template(data);
+
+    fs.writeFile('./site/helloworld.html', result, function (err) {
+        if (err) return console.log(err);
+        
+        clientftp.upload('./site/helloworld.html', './www.amaliacardo.it/test/helloworld.html', 755);
+        
+    });
+
+
+    res.end('Hello new new new World\n');
 })
