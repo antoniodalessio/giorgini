@@ -32,5 +32,5 @@ expressApp.get('/', async (req, res) => {
     });
 
 
-    res.end('Hello new new new World\n');
+    res.end(err);
 })
