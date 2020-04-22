@@ -24,10 +24,10 @@ expressApp.get('/', async (req, res) => {
                 "kids": [{"name": "Jimmy", "age": "12"}, {"name": "Sally", "age": "4"}]};
     var result = template(data);
 
-    fs.writeFile('./site/helloworld.html', result, function (err) {
+    fs.writeFile('/tmp/helloworld.html', result, function (err) {
         if (err) return console.log(err);
         
-        clientftp.upload('./site/helloworld.html', './www.amaliacardo.it/test/helloworld.html', 755);
+        clientftp.upload('/tmp/helloworld.html', './www.amaliacardo.it/test/helloworld.html', 755);
         
     });
 
