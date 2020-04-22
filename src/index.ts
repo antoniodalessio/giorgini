@@ -2,7 +2,7 @@ const express = require('express')
 var fs = require('fs');
 
 const expressApp = express();
-var handlebars = require("Handlebars");
+var handlebars = require("handlebars");
 
 const FTP = require('./utils/ftp');
 

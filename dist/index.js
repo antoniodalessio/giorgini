@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const express = require('express');
 var fs = require('fs');
 const expressApp = express();
-var handlebars = require("Handlebars");
+var handlebars = require("handlebars");
 const FTP = require('./utils/ftp');
 var clientftp = new FTP("ftp.amaliacardo.it", 21, "7489922@aruba.it", "password1846", false, fs);
 expressApp.use(express.json());
