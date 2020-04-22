@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 var fs = require('fs');
 
@@ -6,7 +7,7 @@ var handlebars = require("handlebars");
 
 const FTP = require('./utils/ftp');
 
-var clientftp = new FTP("ftp.amaliacardo.it", 21, "7489922@aruba.it", "password1846", false, fs);
+var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false, fs);
 
 expressApp.use(express.json());
 expressApp.listen(15645, () => {
@@ -25,11 +26,11 @@ expressApp.get('/', async (req, res) => {
     var result = template(data);
     let text = "nessuno";
 
-    fs.writeFile('/mnt/helloworld.html', result, function (err) {
+    fs.writeFile(`${process.env.SITE_PATH}/helloworld.html`, result, function (err) {
         text = err;
         if (err) return console.log(err);
         
-        clientftp.upload('/mnt/helloworld.html', './www.amaliacardo.it/test/helloworld.html', 755);
+        clientftp.upload(`${process.env.SITE_PATH}/helloworld.html`, './www.amaliacardo.it/test/helloworld.html', 755);
         
     });
 
