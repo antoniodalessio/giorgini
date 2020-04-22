@@ -23,8 +23,10 @@ expressApp.get('/', async (req, res) => {
     var data = { "name": "Alan", "hometown": "Somewhere, TX",
                 "kids": [{"name": "Jimmy", "age": "12"}, {"name": "Sally", "age": "4"}]};
     var result = template(data);
+    let text = "nessuno";
 
     fs.writeFile('/mnt/helloworld.html', result, function (err) {
+        text = err;
         if (err) return console.log(err);
         
         clientftp.upload('/mnt/helloworld.html', './www.amaliacardo.it/test/helloworld.html', 755);
@@ -32,5 +34,5 @@ expressApp.get('/', async (req, res) => {
     });
 
 
-    res.end(err);
+    res.end(text);
 })
