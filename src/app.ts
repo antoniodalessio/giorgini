@@ -11,6 +11,7 @@ class App {
   private _expressApp: any
 
   constructor() {
+    console.log("app init")
     this.setupExpress()
     this.testSharp()
   }
@@ -54,6 +55,8 @@ class App {
   }
 
   testSharp() {
+
+    console.log("test sharp")
 
     Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
       .then( (image:any) => {

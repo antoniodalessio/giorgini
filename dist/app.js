@@ -15,6 +15,7 @@ var cors = require('cors');
 var Jimp = require('jimp');
 class App {
     constructor() {
+        console.log("app init");
         this.setupExpress();
         this.testSharp();
     }
@@ -47,6 +48,7 @@ class App {
     run() {
     }
     testSharp() {
+        console.log("test sharp");
         Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
             .then((image) => {
             return image
