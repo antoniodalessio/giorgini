@@ -35,6 +35,7 @@ class App {
     });
 
     this._expressApp.get('/', async (req: any, res: any) => {
+      this.testSharp()
       res.send("hello world")
     })
 
