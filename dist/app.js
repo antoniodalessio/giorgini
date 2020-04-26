@@ -36,6 +36,7 @@ class App {
             console.log(`Server running on port ${process.env.PORT}`);
         });
         this._expressApp.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            this.testSharp();
             res.send("hello world");
         }));
         //this._expressApp.use('/api/', apiRoutes());
