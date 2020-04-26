@@ -61,6 +61,10 @@ class App {
           .resize(100, 100)
           .write(`${process.env.SITE_PATH}output.jpg`);
       })
+      .catch((err: any) => {
+        // Handle an exception.
+        console.log(err)
+      });
   }
 
     
