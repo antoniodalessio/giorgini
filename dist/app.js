@@ -51,6 +51,8 @@ class App {
         console.log("test sharp");
         Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
             .then((image) => {
+            console.log(image);
+            console.log(`${process.env.SITE_PATH}output.jpg`);
             return image
                 .resize(100, 100)
                 .write(`${process.env.SITE_PATH}output.jpg`);
