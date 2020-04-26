@@ -20,9 +20,9 @@ const mongoose = require('mongoose');
 const expressApp = express();
 const assemble_1 = __importDefault(require("./assemble"));
 let assemble = new assemble_1.default({
-    templatesPath: `./site/templates/`,
-    partialsPath: `./site/templates/partials/`,
-    defaultLayout: `./site/templates/layout/default.hbs`,
+    templatesPath: process.env.TEMPLATES_PATH,
+    partialsPath: `${process.env.TEMPLATES_PATH}partials/`,
+    defaultLayout: `${process.env.TEMPLATES_PATH}layout/default.hbs`,
     defaultFolder: `${process.env.SITE_PATH}/`
 });
 const ftp_1 = __importDefault(require("./utils/ftp"));
@@ -58,5 +58,5 @@ function initMongoose() {
         console.log(category[0])*/
     });
 }
-initMongoose();
+//initMongoose()
 //# sourceMappingURL=index.js.map

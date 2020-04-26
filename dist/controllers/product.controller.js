@@ -8,31 +8,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
-class ProductController {
+class ProductController extends base_controller_1.default {
+    constructor() {
+        super();
+        this.model = models_1.Product;
+    }
     getAll(req, res) {
+        const _super = Object.create(null, {
+            getAll: { get: () => super.getAll }
+        });
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const data = yield models_1.Product.find().populate('images');
-                res.status(200).json(data);
-            }
-            catch (e) {
-                res.status(500).json(e);
-            }
+            yield _super.getAll.call(this, req, res, 'images');
         });
     }
     get(req, res) {
+        const _super = Object.create(null, {
+            get: { get: () => super.get }
+        });
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const id = req.params.id;
-                const data = yield models_1.Product.findOne({ _id: id }).populate('images');
-                res.status(200).json(data);
-            }
-            catch (e) {
-                res.status(500).json(e);
-            }
+            yield _super.get.call(this, req, res, 'images');
         });
     }
     save(req, res) {
