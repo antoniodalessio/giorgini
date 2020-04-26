@@ -12,8 +12,8 @@ const expressApp = express();
 import Assemble from './assemble'
 let assemble = new Assemble({
     templatesPath: process.env.TEMPLATES_PATH,
-    partialsPath: `${process.env.TEMPLATES_PATH}partials/`,
-    defaultLayout: `${process.env.TEMPLATES_PATH}layout/default.hbs`,
+    partialsPath: `${process.env.TEMPLATES_PATH}/partials/`,
+    defaultLayout: `${process.env.TEMPLATES_PATH}/layout/default.hbs`,
     defaultFolder: `${process.env.SITE_PATH}/`
 })
 
