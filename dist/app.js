@@ -8,15 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
-const api_1 = __importDefault(require("./routes/api"));
-const webapp_1 = __importDefault(require("./routes/webapp"));
 var Jimp = require('jimp');
 class App {
     constructor() {
@@ -37,14 +32,14 @@ class App {
         this._expressApp.use(bodyParser.json());
         this._expressApp.use(bodyParser.urlencoded({ extended: true }));
         this._expressApp.setMaxListeners(0);
-        this._expressApp.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            res.send("hello world");
-        }));
-        this._expressApp.use('/api/', api_1.default());
-        this._expressApp.use('/webapp/', webapp_1.default());
         this._expressApp.listen(process.env.PORT, () => {
             console.log(`Server running on port ${process.env.PORT}`);
         });
+        this._expressApp.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            res.send("hello world");
+        }));
+        //this._expressApp.use('/api/', apiRoutes());
+        //this._expressApp.use('/webapp/', webAppRoutes());
     }
     setup() {
     }
@@ -55,13 +50,8 @@ class App {
             .then((image) => {
             return image
                 .resize(100, 100)
-                .write(`${process.env.SITE_PATH}/output.jpg`);
+                .write(`${process.env.SITE_PATH}output.jpg`);
         });
-        // sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
-        //   .resize(100, 100)
-        //   .toFile(`${process.env.SITE_PATH}/output.webp`, (err:any, info:any) => { 
-        //     console.log(err, info)
-        //    });
     }
 }
 exports.default = App;

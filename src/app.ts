@@ -58,14 +58,8 @@ class App {
       .then( (image:any) => {
         return image 
           .resize(100, 100)
-          .write(`${process.env.SITE_PATH}/output.jpg`);
+          .write(`${process.env.SITE_PATH}output.jpg`);
       })
-
-    // sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
-    //   .resize(100, 100)
-    //   .toFile(`${process.env.SITE_PATH}/output.webp`, (err:any, info:any) => { 
-    //     console.log(err, info)
-    //    });
   }
 
     

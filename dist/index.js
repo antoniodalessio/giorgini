@@ -15,9 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 const app_1 = __importDefault(require("./app"));
 const app = new app_1.default();
-const express = require('express');
 const mongoose = require('mongoose');
-const expressApp = express();
 const assemble_1 = __importDefault(require("./assemble"));
 let assemble = new assemble_1.default({
     templatesPath: process.env.TEMPLATES_PATH,
@@ -25,14 +23,16 @@ let assemble = new assemble_1.default({
     defaultLayout: `${process.env.TEMPLATES_PATH}/layout/default.hbs`,
     defaultFolder: `${process.env.SITE_PATH}/`
 });
-const ftp_1 = __importDefault(require("./utils/ftp"));
-var clientftp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
+//import FTP from './utils/ftp'
+//var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
+//import { Product, Category } from './models'
 function initMongoose() {
     return __awaiter(this, void 0, void 0, function* () {
-        let connection = yield mongoose.connect(`${process.env.DB_HOST}${process.env.DB_NAME}`, {
+        /*let connection = await mongoose.connect(`${process.env.DB_HOST}${process.env.DB_NAME}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
+    */
         /*let product = new Product({
             _id: new mongoose.Types.ObjectId(),
             title: "Giacca Kimono",
