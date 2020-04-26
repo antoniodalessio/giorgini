@@ -30,16 +30,16 @@ class App {
     this._expressApp.use(bodyParser.urlencoded({extended: true}));
     this._expressApp.setMaxListeners(0);
 
+    this._expressApp.listen(process.env.PORT, () => {
+      console.log(`Server running on port ${process.env.PORT!}`);
+    });
+
     this._expressApp.get('/', async (req: any, res: any) => {
       res.send("hello world")
     })
 
-    this._expressApp.use('/api/', apiRoutes());
-    this._expressApp.use('/webapp/', webAppRoutes());
-
-    this._expressApp.listen(process.env.PORT, () => {
-      console.log(`Server running on port ${process.env.PORT!}`);
-    });
+    //this._expressApp.use('/api/', apiRoutes());
+    //this._expressApp.use('/webapp/', webAppRoutes());
 
     
   }

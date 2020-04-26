@@ -3,11 +3,9 @@ import App from './app'
 
 const app = new App()
 
-
-const express = require('express')
 const mongoose = require('mongoose');
 
-const expressApp = express();
+
 
 import Assemble from './assemble'
 let assemble = new Assemble({
@@ -17,34 +15,20 @@ let assemble = new Assemble({
     defaultFolder: `${process.env.SITE_PATH}/`
 })
 
-import FTP from './utils/ftp'
+//import FTP from './utils/ftp'
 
-var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
+//var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 
-// expressApp.use(express.json());
-// expressApp.listen(process.env.PORT, () => {
-//     console.log(`Server running on port ${process.env.PORT!}`);
-// });
 
-/*expressApp.get('/', async (req: any, res: any) => {
-
-    let filename = 'index'
-    await assemble.render(filename, {})
-
-    clientftp.upload(`${process.env.SITE_PATH}/${filename}.html`, `${process.env.FTP_FOLDER}/${filename}.html`, 755)
-
-    res.end("pages sent!");
-})*/
-
-import { Product, Category } from './models'
+//import { Product, Category } from './models'
 
 async function initMongoose() { 
 
-    let connection = await mongoose.connect(`${process.env.DB_HOST}${process.env.DB_NAME}`, {
+    /*let connection = await mongoose.connect(`${process.env.DB_HOST}${process.env.DB_NAME}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
-
+*/
 
     /*let product = new Product({
         _id: new mongoose.Types.ObjectId(),
