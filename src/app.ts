@@ -4,6 +4,8 @@ var cors = require('cors');
 import apiRoutes from './routes/api'
 import webAppRoutes from './routes/webapp'
 
+var Jimp = require('jimp');
+
 class App {
   
   private _expressApp: any
@@ -28,6 +30,10 @@ class App {
     this._expressApp.use(bodyParser.urlencoded({extended: true}));
     this._expressApp.setMaxListeners(0);
 
+    this._expressApp.get('/', async (req: any, res: any) => {
+      res.send("hello world")
+    })
+
     this._expressApp.use('/api/', apiRoutes());
     this._expressApp.use('/webapp/', webAppRoutes());
 
@@ -47,6 +53,13 @@ class App {
   }
 
   testSharp() {
+
+    Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
+      .then( (image:any) => {
+        return image 
+          .resize(100, 100)
+          .write(`${process.env.SITE_PATH}/output.jpg`);
+      })
 
     // sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
     //   .resize(100, 100)
