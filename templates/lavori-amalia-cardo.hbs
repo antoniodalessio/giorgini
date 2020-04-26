@@ -1,0 +1,27 @@
+---
+key: work
+title: Amalia Cardo Sarta Stilista Modellista Firenze | Lavori
+description: I miei lavori - Amalia Cardo Sarta Stilista Modellista
+link: home
+mywork: active
+---
+
+
+<div class="column--third">
+	
+	<h1>I miei lavori</h1>
+	
+	<div class="work-category">
+
+		{{#each projects}}
+			<a href="/{{this.slug}}" >
+				<img src="images/work/{{this.thumb_preview}}.jpg" />
+				<span></span>
+				<p>{{this.category_name}}</p>
+			</a>
+  		{{/each}}
+
+	</div>
+</div>
+
+<script src="js/work.min.js"></script>

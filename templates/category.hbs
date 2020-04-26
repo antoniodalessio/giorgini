@@ -1,0 +1,16 @@
+<div class="column--third">
+	<a class="back" href="/lavori-amalia-cardo.html"><span class="icon icon_arrow-left"></span>I miei lavori</a>
+	<h1 class="work__title">{{category_name}}</h1>
+	<div class="thumb-list">
+		
+		{{#each items}}
+			<a href="/{{this.slug}}.html" title="{{this.description}}">
+				<img src="/images/work/{{getFirstImage this}}_thumb.jpg" />
+				<p class="black">{{this.title}}</p>
+			</a>
+  		{{/each}}
+
+	</div>
+</div>
+
+<script src="js/work.min.js"></script>

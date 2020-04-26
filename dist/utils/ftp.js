@@ -8,11 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const ftp = require('basic-ftp');
-//const fs = require('fs');
+const fs = require('fs');
 class FTPClient {
-    constructor(host = 'localhost', port = 21, username = 'anonymous', password = 'guest', secure = false, fs) {
-        this.fs = fs;
+    constructor(host = 'localhost', port = 21, username = 'anonymous', password = 'guest', secure = false) {
         this.client = new ftp.Client();
         this.settings = {
             host: host,
@@ -24,17 +24,17 @@ class FTPClient {
         };
     }
     upload(sourcePath, remotePath, perm) {
-        (() => __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             try {
                 let access = yield this.client.access(this.settings);
-                let upload = yield this.client.upload(this.fs.createReadStream(sourcePath), remotePath);
+                let upload = yield this.client.upload(fs.createReadStream(sourcePath), remotePath);
                 let permissions = yield this.changePermissions(perm.toString(), remotePath);
             }
             catch (err) {
                 console.log(err);
             }
             this.client.close();
-        }))();
+        });
     }
     close() {
         this.client.close();
@@ -44,5 +44,5 @@ class FTPClient {
         return this.client.send(cmd, false);
     }
 }
-module.exports = FTPClient;
+exports.default = FTPClient;
 //# sourceMappingURL=ftp.js.map

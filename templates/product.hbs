@@ -1,0 +1,18 @@
+<div class="column--third">
+	<div class="breadcrumb">
+        <a href="/lavori-amalia-cardo.html">lavori</a>&nbsp;&nbsp;<span class="space ">>></span>&nbsp;&nbsp;<a href="/{{category_slug}}">{{category}}</a>&nbsp;&nbsp;<span class="space ">>></span>&nbsp;&nbsp;<span>{{title}}</span>
+    </div>
+    <h1>{{title}}</h1>
+    <h2>{{description}}</h2>
+
+    <div class="thumb-list">
+    {{#each images}}
+        <a href="/images/work/{{this.uri}}_x2.jpg" title="{{this.alt}}">
+            <img src="/images/work/{{this.uri}}_thumb.jpg" />
+        </a>
+    {{/each}}
+    </div>
+
+</div>
+
+<script src="js/product.min.js"></script>
