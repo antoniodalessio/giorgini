@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 import apiRoutes from './routes/api'
 import webAppRoutes from './routes/webapp'
-const sharp = require('sharp');
 
 class App {
   
@@ -49,11 +48,11 @@ class App {
 
   testSharp() {
 
-    sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
-      .resize(100, 100)
-      .toFile(`${process.env.SITE_PATH}/output.webp`, (err:any, info:any) => { 
-        console.log(err, info)
-       });
+    // sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
+    //   .resize(100, 100)
+    //   .toFile(`${process.env.SITE_PATH}/output.webp`, (err:any, info:any) => { 
+    //     console.log(err, info)
+    //    });
   }
 
     

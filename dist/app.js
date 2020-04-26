@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 const api_1 = __importDefault(require("./routes/api"));
 const webapp_1 = __importDefault(require("./routes/webapp"));
-const sharp = require('sharp');
 class App {
     constructor() {
         this.setupExpress();
@@ -39,11 +38,11 @@ class App {
     run() {
     }
     testSharp() {
-        sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
-            .resize(100, 100)
-            .toFile(`${process.env.SITE_PATH}/output.webp`, (err, info) => {
-            console.log(err, info);
-        });
+        // sharp(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
+        //   .resize(100, 100)
+        //   .toFile(`${process.env.SITE_PATH}/output.webp`, (err:any, info:any) => { 
+        //     console.log(err, info)
+        //    });
     }
 }
 exports.default = App;
