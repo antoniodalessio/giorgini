@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
+var fs = require('fs');
 var Jimp = require('jimp');
 class App {
     constructor() {
@@ -48,20 +49,19 @@ class App {
     run() {
     }
     testSharp() {
-        console.log("test sharp");
-        Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
-            .then((image) => {
-            console.log(image);
-            console.log(`${process.env.SITE_PATH}output.jpg`);
-            return image
-                .resize(100, 100)
-                .write(`${process.env.SITE_PATH}output.jpg`, (test) => {
-                console.log(test);
-            });
-        })
-            .catch((err) => {
-            // Handle an exception.
-            console.log(err);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("test Jimp");
+            try {
+                const image = yield Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
+                yield image.resize(100, 100);
+                let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
+                console.log("result", result);
+                yield fs.writeFileSync(`${process.env.SITE_PATH}output.jpg`, result);
+                //await image.writeAsync(`${process.env.SITE_PATH}output.jpg`);
+            }
+            catch (e) {
+                console.log(e);
+            }
         });
     }
 }

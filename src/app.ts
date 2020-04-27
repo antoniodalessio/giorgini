@@ -4,6 +4,8 @@ var cors = require('cors');
 import apiRoutes from './routes/api'
 import webAppRoutes from './routes/webapp'
 
+var fs = require('fs');
+
 var Jimp = require('jimp');
 
 class App {
@@ -54,24 +56,21 @@ class App {
 
   }
 
-  testSharp() {
+  async testSharp() {
 
-    console.log("test sharp")
-
-    Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`)
-      .then( (image:any) => {
-        console.log(image)
-        console.log(`${process.env.SITE_PATH}output.jpg`)
-        return image 
-          .resize(100, 100)
-          .write(`${process.env.SITE_PATH}output.jpg`, (test: any) => {
-            console.log(test)
-          });
-      })
-      .catch((err: any) => {
-        // Handle an exception.
-        console.log(err)
-      });
+    console.log("test Jimp")
+    try {
+      const image = await Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
+      await image.resize(100, 100);
+      let result = await image.getBufferAsync(Jimp.MIME_JPEG);
+      console.log("result", result)
+      await fs.writeFileSync(`${process.env.SITE_PATH}output.jpg`, result)
+      //await image.writeAsync(`${process.env.SITE_PATH}output.jpg`);
+      
+    }catch(e) {
+      console.log(e)
+    }
+   
   }
 
     
