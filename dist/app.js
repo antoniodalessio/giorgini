@@ -55,7 +55,9 @@ class App {
             console.log(`${process.env.SITE_PATH}output.jpg`);
             return image
                 .resize(100, 100)
-                .write(`${process.env.SITE_PATH}output.jpg`);
+                .write(`${process.env.SITE_PATH}output.jpg`, (test) => {
+                console.log(test);
+            });
         })
             .catch((err) => {
             // Handle an exception.
