@@ -37,14 +37,17 @@ class App {
     }
     testFS() {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log("read /mnt/site/");
             yield fs.readdirSync("/mnt/site/", (file) => {
                 console.log("/mnt/site", file);
             });
+            console.log("read mnt/site/");
             yield fs.readdirSync("mnt/site/", (file) => {
                 console.log("mnt/site", file);
             });
+            console.log("read .mnt/site/");
             yield fs.readdirSync("./mnt/site/", (file) => {
-                console.log("mnt/site", file);
+                console.log(".mnt/site", file);
             });
             yield fs.writeFileSync('/mnt/site/test.html', "<div>test</div>");
             yield fs.writeFileSync('/mnt/test.html', "<div>test</div>");
