@@ -39,20 +39,22 @@ class App {
     //   console.log("/mnt/site", file)
     // })
 
-    console.log("read mnt/site/")
-    await fs.readdirSync("mnt/site/", (file: any) => {
-      console.log("mnt/site", file)
-    })
+    // console.log("read mnt/site/")
+    // await fs.readdirSync("mnt/site/", (file: any) => {
+    //   console.log("mnt/site", file)
+    // })
 
-    console.log("read .mnt/site/")
+    console.log("read ./mnt/site/")
     await fs.readdirSync("./mnt/site/", (file: any) => {
-      console.log(".mnt/site", file)
+      console.log("./mnt/site", file)
     })
 
-    await fs.writeFileSync('/mnt/site/test.html', "<div>test</div>")
-    await fs.writeFileSync('/mnt/test.html', "<div>test</div>")
-    await fs.writeFileSync('mnt/test.html', "<div>test</div>")
-    await fs.writeFileSync('mnt/site/test.html', "<div>test</div>")
+    console.log("read ./mnt/site/")
+    await fs.readdirSync("./mnt/", (file: any) => {
+      console.log("./mnt/", file)
+    })
+
+    await fs.writeFileSync('./mnt/test.html', "<div>test</div>")
   }
 
   setupExpress() {
