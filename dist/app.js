@@ -28,46 +28,6 @@ class App {
         console.log("app init");
         this.setupExpress();
         this.initMongoose();
-        this.testFS();
-        //const builderController = new BuilderController()
-        //builderController.publish(null, null)
-        //this.import()
-        //this.testJimp()
-        //initAssemble()
-    }
-    testFS() {
-        return __awaiter(this, void 0, void 0, function* () {
-            fs.mkdir('./mnt/site/', (e) => {
-                console.log(e);
-            });
-            fs.mkdir('./mnt/site/images/', (e) => {
-                console.log(e);
-            });
-            fs.mkdir('./mnt/site/images/', (e) => {
-                console.log(e);
-            });
-            fs.mkdir('./mnt/site/images/work', (e) => {
-                console.log(e);
-            });
-            // console.log("read /mnt/site/")
-            // await fs.readdirSync("/mnt/site/", (file: any) => {
-            //   console.log("/mnt/site", file)
-            // })
-            // console.log("read mnt/site/")
-            // await fs.readdirSync("mnt/site/", (file: any) => {
-            //   console.log("mnt/site", file)
-            // })
-            // console.log("read ./mnt/site/")
-            // await fs.readdirSync("./mnt/site/", (file: any) => {
-            //   console.log("./mnt/site", file)
-            // })
-            console.log("read ./mnt/");
-            yield fs.readdirSync("./mnt/", (file) => {
-                console.log("./mnt/", file);
-            });
-            yield fs.writeFileSync('/mnt/test.html', "<div>test</div>");
-            yield fs.writeFileSync('./mnt/test.html', "<div>test</div>");
-        });
     }
     setupExpress() {
         this._expressApp = express();

@@ -23,56 +23,6 @@ class App {
     console.log("app init")
     this.setupExpress()
     this.initMongoose()
-
-    this.testFS();
-    //const builderController = new BuilderController()
-    //builderController.publish(null, null)
-    //this.import()
-    //this.testJimp()
-    //initAssemble()
-  }
-
-  async testFS() {
-
-    fs.mkdir('./mnt/site/', (e: any) => {
-      console.log(e)
-    })
-
-    fs.mkdir('./mnt/site/images/', (e: any) => {
-      console.log(e)
-    })
-
-    fs.mkdir('./mnt/site/images/', (e: any) => {
-      console.log(e)
-    })
-
-    fs.mkdir('./mnt/site/images/work', (e: any) => {
-      console.log(e)
-    })
-
-    // console.log("read /mnt/site/")
-    // await fs.readdirSync("/mnt/site/", (file: any) => {
-    //   console.log("/mnt/site", file)
-    // })
-
-    // console.log("read mnt/site/")
-    // await fs.readdirSync("mnt/site/", (file: any) => {
-    //   console.log("mnt/site", file)
-    // })
-
-    // console.log("read ./mnt/site/")
-    // await fs.readdirSync("./mnt/site/", (file: any) => {
-    //   console.log("./mnt/site", file)
-    // })
-
-    console.log("read ./mnt/")
-    await fs.readdirSync("./mnt/", (file: any) => {
-      console.log("./mnt/", file)
-    })
-
-    await fs.writeFileSync('/mnt/test.html', "<div>test</div>")
-
-    await fs.writeFileSync('./mnt/test.html', "<div>test</div>")
   }
 
   setupExpress() {
