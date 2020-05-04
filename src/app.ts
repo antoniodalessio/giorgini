@@ -24,8 +24,6 @@ class App {
     this.setupExpress()
     this.initMongoose()
 
-    fs.writeAsync()
-
     //const builderController = new BuilderController()
     //builderController.publish(null, null)
     //this.import()
