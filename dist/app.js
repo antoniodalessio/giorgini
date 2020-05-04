@@ -21,17 +21,27 @@ var fs = require('fs');
 var Jimp = require('jimp');
 var webp = require('webp-converter');
 const mongoose = require('mongoose');
+var fs = require('fs');
 const models_1 = require("./models");
 class App {
     constructor() {
         console.log("app init");
         this.setupExpress();
         this.initMongoose();
+        fs.writeAsync();
         //const builderController = new BuilderController()
         //builderController.publish(null, null)
         //this.import()
         //this.testJimp()
         //initAssemble()
+    }
+    testFS() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield fs.writeFileSync('/mnt/site/test.html', "<div>test</div>");
+            yield fs.writeFileSync('/mnt/test.html', "<div>test</div>");
+            yield fs.writeFileSync('./mnt/test.html', "<div>test</div>");
+            yield fs.writeFileSync('./mnt/site/test.html', "<div>test</div>");
+        });
     }
     setupExpress() {
         this._expressApp = express();

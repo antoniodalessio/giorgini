@@ -10,9 +10,9 @@ var fs = require('fs');
 var Jimp = require('jimp');
 var webp = require('webp-converter');
 const mongoose = require('mongoose');
+var fs = require('fs');
 
 import { Product, Category, Image } from './models'
-import  BuilderController  from './controllers/builder.controller'
 
 
 class App {
@@ -24,11 +24,20 @@ class App {
     this.setupExpress()
     this.initMongoose()
 
+    fs.writeAsync()
+
     //const builderController = new BuilderController()
     //builderController.publish(null, null)
     //this.import()
     //this.testJimp()
     //initAssemble()
+  }
+
+  async testFS() {
+    await fs.writeFileSync('/mnt/site/test.html', "<div>test</div>")
+    await fs.writeFileSync('/mnt/test.html', "<div>test</div>")
+    await fs.writeFileSync('./mnt/test.html', "<div>test</div>")
+    await fs.writeFileSync('./mnt/site/test.html', "<div>test</div>")
   }
 
   setupExpress() {
