@@ -10,11 +10,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 class BaseController {
+    isEmpty(obj) {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    }
     getAll(req, res, populate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const data = yield this.model.find().populate(populate);
-                res.header('Content-Range', '2');
+                let limit = 0;
+                let filter = {};
+                let sort = {};
+                let range = [];
+                if (req.query.hasOwnProperty('filter')) {
+                    filter = JSON.parse(req.query.filter);
+                }
+                if (req.query.hasOwnProperty('range')) {
+                    range = JSON.parse(req.query.range);
+                }
+                if (req.query.hasOwnProperty('sort')) {
+                    const sortTmp = JSON.parse(req.query.sort);
+                    sortTmp[1] == 'ASC' ? sort = `${sortTmp[0]}` : sort = `-${sortTmp[0]}`;
+                }
+                const all = yield this.model.find(filter);
+                limit = range[1] - range[0] + 1;
+                const data = yield this.model.find(filter).sort(sort).skip(range[0]).limit(limit).populate(populate);
+                res.header('Content-Range', all.length);
                 res.status(200).json(data);
             }
             catch (e) {
@@ -32,6 +55,17 @@ class BaseController {
             catch (e) {
                 res.status(500).json(e);
             }
+        });
+    }
+    delete(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            this.model.deleteOne({ _id: id }, function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
         });
     }
 }

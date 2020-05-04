@@ -15,6 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
+const ftp_1 = __importDefault(require("./../utils/ftp"));
+var fs = require('fs');
+var Jimp = require('jimp');
+var clientftp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 class ProductController extends base_controller_1.default {
     constructor() {
         super();
@@ -44,14 +48,8 @@ class ProductController extends base_controller_1.default {
                     res.status(500).json({ error: `resource with a '${req.body.slug}' slug already exists` });
                     return;
                 }
-                let imagesIDS = [];
-                if (req.body.images && req.body.images.length > 0) {
-                    imagesIDS = req.body.images.map((item) => __awaiter(this, void 0, void 0, function* () {
-                        item._id = new mongoose_1.Types.ObjectId();
-                        let image = new models_1.Image(item);
-                        return (yield image.save())._id;
-                    }));
-                }
+                req.body.published = false;
+                req.body.images = yield this.saveOrUpdateImages(req.body);
                 req.body._id = new mongoose_1.Types.ObjectId();
                 let product = new models_1.Product(req.body);
                 let result = yield product.save();
@@ -72,32 +70,68 @@ class ProductController extends base_controller_1.default {
                     res.status(500).json({ error: `resource product with '${id}' doesn't exists` });
                     return;
                 }
-                let imagesIDS = data[0].images.map((item) => {
-                    return item._id;
-                });
-                if (req.body.images && req.body.images.length > 0) {
-                    let images = req.body.images;
-                    for (const element of images) {
-                        if (element.hasOwnProperty('_id')) {
-                            //update
-                            yield models_1.Image.updateOne({ _id: element._id }, element);
-                        }
-                        else {
-                            //Save
-                            element._id = new mongoose_1.Types.ObjectId();
-                            let image = new models_1.Image(element);
-                            yield image.save();
-                            imagesIDS.push(element._id);
-                        }
-                    }
-                }
-                req.body.images = imagesIDS;
+                req.body.published = false;
+                req.body.images = yield this.saveOrUpdateImages(req.body);
                 let result = yield models_1.Product.updateOne({ _id: id }, req.body);
-                res.status(200).json(result);
+                res.status(200).json({ data: result });
             }
             catch (e) {
                 res.status(500).json(e);
             }
+        });
+    }
+    saveOrUpdateImages(newData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let imagesIDS = [];
+            if (newData.images && newData.images.length > 0) {
+                let images = newData.images;
+                for (const image of images) {
+                    yield this.saveImageFile(image);
+                    if (image.hasOwnProperty('_id')) {
+                        yield models_1.Image.updateOne({ _id: image._id }, image);
+                        imagesIDS.push(image._id);
+                    }
+                    else {
+                        image._id = new mongoose_1.Types.ObjectId();
+                        let imageInstance = new models_1.Image(image);
+                        yield imageInstance.save();
+                        imagesIDS.push(image._id);
+                    }
+                }
+            }
+            return imagesIDS;
+        });
+    }
+    saveImageFile(image) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (image.hasOwnProperty('imagedata')) {
+                    image.imagedata.base64 = image.imagedata.base64.replace(/^data:image\/jpeg;base64,/, "");
+                    const path = `${process.env.SITE_IMAGE_PATH}${image.uri}.jpg`;
+                    yield fs.writeFileSync(path, image.imagedata.base64, 'base64');
+                    yield this.createImageFormatAndUpload(image.uri);
+                    delete image.imagedata;
+                }
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+    }
+    createSingleImageAndUpload(name, size, suffix) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const image = yield Jimp.read(`${process.env.SITE_IMAGE_PATH}${name}.jpg`);
+            yield image.resize(size.width, size.height);
+            let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
+            yield fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result);
+            yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755);
+        });
+    }
+    createImageFormatAndUpload(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_thumb");
+            yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_normal");
+            yield this.createSingleImageAndUpload(name, { width: 1024, height: 1024 }, "_x2");
         });
     }
 }

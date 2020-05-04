@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
-class CategoryController extends base_controller_1.default {
+class ImageController extends base_controller_1.default {
     constructor() {
         super();
-        this.model = models_1.Category;
+        this.model = models_1.Image;
     }
     getAll(req, res) {
         const _super = Object.create(null, {
@@ -36,31 +36,18 @@ class CategoryController extends base_controller_1.default {
             yield _super.get.call(this, req, res, '');
         });
     }
-    updateCategoryParent(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let category = yield this.model.findOne({ _id: id });
-            category.hasSubcategory = true;
-            let result = yield models_1.Category.updateOne({ _id: id }, category);
-        });
-    }
     save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const data = yield models_1.Category.find({ slug: req.body.slug });
+                const data = yield models_1.Image.find({ uri: req.body.uri });
                 if (data.length != 0) {
-                    res.status(500).json({ error: `resource with a '${req.body.slug}' slug already exists` });
+                    res.status(500).json({ error: `resource with a '${req.body.uri}' slug already exists` });
                     return;
                 }
                 req.body._id = new mongoose_1.Types.ObjectId();
-                req.body.published = false;
-                req.body.hasSubcategory = false;
-                let category = new models_1.Category(req.body);
-                let result = yield category.save();
-                if (req.body.parent) {
-                    this.updateCategoryParent(req.body.parent);
-                }
-                // La richiesta è stata soddisfatta, restituendo la creazione di una nuova risorsa.
-                res.status(201).json(result);
+                let image = new models_1.Image(req.body);
+                const result = yield image.save();
+                res.status(200).json({ data: result });
             }
             catch (e) {
                 res.status(500).json(e);
@@ -71,13 +58,12 @@ class CategoryController extends base_controller_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = req.params.id;
-                const data = yield models_1.Category.find({ _id: id }).populate('products');
+                let data = yield models_1.Image.find({ _id: id });
                 if (data.length == 0) {
-                    res.status(500).json({ error: `resource category with '${id}' doesn't exists` });
+                    res.status(500).json({ error: `resource product with '${id}' doesn't exists` });
                     return;
                 }
-                req.body.published = false;
-                let result = yield models_1.Category.updateOne({ _id: id }, req.body);
+                const result = yield models_1.Image.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });
             }
             catch (e) {
@@ -86,5 +72,5 @@ class CategoryController extends base_controller_1.default {
         });
     }
 }
-exports.default = CategoryController;
-//# sourceMappingURL=category.controller.js.map
+exports.default = ImageController;
+//# sourceMappingURL=image.controller.js.map

@@ -3,6 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const product = new mongoose_1.Schema({
     _id: mongoose_1.Schema.Types.ObjectId,
+    meta: {
+        title: {
+            type: String,
+        },
+        description: {
+            type: String,
+        },
+        keywork: {
+            type: String,
+        }
+    },
     title: {
         type: String,
         required: '{PATH} is required!'
@@ -20,6 +31,12 @@ const product = new mongoose_1.Schema({
         { type: mongoose_1.Schema.Types.ObjectId, ref: 'Image' }
     ],
     category: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Category' },
+    ord: {
+        type: Number
+    },
+    published: {
+        type: Boolean
+    }
 });
 exports.product = product;
 //# sourceMappingURL=product.js.map

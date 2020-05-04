@@ -1,6 +1,5 @@
 import BaseController from './base.controller'
 import { Category, Product } from '../models/'
-import { IProduct } from '../models/product';
 import { Types } from 'mongoose';
 
 
@@ -12,11 +11,17 @@ class CategoryController extends BaseController{
   }
 
   async getAll(req: any, res: any) {
-    await super.getAll(req, res, 'products')
+    await super.getAll(req, res, '')
   }
 
   async get(req: any, res: any) {
-    await super.get(req, res, 'products')
+    await super.get(req, res, '')
+  }
+
+  async updateCategoryParent(id: any) {
+    let category = await this.model.findOne({_id: id})
+    category.hasSubcategory = true
+    let result = await Category.updateOne({ _id: id }, category)
   }
 
   async save(req: any, res: any) {
@@ -28,22 +33,20 @@ class CategoryController extends BaseController{
         return;
       }
 
-      let productsIDS = []; 
-
-      if (req.body.products && req.body.products.length > 0) {
-        
-        productsIDS = req.body.products.map(async (item: IProduct) => {
-          item._id = new Types.ObjectId()
-          let product = new Product(item)
-          return (await product.save())._id
-        })
-      }
-
       req.body._id = new Types.ObjectId()
+
+      req.body.published = false
+      req.body.hasSubcategory = false
 
       let category = new Category(req.body)
 
       let result = await category.save()
+
+      if (req.body.parent) {
+        this.updateCategoryParent(req.body.parent)
+      }
+      
+
 
       // La richiesta è stata soddisfatta, restituendo la creazione di una nuova risorsa.
       res.status(201).json(result);
@@ -51,12 +54,6 @@ class CategoryController extends BaseController{
       res.status(500).json(e);
     }
   }
-
-
-  updateRecursively() {
-
-  }
-
 
   async update(req: any, res: any) {
     
@@ -69,35 +66,17 @@ class CategoryController extends BaseController{
         return;
       }
 
-      let productsIDS: any = data[0].products.map( (item: IProduct) => {
-        return item._id
-      })
-
-      if (req.body.products && req.body.products.length > 0) {
-        let products = req.body.products
-        for (const element of products) {
-          if (element.hasOwnProperty('_id')) {
-            //update
-            await Product.updateOne({ _id: element._id }, element)
-          }else{
-            //Save
-            element._id = new Types.ObjectId()
-            let product = new Product(element)
-            await product.save()
-            productsIDS.push(element._id)
-          }
-        }
-      }
-
-      req.body.products = productsIDS
+      req.body.published = false
 
       let result = await Category.updateOne({ _id: id }, req.body)
-      res.status(200).json(result);
+      res.status(200).json({data: result});
     }catch(e) {
       res.status(500).json(e)
     }
 
   }
+
+  
 }
 
 export default CategoryController;

@@ -8,6 +8,9 @@ const image = new mongoose_1.Schema({
     },
     uri: {
         type: String
+    },
+    ord: {
+        type: Number
     }
 });
 exports.image = image;

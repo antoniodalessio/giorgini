@@ -23,7 +23,7 @@ class Assemble {
 
   async setTemplate(name: string, data: any) {
     try {
-      const template = await fs.readFileSync(`${this.options.templatesPath}${name}.hbs`, 'utf8')
+      const template = await fs.readFileSync(`${this.options.templatesPath}/${name}.hbs`, 'utf8')
       let templateData = this.parseData(template)
       handlebars.partials['body'] = handlebars.compile(templateData.template)
       return templateData.data
@@ -33,13 +33,20 @@ class Assemble {
   }
 
   async render(name: string, data: any) {
-    let template = await fs.readFileSync(`${this.options.defaultLayout}`, 'utf8')
+    let templateFile = await fs.readFileSync(`${this.options.defaultLayout}`, 'utf8')
 
     let newdata = await this.setTemplate(name, data)
 
-    template = handlebars.compile(template)
-    let result = template(Object.assign(data, newdata))
-    await fs.writeFileSync(`${this.options.defaultFolder}${name}.html`, result)
+    let template = handlebars.compile(templateFile)
+    const tmpData = Object.assign(data, newdata);
+    
+    let result = template(tmpData)
+
+    try {
+      await fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result)
+    }catch(e) {
+      console.log(e)
+    }
   }
 
   parseData(template: any) {

@@ -1,8 +1,17 @@
 <div class="column--third">
-	<a class="back" href="/lavori-amalia-cardo.html"><span class="icon icon_arrow-left"></span>I miei lavori</a>
-	<h1 class="work__title">{{category_name}}</h1>
-	<div class="thumb-list">
-		
+	
+	<h1>{{category_name}}</h1>
+	
+	<div class="work-category">
+
+		{{#each categories}}
+			<a href="/{{this.slug}}.html" >
+				<img src="images/work/{{this.thumb_preview}}.jpg" />
+				<span></span>
+				<p>{{this.category_name}}</p>
+			</a>
+  		{{/each}}
+
 		{{#each products}}
 			<a href="/{{this.slug}}.html" title="{{this.description}}">
 				<img src="/images/work/{{this.thumb}}_thumb.jpg" />

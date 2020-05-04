@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const user_1 = require("./user");
 const category_1 = require("./category");
 const product_1 = require("./product");
 const image_1 = require("./image");
+let User = mongoose_1.model('User', user_1.user);
+exports.User = User;
 let Category = mongoose_1.model('Category', category_1.category);
 exports.Category = Category;
 let Product = mongoose_1.model('Product', product_1.product);

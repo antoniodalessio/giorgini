@@ -1,8 +1,18 @@
 import { Schema, Document } from 'mongoose';
-import { IProduct } from './product'
 
 const category: Schema = new Schema({
     _id: Schema.Types.ObjectId,
+    meta: {
+        title: {
+
+        },
+        description: {
+
+        },
+        keywork: {
+
+        }
+    },
     title: { 
         type: String, 
         required: '{PATH} is required!'
@@ -25,19 +35,32 @@ const category: Schema = new Schema({
         trim: true,
         required: '{PATH} is required!'
     },
-    products: [
-        { type: Schema.Types.ObjectId, ref: 'Product' }
-    ]
+    ord: {
+        type: Number
+    },
+    published: {
+        type: Boolean
+    },
+    parent: {
+        type: Schema.Types.ObjectId
+    },
+    hasSubcategory: {
+        type: Boolean,
+    }
 })
 
 interface ICategory extends Document {
+    meta: any;
     title: string;
     description: string;
     text: string;
     category_name: string;
     thumb_preview: string;
     slug: string;
-    products: IProduct[]
+    ord: number;
+    published: boolean;
+    hasSubcategory: boolean;
+    parent: ICategory
 }
 
 export { 

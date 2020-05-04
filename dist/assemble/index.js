@@ -29,7 +29,7 @@ class Assemble {
     setTemplate(name, data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const template = yield fs.readFileSync(`${this.options.templatesPath}${name}.hbs`, 'utf8');
+                const template = yield fs.readFileSync(`${this.options.templatesPath}/${name}.hbs`, 'utf8');
                 let templateData = this.parseData(template);
                 handlebars.partials['body'] = handlebars.compile(templateData.template);
                 return templateData.data;
@@ -41,11 +41,17 @@ class Assemble {
     }
     render(name, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            let template = yield fs.readFileSync(`${this.options.defaultLayout}`, 'utf8');
+            let templateFile = yield fs.readFileSync(`${this.options.defaultLayout}`, 'utf8');
             let newdata = yield this.setTemplate(name, data);
-            template = handlebars.compile(template);
-            let result = template(Object.assign(data, newdata));
-            yield fs.writeFileSync(`${this.options.defaultFolder}${name}.html`, result);
+            let template = handlebars.compile(templateFile);
+            const tmpData = Object.assign(data, newdata);
+            let result = template(tmpData);
+            try {
+                yield fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result);
+            }
+            catch (e) {
+                console.log(e);
+            }
         });
     }
     parseData(template) {
