@@ -37,6 +37,9 @@ class App {
     }
     testFS() {
         return __awaiter(this, void 0, void 0, function* () {
+            fs.mkdir('./mnt/site/', (e) => {
+                console.log(e);
+            });
             // console.log("read /mnt/site/")
             // await fs.readdirSync("/mnt/site/", (file: any) => {
             //   console.log("/mnt/site", file)
