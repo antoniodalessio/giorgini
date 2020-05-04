@@ -33,10 +33,23 @@ class App {
   }
 
   async testFS() {
+
+    await fs.readdirSync("/mnt/site/", (file: any) => {
+      console.log("/mnt/site", file)
+    })
+
+    await fs.readdirSync("mnt/site/", (file: any) => {
+      console.log("mnt/site", file)
+    })
+
+    await fs.readdirSync("./mnt/site/", (file: any) => {
+      console.log("mnt/site", file)
+    })
+
     await fs.writeFileSync('/mnt/site/test.html', "<div>test</div>")
     await fs.writeFileSync('/mnt/test.html', "<div>test</div>")
-    await fs.writeFileSync('./mnt/test.html', "<div>test</div>")
-    await fs.writeFileSync('./mnt/site/test.html', "<div>test</div>")
+    await fs.writeFileSync('mnt/test.html', "<div>test</div>")
+    await fs.writeFileSync('mnt/site/test.html', "<div>test</div>")
   }
 
   setupExpress() {
