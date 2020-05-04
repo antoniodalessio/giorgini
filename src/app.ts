@@ -24,6 +24,7 @@ class App {
     this.setupExpress()
     this.initMongoose()
 
+    this.testFS();
     //const builderController = new BuilderController()
     //builderController.publish(null, null)
     //this.import()
