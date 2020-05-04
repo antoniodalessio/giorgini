@@ -40,6 +40,15 @@ class App {
             fs.mkdir('./mnt/site/', (e) => {
                 console.log(e);
             });
+            fs.mkdir('./mnt/site/images/', (e) => {
+                console.log(e);
+            });
+            fs.mkdir('./mnt/site/images/', (e) => {
+                console.log(e);
+            });
+            fs.mkdir('./mnt/site/images/work', (e) => {
+                console.log(e);
+            });
             // console.log("read /mnt/site/")
             // await fs.readdirSync("/mnt/site/", (file: any) => {
             //   console.log("/mnt/site", file)
