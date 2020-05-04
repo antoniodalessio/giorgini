@@ -45,14 +45,15 @@ class App {
             // await fs.readdirSync("mnt/site/", (file: any) => {
             //   console.log("mnt/site", file)
             // })
-            console.log("read ./mnt/site/");
-            yield fs.readdirSync("./mnt/site/", (file) => {
-                console.log("./mnt/site", file);
-            });
-            console.log("read ./mnt/site/");
+            // console.log("read ./mnt/site/")
+            // await fs.readdirSync("./mnt/site/", (file: any) => {
+            //   console.log("./mnt/site", file)
+            // })
+            console.log("read ./mnt/");
             yield fs.readdirSync("./mnt/", (file) => {
                 console.log("./mnt/", file);
             });
+            yield fs.writeFileSync('/mnt/test.html', "<div>test</div>");
             yield fs.writeFileSync('./mnt/test.html', "<div>test</div>");
         });
     }
