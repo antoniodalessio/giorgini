@@ -23,17 +23,6 @@ class App {
     console.log("app init")
     this.setupExpress()
     this.initMongoose()
-    this.remove()
-  }
-
-  async remove() {
-    let filesToRemove: any = await fs.readdirSync(`${process.env.SITE_PATH}../`).filter( (file: any) => {
-      return file.match(/.html/ig)
-    });
-
-    for(const file of filesToRemove) {
-      await fs.unlinkSync(`${process.env.SITE_PATH}../${file}`)
-    }
   }
 
   setupExpress() {

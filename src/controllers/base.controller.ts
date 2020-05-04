@@ -15,15 +15,19 @@ class BaseController {
   
   async getAll(req: any, res: any, populate: string) {
       try {
-
         let limit = 0
 
-        let filter = {}
+        let filter: any = {}
         let sort = {}
         let range = []
 
         if (req.query.hasOwnProperty('filter')){
           filter = JSON.parse(req.query.filter)
+          if (filter.hasOwnProperty("q")) {
+            //$text: {$search: request.searchtext}
+            filter.$text = {$search: filter.q}
+            delete filter.q
+          }
         }
         
         if (req.query.hasOwnProperty('range')) {

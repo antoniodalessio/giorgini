@@ -49,6 +49,8 @@ const category: Schema = new Schema({
     }
 })
 
+category.index({'$**': 'text'});
+
 interface ICategory extends Document {
     meta: any;
     title: string;

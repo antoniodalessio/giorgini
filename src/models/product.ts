@@ -40,6 +40,8 @@ const product: Schema = new Schema({
     }
 })
 
+product.index({'$**': 'text'});
+
 interface IProduct extends Document {
     meta: any;
     title: string;

@@ -39,4 +39,5 @@ const product = new mongoose_1.Schema({
     }
 });
 exports.product = product;
+product.index({ '$**': 'text' });
 //# sourceMappingURL=product.js.map

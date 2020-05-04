@@ -44,4 +44,5 @@ const category = new mongoose_1.Schema({
     }
 });
 exports.category = category;
+category.index({ '$**': 'text' });
 //# sourceMappingURL=category.js.map

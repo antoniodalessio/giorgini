@@ -26,6 +26,11 @@ class BaseController {
                 let range = [];
                 if (req.query.hasOwnProperty('filter')) {
                     filter = JSON.parse(req.query.filter);
+                    if (filter.hasOwnProperty("q")) {
+                        //$text: {$search: request.searchtext}
+                        filter.$text = { $search: filter.q };
+                        delete filter.q;
+                    }
                 }
                 if (req.query.hasOwnProperty('range')) {
                     range = JSON.parse(req.query.range);
