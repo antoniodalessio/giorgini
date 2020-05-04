@@ -84,13 +84,11 @@ class BuilderController {
   async build(published: boolean = false) {
     await this.buildCategories(published)
     await this.buildProducts(published)
+    
   }
 
-  async publish(req: any, res: any) {
-
-    await this.build(true)
-
-    let fileToUpload: any = fs.readdirSync(`${process.env.SITE_PATH}`).filter( (file: any) => {
+  async upload() {
+    let fileToUpload: any = await fs.readdirSync(`${process.env.SITE_PATH}`).filter( (file: any) => {
       return file.match(/.html/ig)
     });
 
@@ -101,8 +99,24 @@ class BuilderController {
       filesUploaded.push(`${file}`)
     }
 
-    res.status(200).json({fileToUpload, filesUploaded});
+    return {fileToUpload, filesUploaded}
+  }
 
+  async clearFolder() {
+    let filesToRemove: any = await fs.readdirSync(`${process.env.SITE_PATH}`).filter( (file: any) => {
+      return file.match(/.html/ig)
+    });
+
+    for(const file of filesToRemove) {
+      await fs.unlinkSync(`${process.env.SITE_PATH}${file}`)
+    }
+  }
+
+  async publish(req: any, res: any) {
+    await this.build(true)
+    let result = await this.upload()
+    await this.clearFolder()
+    res.status(200).json(result);
   }
 }
 

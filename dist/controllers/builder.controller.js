@@ -98,10 +98,9 @@ class BuilderController {
             yield this.buildProducts(published);
         });
     }
-    publish(req, res) {
+    upload() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.build(true);
-            let fileToUpload = fs.readdirSync(`${process.env.SITE_PATH}`).filter((file) => {
+            let fileToUpload = yield fs.readdirSync(`${process.env.SITE_PATH}`).filter((file) => {
                 return file.match(/.html/ig);
             });
             let filesUploaded = [];
@@ -109,7 +108,25 @@ class BuilderController {
                 yield this.clientFtp.upload(`${process.env.SITE_PATH}${file}`, `${process.env.FTP_FOLDER}${file}`, 755);
                 filesUploaded.push(`${file}`);
             }
-            res.status(200).json({ fileToUpload, filesUploaded });
+            return { fileToUpload, filesUploaded };
+        });
+    }
+    clearFolder() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let filesToRemove = yield fs.readdirSync(`${process.env.SITE_PATH}`).filter((file) => {
+                return file.match(/.html/ig);
+            });
+            for (const file of filesToRemove) {
+                yield fs.unlinkSync(`${process.env.SITE_PATH}${file}`);
+            }
+        });
+    }
+    publish(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.build(true);
+            let result = yield this.upload();
+            yield this.clearFolder();
+            res.status(200).json(result);
         });
     }
 }
