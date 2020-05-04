@@ -52,7 +52,11 @@ class BuilderController {
       cat.mywork = "active"
       cat.products = await this.getProductOfCategory(category._id)
       cat.products.forEach((product: any) => {
-        product.thumb = product.images[0].uri
+        if (product.hasOwnProperty("images") && product.images.length > 0) {
+          product.thumb = product.images[0].uri
+        }else{ 
+          product.thumb = null 
+        }
       });
       if(category.hasSubcategory) {
         cat.categories = await this.getSubcategory(category._id)

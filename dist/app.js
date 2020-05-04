@@ -17,12 +17,9 @@ var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
 const webapp_1 = __importDefault(require("./routes/webapp"));
-var fs = require('fs');
 var Jimp = require('jimp');
 var webp = require('webp-converter');
 const mongoose = require('mongoose');
-var fs = require('fs');
-const models_1 = require("./models");
 class App {
     constructor() {
         console.log("app init");
@@ -65,66 +62,26 @@ class App {
     }
     testJimp() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("test Jimp");
+            /*console.log("test Jimp")
             try {
-                const image = yield Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
-                yield image.resize(100, 100);
-                let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
-                console.log("result", result);
-                yield fs.writeFileSync(`${process.env.SITE_PATH}output.jpg`, result);
-                webp.cwebp(`${process.env.SITE_PATH}output.jpg`, `${process.env.SITE_PATH}output.webp`, "-q 80", function (status, error) {
-                    //if conversion successful status will be '100'
-                    //if conversion fails status will be '101'
-                    console.log(status, error);
-                });
-                //await image.writeAsync(`${process.env.SITE_PATH}output.jpg`);
-            }
-            catch (e) {
-                console.log(e);
-            }
-        });
-    }
-    import() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const file = yield fs.readFileSync(`${process.env.SITE_PATH}categories.json`);
-            const parsedFile = JSON.parse(file);
-            for (const category of parsedFile.categories) {
-                const categoryId = new mongoose.Types.ObjectId();
-                const cat = new models_1.Category({
-                    _id: categoryId,
-                    description: category.description,
-                    title: category.title,
-                    slug: category.slug,
-                    text: category.category_name,
-                    thumb_preview: category.thumb_preview,
-                    category_name: category.category_name
-                });
-                yield cat.save();
-                for (const product of category.products) {
-                    let imageIDS = [];
-                    const productId = new mongoose.Types.ObjectId();
-                    let prod = new models_1.Product({
-                        _id: productId,
-                        description: product.description,
-                        title: product.title,
-                        slug: product.slug,
-                        category: categoryId
-                    });
-                    for (const image of product.images) {
-                        const imgId = new mongoose.Types.ObjectId();
-                        const img = new models_1.Image({
-                            _id: imgId,
-                            alt: image.alt,
-                            uri: image.uri
-                        });
-                        imageIDS.push(imgId);
-                        yield img.save();
-                        console.log("...");
-                    }
-                    prod.images = imageIDS;
-                    yield prod.save();
-                }
-            }
+              const image = await Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
+              await image.resize(100, 100);
+              let result = await image.getBufferAsync(Jimp.MIME_JPEG);
+              console.log("result", result)
+              await fs.writeFileSync(`${process.env.SITE_PATH}output.jpg`, result)
+        
+              webp.cwebp(`${process.env.SITE_PATH}output.jpg`,`${process.env.SITE_PATH}output.webp`,"-q 80",function(status: any,error: any)
+              {
+                 //if conversion successful status will be '100'
+                //if conversion fails status will be '101'
+                console.log(status,error);
+              });
+        
+              //await image.writeAsync(`${process.env.SITE_PATH}output.jpg`);
+              
+            }catch(e) {
+              console.log(e)
+            }*/
         });
     }
 }

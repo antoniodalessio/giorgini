@@ -6,11 +6,9 @@ import loginController from './controllers/login.controller'
 import apiRoutes from './routes/api'
 import webAppRoutes from './routes/webapp'
 
-var fs = require('fs');
 var Jimp = require('jimp');
 var webp = require('webp-converter');
 const mongoose = require('mongoose');
-var fs = require('fs');
 
 import { Product, Category, Image } from './models'
 
@@ -68,7 +66,7 @@ class App {
   
   async testJimp() {
 
-    console.log("test Jimp")
+    /*console.log("test Jimp")
     try {
       const image = await Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
       await image.resize(100, 100);
@@ -87,71 +85,8 @@ class App {
       
     }catch(e) {
       console.log(e)
-    }
+    }*/
    
-  }
-
-
-  async import() {
-    const file = await fs.readFileSync(`${process.env.SITE_PATH}categories.json`)
-
-    const parsedFile = JSON.parse(file)
-    
-    for(const category of parsedFile.categories) {
-      
-      const categoryId = new mongoose.Types.ObjectId()
-
-      const cat = new Category({
-        _id: categoryId,
-        description: category.description,
-        title: category.title,
-        slug: category.slug,
-        text: category.category_name,
-        thumb_preview: category.thumb_preview,
-        category_name: category.category_name
-      })
-
-      await cat.save()
-
-      for(const product of category.products) {
-        
-        let imageIDS = []
-
-        const productId = new mongoose.Types.ObjectId()
-
-        let prod = new Product({
-          _id: productId,
-          description: product.description,
-          title: product.title,
-          slug: product.slug,
-          category: categoryId
-        })
-
-
-
-        for (const image of product.images) {
-          const imgId = new mongoose.Types.ObjectId()
-          const img = new Image({
-            _id: imgId,
-            alt: image.alt,
-            uri: image.uri
-          })
-
-          imageIDS.push(imgId)
-
-          await img.save()
-          console.log("...")
-
-        }
-
-        prod.images = imageIDS
-
-        await prod.save()
-  
-      }
-
-    }
-
   }
 
     

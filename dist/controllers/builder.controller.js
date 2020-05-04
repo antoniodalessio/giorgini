@@ -61,7 +61,12 @@ class BuilderController {
                 cat.mywork = "active";
                 cat.products = yield this.getProductOfCategory(category._id);
                 cat.products.forEach((product) => {
-                    product.thumb = product.images[0].uri;
+                    if (product.hasOwnProperty("images") && product.images.length > 0) {
+                        product.thumb = product.images[0].uri;
+                    }
+                    else {
+                        product.thumb = null;
+                    }
                 });
                 if (category.hasSubcategory) {
                     cat.categories = yield this.getSubcategory(category._id);
