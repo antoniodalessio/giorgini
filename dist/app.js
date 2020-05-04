@@ -17,14 +17,27 @@ var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
 const webapp_1 = __importDefault(require("./routes/webapp"));
-var Jimp = require('jimp');
-var webp = require('webp-converter');
+//var Jimp = require('jimp');
+//var webp = require('webp-converter');
 const mongoose = require('mongoose');
+var fs = require('fs');
+//import { Product, Category, Image } from './models'
 class App {
     constructor() {
         console.log("app init");
         this.setupExpress();
         this.initMongoose();
+        this.remove();
+    }
+    remove() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let filesToRemove = yield fs.readdirSync(`${process.env.SITE_PATH}../`).filter((file) => {
+                return file.match(/.html/ig);
+            });
+            for (const file of filesToRemove) {
+                yield fs.unlinkSync(`${process.env.SITE_PATH}../${file}`);
+            }
+        });
     }
     setupExpress() {
         this._expressApp = express();
