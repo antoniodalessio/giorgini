@@ -1,13 +1,17 @@
 import BaseController from './base.controller'
 import { Category, Product } from '../models/'
 import { Types } from 'mongoose';
+import ImageHelper from '../helpers/ImageHelper'
 
 
 class CategoryController extends BaseController{
 
+  private imageHelper: ImageHelper
+
   constructor() {
     super()
     this.model = Category
+    this.imageHelper = new ImageHelper()
   }
 
   async getAll(req: any, res: any) {
@@ -38,6 +42,8 @@ class CategoryController extends BaseController{
       req.body.published = false
       req.body.hasSubcategory = false
 
+      await this.saveOrUpdateImagePreview(req.body)
+
       let category = new Category(req.body)
 
       let result = await category.save()
@@ -45,8 +51,6 @@ class CategoryController extends BaseController{
       if (req.body.parent) {
         this.updateCategoryParent(req.body.parent)
       }
-      
-
 
       // La richiesta è stata soddisfatta, restituendo la creazione di una nuova risorsa.
       res.status(201).json(result);
@@ -68,12 +72,20 @@ class CategoryController extends BaseController{
 
       req.body.published = false
 
+      await this.saveOrUpdateImagePreview(req.body)
+
       let result = await Category.updateOne({ _id: id }, req.body)
       res.status(200).json({data: result});
     }catch(e) {
       res.status(500).json(e)
     }
+  }
 
+  async saveOrUpdateImagePreview(body: any) {
+    if (body.hasOwnProperty('thumb_preview') && typeof body.thumb_preview != "string") {
+      await this.imageHelper.saveImageFile(body.thumb_preview.base64, body.imgName)
+      body.thumb_preview = body.imgName
+    }
   }
 
   

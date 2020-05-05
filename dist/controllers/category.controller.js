@@ -15,10 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
+const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
 class CategoryController extends base_controller_1.default {
     constructor() {
         super();
         this.model = models_1.Category;
+        this.imageHelper = new ImageHelper_1.default();
     }
     getAll(req, res) {
         const _super = Object.create(null, {
@@ -54,6 +56,7 @@ class CategoryController extends base_controller_1.default {
                 req.body._id = new mongoose_1.Types.ObjectId();
                 req.body.published = false;
                 req.body.hasSubcategory = false;
+                yield this.saveOrUpdateImagePreview(req.body);
                 let category = new models_1.Category(req.body);
                 let result = yield category.save();
                 if (req.body.parent) {
@@ -77,11 +80,20 @@ class CategoryController extends base_controller_1.default {
                     return;
                 }
                 req.body.published = false;
+                yield this.saveOrUpdateImagePreview(req.body);
                 let result = yield models_1.Category.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });
             }
             catch (e) {
                 res.status(500).json(e);
+            }
+        });
+    }
+    saveOrUpdateImagePreview(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (body.hasOwnProperty('thumb_preview') && typeof body.thumb_preview != "string") {
+                yield this.imageHelper.saveImageFile(body.thumb_preview.base64, body.imgName);
+                body.thumb_preview = body.imgName;
             }
         });
     }

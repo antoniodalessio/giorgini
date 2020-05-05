@@ -15,14 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
-const ftp_1 = __importDefault(require("./../utils/ftp"));
-var fs = require('fs');
-var Jimp = require('jimp');
-var clientftp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
+const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
 class ProductController extends base_controller_1.default {
     constructor() {
         super();
         this.model = models_1.Product;
+        this.imageHelper = new ImageHelper_1.default();
     }
     getAll(req, res) {
         const _super = Object.create(null, {
@@ -83,10 +81,14 @@ class ProductController extends base_controller_1.default {
     saveOrUpdateImages(newData) {
         return __awaiter(this, void 0, void 0, function* () {
             let imagesIDS = [];
+            console.log(newData);
             if (newData.images && newData.images.length > 0) {
                 let images = newData.images;
                 for (const image of images) {
-                    yield this.saveImageFile(image);
+                    yield this.imageHelper.saveImageFile(image.uri.base64, image.imgName);
+                    if (image.uri.hasOwnProperty('base64')) {
+                        image.uri = image.imgName;
+                    }
                     if (image.hasOwnProperty('_id')) {
                         yield models_1.Image.updateOne({ _id: image._id }, image);
                         imagesIDS.push(image._id);
@@ -100,38 +102,6 @@ class ProductController extends base_controller_1.default {
                 }
             }
             return imagesIDS;
-        });
-    }
-    saveImageFile(image) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (image.hasOwnProperty('imagedata')) {
-                    image.imagedata.base64 = image.imagedata.base64.replace(/^data:image\/jpeg;base64,/, "");
-                    const path = `${process.env.SITE_IMAGE_PATH}${image.uri}.jpg`;
-                    yield fs.writeFileSync(path, image.imagedata.base64, 'base64');
-                    yield this.createImageFormatAndUpload(image.uri);
-                    delete image.imagedata;
-                }
-            }
-            catch (e) {
-                console.log(e);
-            }
-        });
-    }
-    createSingleImageAndUpload(name, size, suffix) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const image = yield Jimp.read(`${process.env.SITE_IMAGE_PATH}${name}.jpg`);
-            yield image.resize(size.width, size.height);
-            let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
-            yield fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result);
-            yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755);
-        });
-    }
-    createImageFormatAndUpload(name) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_thumb");
-            yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_normal");
-            yield this.createSingleImageAndUpload(name, { width: 1024, height: 1024 }, "_x2");
         });
     }
 }
