@@ -63,6 +63,9 @@ class ImageController extends base_controller_1.default {
                     res.status(500).json({ error: `resource product with '${id}' doesn't exists` });
                     return;
                 }
+                if (req.body.uri.hasOwnProperty('uri')) {
+                    req.body.uri = req.body.uri.uri;
+                }
                 const result = yield models_1.Image.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });
             }
