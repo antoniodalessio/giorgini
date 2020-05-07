@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require('fs');
 var Jimp = require('jimp');
+var webp = require('webp-converter');
 const ftp_1 = __importDefault(require("./../utils/ftp"));
 var clientftp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 class ImageHelper {
@@ -33,20 +34,37 @@ class ImageHelper {
             }
         });
     }
-    createSingleImageAndUpload(name, size, suffix) {
+    createJPGAndUpload(name, size, suffix) {
         return __awaiter(this, void 0, void 0, function* () {
-            const image = yield Jimp.read(`${process.env.SITE_IMAGE_PATH}${name}.jpg`);
-            yield image.resize(size.width, size.height);
+            const originalImage = `${process.env.SITE_IMAGE_PATH}${name}.jpg`;
+            const image = yield Jimp.read(originalImage);
+            yield image.resize(size.width, size.height).quality(90);
             let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
             yield fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result);
             yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755);
         });
     }
+    createWEBPAndUpload(name, size, suffix) {
+        return __awaiter(this, void 0, void 0, function* () {
+            webp.cwebp(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.SITE_IMAGE_PATH}${name}${suffix}.webp`, "-q 80", function (status, error) {
+                //if conversion successful status will be '100'
+                //if conversion fails status will be '101'
+                console.log(status, error);
+            });
+            yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.webp`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.webp`, 755);
+        });
+    }
+    createSingleImageAndUpload(name, size, suffix) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.createJPGAndUpload(name, size, suffix);
+            yield this.createWEBPAndUpload(name, size, suffix);
+        });
+    }
     createImageFormatAndUpload(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_thumb");
-            yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_normal");
-            yield this.createSingleImageAndUpload(name, { width: 1024, height: 1024 }, "_x2");
+            for (const type of this.types) {
+                yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, type);
+            }
         });
     }
     ftpRename(oldName, newName) {

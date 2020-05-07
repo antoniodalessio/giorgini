@@ -6,13 +6,9 @@ import loginController from './controllers/login.controller'
 import apiRoutes from './routes/api'
 import webAppRoutes from './routes/webapp'
 
-//var Jimp = require('jimp');
-//var webp = require('webp-converter');
 const mongoose = require('mongoose');
 
 var fs = require('fs');
-
-//import { Product, Category, Image } from './models'
 
 
 class App {
