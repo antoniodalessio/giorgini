@@ -60,7 +60,7 @@ class BuilderController {
                 cat.key = "work";
                 cat.mywork = "active";
                 cat.products = yield this.getProductOfCategory(category._id);
-                cat.pageImage = `${process.env.SITE_IMAGE_PATH}${cat.thumb_preview}_normal.jpg`,
+                cat.pageImage = `${process.env.REMOTE_IMAGES_PATH}${cat.thumb_preview}_normal.jpg`,
                     cat.products.forEach((product) => {
                         if (product.hasOwnProperty("images") && product.images.length > 0) {
                             product.thumb = product.images[0].uri;
@@ -88,7 +88,7 @@ class BuilderController {
                 let prod = product.toObject();
                 prod.key = "product";
                 prod.mywork = "active";
-                prod.pageImage = `${process.env.SITE_IMAGE_PATH}${prod.images[0].uri}_normal.jpg`,
+                prod.pageImage = `${process.env.REMOTE_IMAGES_PATH}${prod.images[0].uri}_normal.jpg`,
                     yield this.assemble.render("product", prod);
                 yield models_1.Product.updateOne({ _id: product._id }, { published: true });
             }
