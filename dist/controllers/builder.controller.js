@@ -60,14 +60,15 @@ class BuilderController {
                 cat.key = "work";
                 cat.mywork = "active";
                 cat.products = yield this.getProductOfCategory(category._id);
-                cat.products.forEach((product) => {
-                    if (product.hasOwnProperty("images") && product.images.length > 0) {
-                        product.thumb = product.images[0].uri;
-                    }
-                    else {
-                        product.thumb = null;
-                    }
-                });
+                cat.pageImage = `${process.env.SITE_IMAGE_PATH}${cat.thumb_preview}_normal.jpg`,
+                    cat.products.forEach((product) => {
+                        if (product.hasOwnProperty("images") && product.images.length > 0) {
+                            product.thumb = product.images[0].uri;
+                        }
+                        else {
+                            product.thumb = null;
+                        }
+                    });
                 if (category.hasSubcategory) {
                     cat.categories = yield this.getSubcategory(category._id);
                     yield this.assemble.render("categories", cat);
@@ -87,7 +88,8 @@ class BuilderController {
                 let prod = product.toObject();
                 prod.key = "product";
                 prod.mywork = "active";
-                yield this.assemble.render("product", prod);
+                prod.pageImage = `${process.env.SITE_IMAGE_PATH}${prod.images[0].uri}_normal.jpg`,
+                    yield this.assemble.render("product", prod);
                 yield models_1.Product.updateOne({ _id: product._id }, { published: true });
             }
         });
