@@ -46,6 +46,11 @@ class FTPClient {
     let access = await this.client.access(this.settings);
     let rename = await this.client.rename(oldFile, newFile)
   }
+
+  async remove(fileName: string) {
+    await this.client.access(this.settings);
+    await this.client.remove(fileName)
+  }
 }
 
 export default FTPClient

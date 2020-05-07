@@ -39,7 +39,13 @@ class ImageHelper {
       const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type}.jpg`
       await clientftp.rename(oldFile, newFile)
     }
-    
+  }
+
+  async ftpRemove(fileName: string) {
+    for (const type of this.types) {
+      fileName = `${process.env.REMOTE_IMAGES_PATH}${fileName}${type}.jpg`
+      await clientftp.remove(fileName)
+    }
   }
 }
 

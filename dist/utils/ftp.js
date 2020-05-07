@@ -49,6 +49,12 @@ class FTPClient {
             let rename = yield this.client.rename(oldFile, newFile);
         });
     }
+    remove(fileName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.client.access(this.settings);
+            yield this.client.remove(fileName);
+        });
+    }
 }
 exports.default = FTPClient;
 //# sourceMappingURL=ftp.js.map

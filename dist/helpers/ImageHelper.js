@@ -58,6 +58,14 @@ class ImageHelper {
             }
         });
     }
+    ftpRemove(fileName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (const type of this.types) {
+                fileName = `${process.env.REMOTE_IMAGES_PATH}${fileName}${type}.jpg`;
+                yield clientftp.remove(fileName);
+            }
+        });
+    }
 }
 exports.default = ImageHelper;
 //# sourceMappingURL=ImageHelper.js.map

@@ -2,8 +2,8 @@ import BaseController from './base.controller'
 import { Product, Image } from '../models/'
 import { IImage } from '../models/image';
 import { Types } from 'mongoose';
-import FTP from './../utils/ftp'
 import ImageHelper from '../helpers/ImageHelper'
+const _ =  require( 'underscore')
 
 
 
@@ -63,6 +63,11 @@ class ProductController extends BaseController{
 
       req.body.published = false
       req.body.images = await this.saveOrUpdateImages(req.body)
+
+      // if (data.images.length > req.body.images.length) {
+      //   //remove from ftp
+      //   console.log(_.difference(data.images, req.body.images))
+      // }
       
       let result = await Product.updateOne({ _id: id }, req.body)
       res.status(200).json({data: result});

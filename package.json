@@ -8,7 +8,7 @@
     "start": "node --inspect=5858 -r ts-node/register ./src/index.ts",
     "start:watch": "nodemon",
     "build": "tsc",
-    "serve": "http-server site" 
+    "serve": "http-server site"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "jimp": "^0.10.3",
     "mongoose": "^5.9.10",
     "ts-node": "^8.9.0",
+    "underscore": "^1.10.2",
     "webp-converter": "^2.2.3",
     "yaml": "^1.9.2"
   },

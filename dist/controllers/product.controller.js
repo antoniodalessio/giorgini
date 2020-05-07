@@ -16,6 +16,7 @@ const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
 const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
+const _ = require('underscore');
 class ProductController extends base_controller_1.default {
     constructor() {
         super();
@@ -70,6 +71,10 @@ class ProductController extends base_controller_1.default {
                 }
                 req.body.published = false;
                 req.body.images = yield this.saveOrUpdateImages(req.body);
+                // if (data.images.length > req.body.images.length) {
+                //   //remove from ftp
+                //   console.log(_.difference(data.images, req.body.images))
+                // }
                 let result = yield models_1.Product.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });
             }
