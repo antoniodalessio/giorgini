@@ -17,6 +17,9 @@ var Jimp = require('jimp');
 const ftp_1 = __importDefault(require("./../utils/ftp"));
 var clientftp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 class ImageHelper {
+    constructor() {
+        this.types = ["_normal", "_thumb", "_x2"];
+    }
     saveImageFile(imageBase64, name) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -44,6 +47,15 @@ class ImageHelper {
             yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_thumb");
             yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, "_normal");
             yield this.createSingleImageAndUpload(name, { width: 1024, height: 1024 }, "_x2");
+        });
+    }
+    ftpRename(oldName, newName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (const type of this.types) {
+                const oldFile = `${process.env.REMOTE_IMAGES_PATH}${oldName}${type}.jpg`;
+                const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type}.jpg`;
+                yield clientftp.rename(oldFile, newFile);
+            }
         });
     }
 }

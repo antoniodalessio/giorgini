@@ -89,11 +89,17 @@ class CategoryController extends base_controller_1.default {
             }
         });
     }
-    saveOrUpdateImagePreview(body) {
+    saveOrUpdateImagePreview(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (body.hasOwnProperty('thumb_preview') && typeof body.thumb_preview != "string") {
-                yield this.imageHelper.saveImageFile(body.thumb_preview.base64, body.imgName);
-                body.thumb_preview = body.imgName;
+            if (data.hasOwnProperty('file') && data.file.hasOwnProperty('base64')) {
+                let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace("jpg", "");
+                yield this.imageHelper.saveImageFile(data.file.base64, imageName);
+            }
+            else {
+                const category = yield models_1.Category.findOne({ _id: data.id });
+                if (category && category.thumb_preview != data.thumb_preview) {
+                    yield this.imageHelper.ftpRename(category.thumb_preview, data.thumb_preview);
+                }
             }
         });
     }

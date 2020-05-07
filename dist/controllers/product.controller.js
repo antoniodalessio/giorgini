@@ -81,14 +81,23 @@ class ProductController extends base_controller_1.default {
     saveOrUpdateImages(newData) {
         return __awaiter(this, void 0, void 0, function* () {
             let imagesIDS = [];
-            console.log(newData);
             if (newData.images && newData.images.length > 0) {
                 let images = newData.images;
                 for (const image of images) {
-                    yield this.imageHelper.saveImageFile(image.uri.base64, image.imgName);
-                    if (image.uri.hasOwnProperty('base64')) {
-                        image.uri = image.imgName;
+                    let imageName = image.hasOwnProperty('uri') ? image.uri : image.file.rawFile.path.replace(".jpeg", "").replace("jpg", "");
+                    // upload image
+                    if (image.file.hasOwnProperty('base64')) {
+                        yield this.imageHelper.saveImageFile(image.file.base64, imageName);
+                        image.uri = imageName;
                     }
+                    else {
+                        // modify only image name
+                        const imageOld = yield models_1.Image.findOne({ _id: image._id });
+                        if (imageOld && imageOld.uri != image.uri) {
+                            yield this.imageHelper.ftpRename(imageOld.uri, image.uri);
+                        }
+                    }
+                    //update or save
                     if (image.hasOwnProperty('_id')) {
                         yield models_1.Image.updateOne({ _id: image._id }, image);
                         imagesIDS.push(image._id);

@@ -77,15 +77,24 @@ class ProductController extends BaseController{
     
     let imagesIDS: any = []
 
-    console.log(newData)
-
     if (newData.images && newData.images.length > 0) {
       let images = newData.images
       for (const image of images) {
-        await this.imageHelper.saveImageFile(image.uri.base64, image.imgName)
-        if (image.uri.hasOwnProperty('base64')){
-          image.uri = image.imgName
-        }  
+        let imageName = image.hasOwnProperty('uri') ? image.uri : image.file.rawFile.path.replace(".jpeg", "").replace("jpg", "")
+        
+        // upload image
+        if (image.file.hasOwnProperty('base64')){
+          await this.imageHelper.saveImageFile(image.file.base64, imageName)
+          image.uri = imageName
+        }else{
+          // modify only image name
+          const imageOld = await Image.findOne({_id: image._id})
+          if (imageOld && imageOld.uri != image.uri) {
+            await this.imageHelper.ftpRename(imageOld.uri, image.uri)
+          }
+        }
+
+        //update or save
         if (image.hasOwnProperty('_id')) {
           await Image.updateOne({ _id: image._id }, image)
           imagesIDS.push(image._id)

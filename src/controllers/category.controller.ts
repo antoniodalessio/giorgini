@@ -81,10 +81,15 @@ class CategoryController extends BaseController{
     }
   }
 
-  async saveOrUpdateImagePreview(body: any) {
-    if (body.hasOwnProperty('thumb_preview') && typeof body.thumb_preview != "string") {
-      await this.imageHelper.saveImageFile(body.thumb_preview.base64, body.imgName)
-      body.thumb_preview = body.imgName
+  async saveOrUpdateImagePreview(data: any) {
+    if (data.hasOwnProperty('file') && data.file.hasOwnProperty('base64')) {
+      let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace("jpg", "")
+      await this.imageHelper.saveImageFile(data.file.base64, imageName)
+    }else{
+      const category = await Category.findOne({_id: data.id})
+      if (category && category.thumb_preview != data.thumb_preview) {
+        await this.imageHelper.ftpRename(category.thumb_preview, data.thumb_preview)
+      }
     }
   }
 

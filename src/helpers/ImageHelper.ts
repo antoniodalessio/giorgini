@@ -5,6 +5,8 @@ import FTP from './../utils/ftp'
 var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 
 class ImageHelper {
+
+  types = ["_normal", "_thumb", "_x2"]
   
   async saveImageFile(imageBase64: any, name: string) {
     try{
@@ -29,6 +31,15 @@ class ImageHelper {
     await this.createSingleImageAndUpload(name, {width: 640, height: 640}, "_thumb")
     await this.createSingleImageAndUpload(name, {width: 640, height: 640}, "_normal")
     await this.createSingleImageAndUpload(name, {width: 1024, height: 1024}, "_x2")
+  }
+
+  async ftpRename(oldName: string, newName: string) {
+    for (const type of this.types) {
+      const oldFile = `${process.env.REMOTE_IMAGES_PATH}${oldName}${type}.jpg`
+      const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type}.jpg`
+      await clientftp.rename(oldFile, newFile)
+    }
+    
   }
 }
 

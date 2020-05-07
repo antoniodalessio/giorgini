@@ -41,6 +41,11 @@ class FTPClient {
     let cmd = 'SITE CHMOD ' + perms + ' ' + filepath;
     return this.client.send(cmd, false);
   }
+
+  async rename(oldFile: string, newFile: string) {
+    let access = await this.client.access(this.settings);
+    let rename = await this.client.rename(oldFile, newFile)
+  }
 }
 
 export default FTPClient

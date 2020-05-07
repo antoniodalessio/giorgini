@@ -43,6 +43,12 @@ class FTPClient {
         let cmd = 'SITE CHMOD ' + perms + ' ' + filepath;
         return this.client.send(cmd, false);
     }
+    rename(oldFile, newFile) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let access = yield this.client.access(this.settings);
+            let rename = yield this.client.rename(oldFile, newFile);
+        });
+    }
 }
 exports.default = FTPClient;
 //# sourceMappingURL=ftp.js.map
