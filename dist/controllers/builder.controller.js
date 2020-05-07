@@ -123,7 +123,11 @@ class BuilderController {
     }
     publish(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.build(true);
+            let published = false;
+            if (req.query.hasOwnProperty('published')) {
+                published = true;
+            }
+            yield this.build(published);
             let result = yield this.upload();
             yield this.clearFolder();
             res.status(200).json(result);

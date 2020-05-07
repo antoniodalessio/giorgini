@@ -84,7 +84,6 @@ class BuilderController {
   async build(published: boolean = false) {
     await this.buildCategories(published)
     await this.buildProducts(published)
-    
   }
 
   async upload() {
@@ -113,7 +112,13 @@ class BuilderController {
   }
 
   async publish(req: any, res: any) {
-    await this.build(true)
+
+    let published = false
+    if (req.query.hasOwnProperty('published')) {
+      published = true
+    }
+
+    await this.build(published)
     let result = await this.upload()
     await this.clearFolder()
     res.status(200).json(result);
