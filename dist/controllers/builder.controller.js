@@ -51,6 +51,14 @@ class BuilderController {
             return prods;
         });
     }
+    buildStaticPages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.assemble.render("index", { slug: "index" });
+            yield this.assemble.render("contatta-amalia-cardo-modellista-stilista-sarta", { slug: "contatta-amalia-cardo-modellista-stilista-sarta" });
+            yield this.assemble.render("amalia-cardo-sarta-modellista-stilista", { slug: "amalia-cardo-sarta-modellista-stilista" });
+            yield this.assemble.render("cosa-faccio-amalia-cardo-modellista-stilista-sarta", { slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta" });
+        });
+    }
     buildCategories(published = false) {
         return __awaiter(this, void 0, void 0, function* () {
             let filter = !published ? { published: false } : null;
@@ -98,6 +106,7 @@ class BuilderController {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.buildCategories(published);
             yield this.buildProducts(published);
+            yield this.buildStaticPages();
         });
     }
     upload() {

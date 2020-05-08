@@ -4,6 +4,6 @@ import App from './app'
 const app = new App()
 
 
-/*import BatchOperations from './batchOperations'
+// import BatchOperations from './batchOperations'
 
-const app = new BatchOperations()*/
+// const app = new BatchOperations()

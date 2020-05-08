@@ -40,6 +40,13 @@ class BuilderController {
     return prods
   }
 
+  async buildStaticPages() {
+    await this.assemble.render("index", {slug: "index"})
+    await this.assemble.render("contatta-amalia-cardo-modellista-stilista-sarta", {slug: "contatta-amalia-cardo-modellista-stilista-sarta"})
+    await this.assemble.render("amalia-cardo-sarta-modellista-stilista", {slug: "amalia-cardo-sarta-modellista-stilista"})
+    await this.assemble.render("cosa-faccio-amalia-cardo-modellista-stilista-sarta", {slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta"})
+  }
+
   async buildCategories(published: boolean = false) {
     
     let filter: any = !published ? {published: false} : null
@@ -86,6 +93,7 @@ class BuilderController {
   async build(published: boolean = false) {
     await this.buildCategories(published)
     await this.buildProducts(published)
+    await this.buildStaticPages()
   }
 
   async upload() {
