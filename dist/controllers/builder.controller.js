@@ -131,7 +131,9 @@ class BuilderController {
             }
             yield this.build(published);
             let result = yield this.upload();
-            yield this.clearFolder();
+            if (process.env.ENV == 'prod') {
+                yield this.clearFolder();
+            }
             res.status(200).json(result);
         });
     }

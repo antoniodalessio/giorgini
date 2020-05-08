@@ -122,7 +122,9 @@ class BuilderController {
 
     await this.build(published)
     let result = await this.upload()
-    await this.clearFolder()
+    if (process.env.ENV == 'prod') {
+      await this.clearFolder()
+    }
     res.status(200).json(result);
   }
 }
