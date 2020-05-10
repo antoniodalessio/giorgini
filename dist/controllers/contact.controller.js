@@ -39,8 +39,8 @@ class ContactController {
                 from: `"${data.name}" <info@amaliacardo.it>`,
                 to: `${data.email}`,
                 subject: "Richiesta informazioni dal sito amaliacardo.it",
-                text: `Grazie {nome} per avermi contattato. Risponderò a breve alla tua richiesta: \n ${data.message}\n\n Amalia Cardo`,
-                html: ''
+                text: '',
+                html: `Grazie ${data.name} per avermi contattato. Risponderò a breve alla tua richiesta:<br/><span style="font-size:10px; color: #999">${data.message}<span><br/><br/>Amalia Cardo`
             });
             return info;
         });
