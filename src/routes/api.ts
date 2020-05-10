@@ -3,6 +3,7 @@ import categoryController from '../controllers/category.controller'
 import productController from '../controllers/product.controller'
 import builderController from '../controllers/builder.controller'
 import imageController from '../controllers/image.controller'
+import customerController from '../controllers/customer.controller'
 
 function initApiRoutes() {
 
@@ -10,6 +11,7 @@ function initApiRoutes() {
   let productCTRL = new productController()
   let builderCTRL = new builderController()
   let imageCTRL = new imageController()
+  let customerCTRL = new customerController()
 
   routes.use((req: any, res: any, next: any) => verifyToken(req, res, next))
 
@@ -30,6 +32,12 @@ function initApiRoutes() {
   routes.post('/image', async (req: any, res: any) => { await imageCTRL.save(req, res)} )
   routes.put('/image/:id', async (req: any, res: any) => { await imageCTRL.update(req, res)} )
   routes.delete('/image/:id', async (req: any, res: any) => { await imageCTRL.delete(req, res)} )
+
+  routes.get('/customer', async (req: any, res: any) => { await customerCTRL.getAll(req, res)} )
+  routes.get('/customer/:id', async (req: any, res: any) => { await customerCTRL.get(req, res)} )
+  //routes.post('/customer', async (req: any, res: any) => { await customerCTRL.save(req, res)} )
+  //routes.put('/customer/:id', async (req: any, res: any) => { await customerCTRL.update(req, res)} )
+  routes.delete('/customer/:id', async (req: any, res: any) => { await customerCTRL.delete(req, res)} )
 
   routes.get('/publish', async (req: any, res: any) => { await builderCTRL.publish(req, res)} )
   
