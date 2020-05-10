@@ -24,7 +24,7 @@ class ContactController {
     sendEmailToInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             let info = yield transporter.sendMail({
-                from: `"${data.name} 👻" <${data.email}>`,
+                from: `"${data.name}" <${data.email}>`,
                 to: `info@amaliacardo.it`,
                 subject: "Richiesta informazioni dal sito amaliacardo.it",
                 text: `${data.message}`,
@@ -40,7 +40,7 @@ class ContactController {
                 to: `${data.email}`,
                 subject: "Richiesta informazioni dal sito amaliacardo.it",
                 text: '',
-                html: `Grazie ${data.name} per avermi contattato. Risponderò a breve alla tua richiesta:<br><br><span style="font-size:10px; color: #999">${data.message}</span><br><br><br><br>Amalia Cardo`
+                html: `❤️ Grazie ${data.name} per avermi contattato. Risponderò a breve alla tua richiesta:<br><br><span style="font-size:10px; color: #999">${data.message}</span><br><br><br><br>Amalia Cardo`
             });
             return info;
         });
