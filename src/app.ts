@@ -4,7 +4,7 @@ var cors = require('cors');
 import loginController from './controllers/login.controller'
 
 import apiRoutes from './routes/api'
-import webAppRoutes from './routes/webapp'
+import publicRoutes from './routes/public'
 
 const mongoose = require('mongoose');
 
@@ -50,7 +50,7 @@ class App {
     this._expressApp.post('/logout', async (req: any, res: any) => { await loginCTRL.logout(req, res)} )
 
     this._expressApp.use('/api/', apiRoutes());
-    this._expressApp.use('/webapp/', webAppRoutes());
+    this._expressApp.use('/public/', publicRoutes());
 
     
   }
@@ -61,41 +61,9 @@ class App {
       useUnifiedTopology: true
     });
   }
-  
-  async testJimp() {
-
-    /*console.log("test Jimp")
-    try {
-      const image = await Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
-      await image.resize(100, 100);
-      let result = await image.getBufferAsync(Jimp.MIME_JPEG);
-      console.log("result", result)
-      await fs.writeFileSync(`${process.env.SITE_PATH}output.jpg`, result)
-
-      webp.cwebp(`${process.env.SITE_PATH}output.jpg`,`${process.env.SITE_PATH}output.webp`,"-q 80",function(status: any,error: any)
-      {
-         //if conversion successful status will be '100'
-        //if conversion fails status will be '101'
-        console.log(status,error);	
-      });
-
-      //await image.writeAsync(`${process.env.SITE_PATH}output.jpg`);
-      
-    }catch(e) {
-      console.log(e)
-    }*/
-   
-  }
-
     
 }
 
 
 export default App;
-
-
-
-//import FTP from './utils/ftp'
-
-//var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 

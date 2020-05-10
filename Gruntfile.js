@@ -1,13 +1,13 @@
 module.exports = function(grunt) {
 
 	var baseDir = './site/'
-
-	var bowerDir = "bower_components/",
-		common = [
-			bowerDir + 'jquery/dist/jquery.js',
-			bowerDir + 'magnific-popup/dist/jquery.magnific-popup.js',
-			baseDir + 'js/common.js'
-		];
+	var bowerDir = "bower_components/";
+		
+	var common = [
+		bowerDir + 'jquery/dist/jquery.js',
+		bowerDir + 'magnific-popup/dist/jquery.magnific-popup.js',
+		baseDir + 'js/common.js'
+	];
 
 
 	grunt.initConfig({
@@ -38,6 +38,7 @@ module.exports = function(grunt) {
 					[baseDir + 'js/what.min.js']: common.concat([baseDir + 'js/what.js']),
 					[baseDir + 'js/product.min.js']: common.concat([baseDir + 'js/product.js']),
 					[baseDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
+					[baseDir + 'js/contact.min.js']: common.concat([bowerDir + 'jquery-captcha/dist/jquery-captcha.min.js', baseDir + 'js/contact.js']),
 				}
 			}
 		},

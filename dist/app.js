@@ -16,7 +16,7 @@ const express = require('express');
 var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
-const webapp_1 = __importDefault(require("./routes/webapp"));
+const public_1 = __importDefault(require("./routes/public"));
 const mongoose = require('mongoose');
 var fs = require('fs');
 class App {
@@ -49,7 +49,7 @@ class App {
         this._expressApp.post('/checkAuth', (req, res) => __awaiter(this, void 0, void 0, function* () { yield loginCTRL.checkAuth(req, res); }));
         this._expressApp.post('/logout', (req, res) => __awaiter(this, void 0, void 0, function* () { yield loginCTRL.logout(req, res); }));
         this._expressApp.use('/api/', api_1.default());
-        this._expressApp.use('/webapp/', webapp_1.default());
+        this._expressApp.use('/public/', public_1.default());
     }
     initMongoose() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -59,32 +59,6 @@ class App {
             });
         });
     }
-    testJimp() {
-        return __awaiter(this, void 0, void 0, function* () {
-            /*console.log("test Jimp")
-            try {
-              const image = await Jimp.read(`./src/assets/images/abbigliamento_sartoria-amalia-cardo_thumb.jpg`);
-              await image.resize(100, 100);
-              let result = await image.getBufferAsync(Jimp.MIME_JPEG);
-              console.log("result", result)
-              await fs.writeFileSync(`${process.env.SITE_PATH}output.jpg`, result)
-        
-              webp.cwebp(`${process.env.SITE_PATH}output.jpg`,`${process.env.SITE_PATH}output.webp`,"-q 80",function(status: any,error: any)
-              {
-                 //if conversion successful status will be '100'
-                //if conversion fails status will be '101'
-                console.log(status,error);
-              });
-        
-              //await image.writeAsync(`${process.env.SITE_PATH}output.jpg`);
-              
-            }catch(e) {
-              console.log(e)
-            }*/
-        });
-    }
 }
 exports.default = App;
-//import FTP from './utils/ftp'
-//var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 //# sourceMappingURL=app.js.map
