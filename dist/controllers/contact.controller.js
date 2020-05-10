@@ -40,7 +40,7 @@ class ContactController {
                 to: `${data.email}`,
                 subject: "Richiesta informazioni dal sito amaliacardo.it",
                 text: '',
-                html: `Grazie ${data.name} per avermi contattato. Risponderò a breve alla tua richiesta:<br/><span style="font-size:10px; color: #999">${data.message}<span><br/><br/>Amalia Cardo`
+                html: `Grazie ${data.name} per avermi contattato. Risponderò a breve alla tua richiesta:<br><br><span style="font-size:10px; color: #999">${data.message}</span><br><br><br><br>Amalia Cardo`
             });
             return info;
         });
@@ -62,6 +62,7 @@ class ContactController {
                     console.log(req.body, result);
                     sendEmailInfoRes = yield this.sendEmailToInfo(req.body);
                     sendEmailContactRes = yield this.sendEmailToContact(req.body);
+                    //{"result":{"success":true,"challenge_ts":"2020-05-10T10:38:14Z","hostname":"127.0.0.1"},"sendEmailContactRes":{"accepted":["antonio@adias.it"],"rejected":[],"envelopeTime":88,"messageTime":112,"messageSize":526,"response":"250 2.0.0 cyei2200Z1BY3Mq01yeiA6 mail accepted for delivery","envelope":{"from":"info@amaliacardo.it","to":["antonio@adias.it"]},"messageId":"<c59f1b45-f0dc-f9f4-ba23-08c3541cc2b5@amaliacardo.it>"},"sendEmailInfoRes":{"accepted":["info@amaliacardo.it"],"rejected":[],"envelopeTime":214,"messageTime":113,"messageSize":355,"response":"250 2.0.0 cyei220041BY3Mq01yeiA0 mail accepted for delivery","envelope":{"from":"antonio@adias.it","to":["info@amaliacardo.it"]},"messageId":"<27746803-0680-4681-cf59-54e4e272c0a3@adias.it>"}}
                     res.status(200).json({ result, sendEmailContactRes, sendEmailInfoRes });
                 }
                 else {
