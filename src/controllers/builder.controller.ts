@@ -1,12 +1,27 @@
 import Assemble from './../assemble'
 import FTP from './../utils/ftp'
-import { Category, Product } from '../models'
+import { Page, Category, Product, Image } from '../models'
 var fs = require('fs');
 
 class BuilderController {
 
   private assemble: any
   private clientFtp: any
+
+  private staticPages:any[] = [
+    {
+      slug: "index"
+    },
+    {
+      slug: "contatta-amalia-cardo-modellista-stilista-sarta"
+    },
+    {
+      slug: "amalia-cardo-sarta-modellista-stilista"
+    },
+    {
+      slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta"
+    },
+  ]
 
   constructor() {
     this.initAssemble()
@@ -22,29 +37,49 @@ class BuilderController {
     })
   }
 
-  async getSubcategory(id: any) {
-    let categories = await Category.find({parent: id}).sort('ord')
-    let cats = []
-    for(const category of categories) {
-      cats.push(category.toObject())
-    }
-    return cats
+
+  async buildSitemapXml(){
+    const categories = (await Category.find()).map((item: any) => item ? item.toObject(): null)
+    const products = (await Product.find().populate('images')).map((item: any) => item ? item.toObject() : null)
+    const pages = (await Page.find()).map((item: any) => item ? item.toObject() : null)
+
+    let resources = categories.concat(products).concat(pages)
+
+    let siteMap = `
+      <?xml version="1.0" encoding="UTF-8"?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      ${resources.map((item) => { return `
+        <url>
+          <loc>${process.env.SITE_URL}/${item.slug}.html</loc>
+          ${item.images && item.images.length && item.images.map((image: any) =>{
+            return `
+              <image:image>
+                <image:caption>${image.alt}</image:caption>
+                <image:geo_location>Florence, Italy</image:geo_location>
+                <image:loc>${process.env.SITE_URL}/images/work/${image.uri}_thumb.jpg</image:loc>
+              </image:image>
+            `
+          }).join('\n') || ''}
+        </url>
+      `}).join('\n')}
+      </urlset>
+    `
+    await fs.writeFileSync(`${process.env.SITE_PATH}sitemap.xml`, siteMap)
+    await this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755)
+  }
+  
+  async getSubcategories(id: any) {
+    return (await Category.find({parent: id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
   }
 
-  async getProductOfCategory(id: any) {
-    let products = await Product.find({category: id}).sort('ord').populate('images')
-    let prods = []
-    for(const product of products) {
-      prods.push(product.toObject())
-    }
-    return prods
+  async getProductsOfCategory(id: any) {
+    return (await Product.find({category: id}).sort('ord').populate('images')).map((item: any) => item ? item.toObject() : null)
   }
 
   async buildStaticPages() {
-    await this.assemble.render("index", {slug: "index"})
-    await this.assemble.render("contatta-amalia-cardo-modellista-stilista-sarta", {slug: "contatta-amalia-cardo-modellista-stilista-sarta"})
-    await this.assemble.render("amalia-cardo-sarta-modellista-stilista", {slug: "amalia-cardo-sarta-modellista-stilista"})
-    await this.assemble.render("cosa-faccio-amalia-cardo-modellista-stilista-sarta", {slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta"})
+    for(const page of this.staticPages) {
+      await this.assemble.render(page.slug, page)
+    }
   }
 
   async buildCategories(published: boolean = false) {
@@ -57,7 +92,7 @@ class BuilderController {
       let cat:any = category.toObject()
       cat.key = "work"
       cat.mywork = "active"
-      cat.products = await this.getProductOfCategory(category._id)
+      cat.products = await this.getProductsOfCategory(category._id)
       cat.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${cat.thumb_preview}_normal.jpg`,
       cat.products.forEach((product: any) => {
         if (product.hasOwnProperty("images") && product.images.length > 0) {
@@ -67,7 +102,7 @@ class BuilderController {
         }
       });
       if(category.hasSubcategory) {
-        cat.categories = await this.getSubcategory(category._id)
+        cat.categories = await this.getSubcategories(category._id)
         await this.assemble.render("categories", cat)
       }else{
         await this.assemble.render("category", cat)
@@ -133,6 +168,9 @@ class BuilderController {
     if (process.env.ENV == 'prod') {
       await this.clearFolder()
     }
+
+    await this.buildSitemapXml()
+
     res.status(200).json(result);
   }
 }

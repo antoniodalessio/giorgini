@@ -1,16 +1,17 @@
 import { Schema, Document } from 'mongoose';
+import { IImage } from './image'
 
-const category: Schema = new Schema({
+const page: Schema = new Schema({
     _id: Schema.Types.ObjectId,
     meta: {
         title: {
-
+            type: String, 
         },
         description: {
-
+            type: String, 
         },
         keywork: {
-
+            type: String, 
         }
     },
     title: { 
@@ -20,52 +21,36 @@ const category: Schema = new Schema({
     description: {
         type: String
     },
-    text: {
-        type: String
-    },
-    category_name: {
-        type: String
-    },
-    thumb_preview: {
-        type: String
-    },
     slug: {
         type: String,
         lowercase: true,
         trim: true,
         required: '{PATH} is required!'
     },
+    images: [
+        { type: Schema.Types.ObjectId, ref: 'Image' }
+    ],
     ord: {
         type: Number
     },
     published: {
         type: Boolean
-    },
-    parent: {
-        type: Schema.Types.ObjectId
-    },
-    hasSubcategory: {
-        type: Boolean,
     }
 })
 
-category.index({'$**': 'text'});
+page.index({'$**': 'text'});
 
-interface ICategory extends Document {
+interface IPage extends Document {
     meta: any;
     title: string;
     description: string;
-    text: string;
-    category_name: string;
-    thumb_preview: string;
     slug: string;
     ord: number;
-    published: boolean;
-    hasSubcategory: boolean;
-    parent: ICategory;
+    published: boolean,
+    images: IImage[];
 }
 
 export { 
-    category,
-    ICategory,
+    page,
+    IPage
 }
