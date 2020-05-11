@@ -45,10 +45,13 @@ class ContactController {
 
   async saveInfo(data: any) {
     const customer: any = await Customer.find({email: data.email})
-    if (data.length == 0) {
+
+    console.log(customer)
+
+    if (customer.length == 0) {
       //save
       const id = new Types.ObjectId()
-      const model = new Customer({id: id, email: data.email, firstname: data.name})
+      const model = new Customer({_id: id, email: data.email, firstname: data.name})
       const result = await model.save()
       return result
     }

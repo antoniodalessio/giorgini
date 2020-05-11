@@ -50,10 +50,11 @@ class ContactController {
     saveInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const customer = yield models_1.Customer.find({ email: data.email });
-            if (data.length == 0) {
+            console.log(customer);
+            if (customer.length == 0) {
                 //save
                 const id = new mongoose_1.Types.ObjectId();
-                const model = new models_1.Customer({ id: id, email: data.email, firstname: data.name });
+                const model = new models_1.Customer({ _id: id, email: data.email, firstname: data.name });
                 const result = yield model.save();
                 return result;
             }
