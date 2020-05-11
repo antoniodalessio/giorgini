@@ -18,6 +18,20 @@ const models_1 = require("../models");
 var fs = require('fs');
 class BuilderController {
     constructor() {
+        this.staticPages = [
+            {
+                slug: "index"
+            },
+            {
+                slug: "contatta-amalia-cardo-modellista-stilista-sarta"
+            },
+            {
+                slug: "amalia-cardo-sarta-modellista-stilista"
+            },
+            {
+                slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta"
+            },
+        ];
         this.initAssemble();
         this.clientFtp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
     }
@@ -31,32 +45,52 @@ class BuilderController {
             });
         });
     }
-    getSubcategory(id) {
+    buildSitemapXml() {
         return __awaiter(this, void 0, void 0, function* () {
-            let categories = yield models_1.Category.find({ parent: id }).sort('ord');
-            let cats = [];
-            for (const category of categories) {
-                cats.push(category.toObject());
-            }
-            return cats;
+            const categories = (yield models_1.Category.find()).map((item) => item ? item.toObject() : null);
+            const products = (yield models_1.Product.find().populate('images')).map((item) => item ? item.toObject() : null);
+            const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
+            let resources = categories.concat(products).concat(pages);
+            let siteMap = `
+      <?xml version="1.0" encoding="UTF-8"?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+      ${resources.map((item) => {
+                return `
+        <url>
+          <loc>${process.env.SITE_URL}/${item.slug}.html</loc>
+          ${item.images && item.images.length && item.images.map((image) => {
+                    return `
+              <image:image>
+                <image:caption>${image.alt}</image:caption>
+                <image:geo_location>Florence, Italy</image:geo_location>
+                <image:loc>${process.env.SITE_URL}/images/work/${image.uri}_thumb.jpg</image:loc>
+              </image:image>
+            `;
+                }).join('\n') || ''}
+        </url>
+      `;
+            }).join('\n')}
+      </urlset>
+    `;
+            yield fs.writeFileSync(`${process.env.SITE_PATH}sitemap.xml`, siteMap);
+            yield this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755);
         });
     }
-    getProductOfCategory(id) {
+    getSubcategories(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let products = yield models_1.Product.find({ category: id }).sort('ord').populate('images');
-            let prods = [];
-            for (const product of products) {
-                prods.push(product.toObject());
-            }
-            return prods;
+            return (yield models_1.Category.find({ parent: id }).sort('ord')).map((item) => item ? item.toObject() : null);
+        });
+    }
+    getProductsOfCategory(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return (yield models_1.Product.find({ category: id }).sort('ord').populate('images')).map((item) => item ? item.toObject() : null);
         });
     }
     buildStaticPages() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.assemble.render("index", { slug: "index" });
-            yield this.assemble.render("contatta-amalia-cardo-modellista-stilista-sarta", { slug: "contatta-amalia-cardo-modellista-stilista-sarta" });
-            yield this.assemble.render("amalia-cardo-sarta-modellista-stilista", { slug: "amalia-cardo-sarta-modellista-stilista" });
-            yield this.assemble.render("cosa-faccio-amalia-cardo-modellista-stilista-sarta", { slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta" });
+            for (const page of this.staticPages) {
+                yield this.assemble.render(page.slug, page);
+            }
         });
     }
     buildCategories(published = false) {
@@ -67,7 +101,7 @@ class BuilderController {
                 let cat = category.toObject();
                 cat.key = "work";
                 cat.mywork = "active";
-                cat.products = yield this.getProductOfCategory(category._id);
+                cat.products = yield this.getProductsOfCategory(category._id);
                 cat.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${cat.thumb_preview}_normal.jpg`,
                     cat.products.forEach((product) => {
                         if (product.hasOwnProperty("images") && product.images.length > 0) {
@@ -78,7 +112,7 @@ class BuilderController {
                         }
                     });
                 if (category.hasSubcategory) {
-                    cat.categories = yield this.getSubcategory(category._id);
+                    cat.categories = yield this.getSubcategories(category._id);
                     yield this.assemble.render("categories", cat);
                 }
                 else {
@@ -143,6 +177,7 @@ class BuilderController {
             if (process.env.ENV == 'prod') {
                 yield this.clearFolder();
             }
+            yield this.buildSitemapXml();
             res.status(200).json(result);
         });
     }

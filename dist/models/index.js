@@ -2,15 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const user_1 = require("./user");
+const page_1 = require("./page");
 const category_1 = require("./category");
 const product_1 = require("./product");
 const image_1 = require("./image");
+const customer_1 = require("./customer");
 let User = mongoose_1.model('User', user_1.user);
 exports.User = User;
+let Page = mongoose_1.model('Page', page_1.page);
+exports.Page = Page;
 let Category = mongoose_1.model('Category', category_1.category);
 exports.Category = Category;
 let Product = mongoose_1.model('Product', product_1.product);
 exports.Product = Product;
 let Image = mongoose_1.model('Image', image_1.image);
 exports.Image = Image;
+let Customer = mongoose_1.model('Customer', customer_1.customer);
+exports.Customer = Customer;
 //# sourceMappingURL=index.js.map

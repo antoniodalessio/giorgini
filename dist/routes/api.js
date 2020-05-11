@@ -17,11 +17,13 @@ const category_controller_1 = __importDefault(require("../controllers/category.c
 const product_controller_1 = __importDefault(require("../controllers/product.controller"));
 const builder_controller_1 = __importDefault(require("../controllers/builder.controller"));
 const image_controller_1 = __importDefault(require("../controllers/image.controller"));
+const customer_controller_1 = __importDefault(require("../controllers/customer.controller"));
 function initApiRoutes() {
     let categoryCTRL = new category_controller_1.default();
     let productCTRL = new product_controller_1.default();
     let builderCTRL = new builder_controller_1.default();
     let imageCTRL = new image_controller_1.default();
+    let customerCTRL = new customer_controller_1.default();
     routes.use((req, res, next) => verifyToken(req, res, next));
     routes.get('/category', (req, res) => __awaiter(this, void 0, void 0, function* () { yield categoryCTRL.getAll(req, res); }));
     routes.get('/category/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield categoryCTRL.get(req, res); }));
@@ -38,6 +40,11 @@ function initApiRoutes() {
     routes.post('/image', (req, res) => __awaiter(this, void 0, void 0, function* () { yield imageCTRL.save(req, res); }));
     routes.put('/image/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield imageCTRL.update(req, res); }));
     routes.delete('/image/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield imageCTRL.delete(req, res); }));
+    routes.get('/customer', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.getAll(req, res); }));
+    routes.get('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.get(req, res); }));
+    //routes.post('/customer', async (req: any, res: any) => { await customerCTRL.save(req, res)} )
+    //routes.put('/customer/:id', async (req: any, res: any) => { await customerCTRL.update(req, res)} )
+    routes.delete('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.delete(req, res); }));
     routes.get('/publish', (req, res) => __awaiter(this, void 0, void 0, function* () { yield builderCTRL.publish(req, res); }));
 }
 function verifyToken(req, res, next) {
