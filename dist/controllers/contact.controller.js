@@ -42,7 +42,7 @@ class ContactController {
                 to: `${data.email}`,
                 subject: "Richiesta informazioni dal sito amaliacardo.it",
                 text: '',
-                html: `❤️ Grazie ${data.name} per avermi contattato. Risponderò a breve alla tua richiesta:<br><br><span style="font-size:10px; color: #999">${data.message}</span><br><br><br><br>Amalia Cardo`
+                html: `❤️ Grazie ${data.name} per avermi contattato.<br>Risponderò a breve alla tua richiesta:<br><br><span style="font-size:10px; color: #999">${data.message}</span><br><br><br><br>Amalia Cardo`
             });
             return info;
         });
