@@ -42,8 +42,8 @@ function initApiRoutes() {
     routes.delete('/image/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield imageCTRL.delete(req, res); }));
     routes.get('/customer', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.getAll(req, res); }));
     routes.get('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.get(req, res); }));
-    //routes.post('/customer', async (req: any, res: any) => { await customerCTRL.save(req, res)} )
-    //routes.put('/customer/:id', async (req: any, res: any) => { await customerCTRL.update(req, res)} )
+    routes.post('/customer', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.create(req, res); }));
+    routes.put('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.update(req, res); }));
     routes.delete('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.delete(req, res); }));
     routes.get('/publish', (req, res) => __awaiter(this, void 0, void 0, function* () { yield builderCTRL.publish(req, res); }));
 }

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
 class BaseController {
     isEmpty(obj) {
         for (var key in obj) {
@@ -56,6 +57,36 @@ class BaseController {
                 const id = req.params.id;
                 const data = yield this.model.findOne({ _id: id }).populate(populate);
                 res.status(200).json(data);
+            }
+            catch (e) {
+                res.status(500).json(e);
+            }
+        });
+    }
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                req.body._id = new mongoose_1.Types.ObjectId();
+                const model = new this.model(req.body);
+                const result = yield model.save();
+                res.status(201).json(result);
+            }
+            catch (e) {
+                res.status(500).json(e);
+            }
+        });
+    }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.id;
+                const data = yield this.model.find({ _id: id });
+                if (data.length == 0) {
+                    res.status(500).json({ error: `resource with '${id}' doesn't exists` });
+                    return;
+                }
+                let result = yield this.model.updateOne({ _id: id }, req.body);
+                res.status(200).json({ data: result });
             }
             catch (e) {
                 res.status(500).json(e);

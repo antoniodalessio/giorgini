@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = require("nodemailer");
 const fetch = require('node-fetch');
+const models_1 = require("../models/");
+const mongoose_1 = require("mongoose");
 let transporter = nodemailer.createTransport({
     host: "smtps.aruba.it",
     port: 465,
@@ -45,6 +47,19 @@ class ContactController {
             return info;
         });
     }
+    saveInfo(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const customer = yield models_1.Customer.find({ email: data.email });
+            if (data.length == 0) {
+                //save
+                const id = new mongoose_1.Types.ObjectId();
+                const model = new models_1.Customer({ id: id, email: data.email, firstname: data.name });
+                const result = yield model.save();
+                return result;
+            }
+            return {};
+        });
+    }
     contact(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             fetch("https://www.google.com/recaptcha/api/siteverify", {
@@ -62,8 +77,9 @@ class ContactController {
                     console.log(req.body, result);
                     sendEmailInfoRes = yield this.sendEmailToInfo(req.body);
                     sendEmailContactRes = yield this.sendEmailToContact(req.body);
+                    const save = yield this.saveInfo(req.body);
                     //{"result":{"success":true,"challenge_ts":"2020-05-10T10:38:14Z","hostname":"127.0.0.1"},"sendEmailContactRes":{"accepted":["antonio@adias.it"],"rejected":[],"envelopeTime":88,"messageTime":112,"messageSize":526,"response":"250 2.0.0 cyei2200Z1BY3Mq01yeiA6 mail accepted for delivery","envelope":{"from":"info@amaliacardo.it","to":["antonio@adias.it"]},"messageId":"<c59f1b45-f0dc-f9f4-ba23-08c3541cc2b5@amaliacardo.it>"},"sendEmailInfoRes":{"accepted":["info@amaliacardo.it"],"rejected":[],"envelopeTime":214,"messageTime":113,"messageSize":355,"response":"250 2.0.0 cyei220041BY3Mq01yeiA0 mail accepted for delivery","envelope":{"from":"antonio@adias.it","to":["info@amaliacardo.it"]},"messageId":"<27746803-0680-4681-cf59-54e4e272c0a3@adias.it>"}}
-                    res.status(200).json({ result, sendEmailContactRes, sendEmailInfoRes });
+                    res.status(200).json({ result, sendEmailContactRes, sendEmailInfoRes, save });
                 }
                 else {
                     res.status(406).json({ result, sendEmailContactRes, sendEmailInfoRes });

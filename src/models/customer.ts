@@ -11,7 +11,13 @@ const customer: Schema = new Schema({
     address: {
         type: String
     },
+    email: {
+        type: String
+    },
     cell: {
+        type: String,
+    },
+    info: {
         type: String,
     },
     ord: {

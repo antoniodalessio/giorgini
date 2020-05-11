@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Types, Model } from 'mongoose';
 
 
 class BaseController {
@@ -56,6 +56,32 @@ class BaseController {
         const id = req.params.id
         const data = await this.model.findOne({_id: id}).populate(populate)
         res.status(200).json(data);
+      }catch(e) {
+        res.status(500).json(e);
+      }
+    }
+
+    async create(req: any, res: any) {
+      try {
+        req.body._id = new Types.ObjectId()
+        const model = new this.model(req.body)
+        const result = await model.save()
+        res.status(201).json(result);
+      }catch(e) {
+        res.status(500).json(e);
+      }
+    }
+
+    async update(req: any, res: any) {
+      try {
+        const id = req.params.id
+        const data: any = await this.model.find({_id: id})
+        if (data.length == 0) {
+          res.status(500).json({error: `resource with '${id}' doesn't exists`})
+          return;
+        }
+        let result = await this.model.updateOne({ _id: id }, req.body)
+        res.status(200).json({data: result});
       }catch(e) {
         res.status(500).json(e);
       }

@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 const fetch = require('node-fetch');
+import { Customer } from '../models/'
+import { Types } from 'mongoose';
 
 let transporter = nodemailer.createTransport({
   host: "smtps.aruba.it",
@@ -40,6 +42,18 @@ class ContactController {
     return info
 
   }
+
+  async saveInfo(data: any) {
+    const customer: any = await Customer.find({email: data.email})
+    if (data.length == 0) {
+      //save
+      const id = new Types.ObjectId()
+      const model = new Customer({id: id, email: data.email, firstname: data.name})
+      const result = await model.save()
+      return result
+    }
+    return {}
+  }
   
   async contact(req: any, res: any) {
     
@@ -60,8 +74,9 @@ class ContactController {
           console.log(req.body, result)
           sendEmailInfoRes = await this.sendEmailToInfo(req.body)
           sendEmailContactRes = await this.sendEmailToContact(req.body)
+          const save = await this.saveInfo(req.body)
           //{"result":{"success":true,"challenge_ts":"2020-05-10T10:38:14Z","hostname":"127.0.0.1"},"sendEmailContactRes":{"accepted":["antonio@adias.it"],"rejected":[],"envelopeTime":88,"messageTime":112,"messageSize":526,"response":"250 2.0.0 cyei2200Z1BY3Mq01yeiA6 mail accepted for delivery","envelope":{"from":"info@amaliacardo.it","to":["antonio@adias.it"]},"messageId":"<c59f1b45-f0dc-f9f4-ba23-08c3541cc2b5@amaliacardo.it>"},"sendEmailInfoRes":{"accepted":["info@amaliacardo.it"],"rejected":[],"envelopeTime":214,"messageTime":113,"messageSize":355,"response":"250 2.0.0 cyei220041BY3Mq01yeiA0 mail accepted for delivery","envelope":{"from":"antonio@adias.it","to":["info@amaliacardo.it"]},"messageId":"<27746803-0680-4681-cf59-54e4e272c0a3@adias.it>"}}
-          res.status(200).json({result, sendEmailContactRes, sendEmailInfoRes});
+          res.status(200).json({result, sendEmailContactRes, sendEmailInfoRes, save});
         }else{
           res.status(406).json({result, sendEmailContactRes, sendEmailInfoRes});
         }

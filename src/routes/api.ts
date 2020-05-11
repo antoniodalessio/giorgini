@@ -35,8 +35,8 @@ function initApiRoutes() {
 
   routes.get('/customer', async (req: any, res: any) => { await customerCTRL.getAll(req, res)} )
   routes.get('/customer/:id', async (req: any, res: any) => { await customerCTRL.get(req, res)} )
-  //routes.post('/customer', async (req: any, res: any) => { await customerCTRL.save(req, res)} )
-  //routes.put('/customer/:id', async (req: any, res: any) => { await customerCTRL.update(req, res)} )
+  routes.post('/customer', async (req: any, res: any) => { await customerCTRL.create(req, res)} )
+  routes.put('/customer/:id', async (req: any, res: any) => { await customerCTRL.update(req, res)} )
   routes.delete('/customer/:id', async (req: any, res: any) => { await customerCTRL.delete(req, res)} )
 
   routes.get('/publish', async (req: any, res: any) => { await builderCTRL.publish(req, res)} )
