@@ -11,7 +11,7 @@
 {{#each sections.categories}}
     <section id="{{this.slug}}" class="category-container">
         <h1>{{this.category_name}}</h1>
-        <p>{{this.description}}</p>
+        <p>{{this.text}}</p>
         <ul>
         {{#each (limit this.products 3) }}
             {{#each (limit this.images 1) }}
