@@ -32,7 +32,7 @@ class ContactController {
   async sendEmailToContact(data: any) {
     
     let info = await transporter.sendMail({
-      from: `"${data.name}" <info@amaliacardo.it>`,
+      from: `"Amalia Cardo" <info@amaliacardo.it>`,
       to: `${data.email}`,
       subject: "Richiesta informazioni dal sito amaliacardo.it",
       text: '',
@@ -45,8 +45,6 @@ class ContactController {
 
   async saveInfo(data: any) {
     const customer: any = await Customer.find({email: data.email})
-
-    console.log(customer)
 
     if (customer.length == 0) {
       //save

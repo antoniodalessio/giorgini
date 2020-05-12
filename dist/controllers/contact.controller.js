@@ -38,7 +38,7 @@ class ContactController {
     sendEmailToContact(data) {
         return __awaiter(this, void 0, void 0, function* () {
             let info = yield transporter.sendMail({
-                from: `"${data.name}" <info@amaliacardo.it>`,
+                from: `"Amalia Cardo" <info@amaliacardo.it>`,
                 to: `${data.email}`,
                 subject: "Richiesta informazioni dal sito amaliacardo.it",
                 text: '',
@@ -50,7 +50,6 @@ class ContactController {
     saveInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const customer = yield models_1.Customer.find({ email: data.email });
-            console.log(customer);
             if (customer.length == 0) {
                 //save
                 const id = new mongoose_1.Types.ObjectId();
