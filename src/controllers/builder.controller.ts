@@ -86,7 +86,7 @@ class BuilderController {
         const _id = parentCategory.toObject()._id
         
         // get subcategory of main category
-        const categories = (await Category.find({parent: _id})).map((item: any) => item ? item.toObject() : null)
+        const categories = (await Category.find({parent: _id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
         for(const category of categories ) {
           const products = (await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null)
           category.products = products

@@ -95,7 +95,7 @@ class BuilderController {
                     const parentCategory = yield models_1.Category.findOne({ parent: null });
                     const _id = parentCategory.toObject()._id;
                     // get subcategory of main category
-                    const categories = (yield models_1.Category.find({ parent: _id })).map((item) => item ? item.toObject() : null);
+                    const categories = (yield models_1.Category.find({ parent: _id }).sort('ord')).map((item) => item ? item.toObject() : null);
                     for (const category of categories) {
                         const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
                         category.products = products;
