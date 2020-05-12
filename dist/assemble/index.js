@@ -12,6 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var handlebars = require("handlebars");
 var fs = require('fs');
 const YAML = require('yaml');
+handlebars.registerHelper('limit', function (arr, limit) {
+    if (!Array.isArray(arr)) {
+        return [];
+    }
+    return arr.slice(0, limit);
+});
 class Assemble {
     constructor(options) {
         this.options = options;

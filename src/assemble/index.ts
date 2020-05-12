@@ -2,6 +2,12 @@ var handlebars = require("handlebars");
 var fs = require('fs');
 const YAML = require('yaml')
 
+
+handlebars.registerHelper('limit', function (arr: any, limit: any) {  
+  if (!Array.isArray(arr)) { return []; }
+  return arr.slice(0, limit);
+});
+
 class Assemble {
 
   public options: any;

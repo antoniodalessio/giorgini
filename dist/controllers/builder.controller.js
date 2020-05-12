@@ -20,7 +20,8 @@ class BuilderController {
     constructor() {
         this.staticPages = [
             {
-                slug: "index"
+                slug: "index",
+                sections: ['categories']
             },
             {
                 slug: "contatta-amalia-cardo-modellista-stilista-sarta"
@@ -89,6 +90,20 @@ class BuilderController {
     buildStaticPages() {
         return __awaiter(this, void 0, void 0, function* () {
             for (const page of this.staticPages) {
+                if (page.hasOwnProperty('sections')) {
+                    // find main category
+                    const parentCategory = yield models_1.Category.findOne({ parent: null });
+                    const _id = parentCategory.toObject()._id;
+                    // get subcategory of main category
+                    const categories = (yield models_1.Category.find({ parent: _id })).map((item) => item ? item.toObject() : null);
+                    for (const category of categories) {
+                        const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
+                        category.products = products;
+                    }
+                    page.sections = {
+                        categories
+                    };
+                }
                 yield this.assemble.render(page.slug, page);
             }
         });

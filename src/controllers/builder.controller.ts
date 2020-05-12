@@ -10,7 +10,8 @@ class BuilderController {
 
   private staticPages:any[] = [
     {
-      slug: "index"
+      slug: "index",
+      sections: ['categories']
     },
     {
       slug: "contatta-amalia-cardo-modellista-stilista-sarta"
@@ -78,6 +79,23 @@ class BuilderController {
 
   async buildStaticPages() {
     for(const page of this.staticPages) {
+      if (page.hasOwnProperty('sections')){
+
+        // find main category
+        const parentCategory = await Category.findOne({parent: null})
+        const _id = parentCategory.toObject()._id
+        
+        // get subcategory of main category
+        const categories = (await Category.find({parent: _id})).map((item: any) => item ? item.toObject() : null)
+        for(const category of categories ) {
+          const products = (await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null)
+          category.products = products
+        }
+        
+        page.sections = {
+          categories
+        }
+      }
       await this.assemble.render(page.slug, page)
     }
   }

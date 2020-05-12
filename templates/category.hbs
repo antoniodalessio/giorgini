@@ -1,16 +1,37 @@
-<div class="column--third">
-	<a class="back" href="/lavori-amalia-cardo.html"><span class="icon icon_arrow-left"></span>I miei lavori</a>
-	<h1 class="work__title">{{category_name}}</h1>
-	<div class="description">{{{text}}}</div>
-	<div class="thumb-list">
-		
-		{{#each products}}
-			<a href="/{{this.slug}}.html" title="{{this.description}}">
-				<img src="/images/work/{{this.thumb}}_thumb.jpg" alt={{this.alt}}/>
-				<p class="black">{{this.title}}</p>
-			</a>
-  		{{/each}}
+<div class="logo--version--two">
+	<img class="logo" src="/images/logo.png" alt="logo Amalia Cardo"/>
+</div>
+<div class="content">
+	<div class="content--wrapper">
+		<nav class="column--first">
+			<div class="menu-mobile">
+				<span class="icon icon_menu"></span>
+				<span>Menu</span>
+			</div>
+			<ul> 
+				<li><a class="{{home}}" href ="/" >Home</a ></li >
+				<li ><a class="{{whoiam}}" href ="amalia-cardo-sarta-modellista-stilista.html" >Mi presento</a ></li >
+				<li ><a class="{{what}}" href ="cosa-faccio-amalia-cardo-modellista-stilista-sarta.html" >Cosa faccio</a ></li >
+				<li><a class="{{mywork}}" href ="lavori-amalia-cardo.html" >I miei lavori</a ></li >
+				<li ><a class="{{contact}}" href ="contatta-amalia-cardo-modellista-stilista-sarta.html" >Contattami</a ></li >
+			</ul >
+		</nav>
+		<img class="logo" src="/images/logo.png" alt="logo Amalia cardo" />
+	</div>
+	<div class="column--second">
+		<a class="back" href="/lavori-amalia-cardo.html"><span class="icon icon_arrow-left"></span>I miei lavori</a>
+		<h1 class="work__title">{{category_name}}</h1>
+		<div class="description">{{{text}}}</div>
+		<div class="thumb-list">
+			
+			{{#each products}}
+				<a href="/{{this.slug}}.html" title="{{this.description}}">
+					<img src="/images/work/{{this.thumb}}_thumb.jpg" alt={{this.alt}}/>
+					<p class="black">{{this.title}}</p>
+				</a>
+			{{/each}}
 
+		</div>
 	</div>
 </div>
 
