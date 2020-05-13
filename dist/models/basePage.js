@@ -8,7 +8,7 @@ const defaultPageField = {
         description: {
             type: String,
         },
-        keywork: {
+        keywords: {
             type: String,
         }
     },
