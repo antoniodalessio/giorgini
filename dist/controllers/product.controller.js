@@ -39,7 +39,7 @@ class ProductController extends base_controller_1.default {
             yield _super.get.call(this, req, res, 'images');
         });
     }
-    save(req, res) {
+    create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = yield models_1.Product.find({ slug: req.body.slug });

@@ -14,11 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
-const mongoose_1 = require("mongoose");
-class ImageController extends base_controller_1.default {
+class PageController extends base_controller_1.default {
     constructor() {
         super();
-        this.model = models_1.Image;
+        this.model = models_1.Page;
     }
     getAll(req, res) {
         const _super = Object.create(null, {
@@ -36,44 +35,24 @@ class ImageController extends base_controller_1.default {
             yield _super.get.call(this, req, res, '');
         });
     }
-    create(req, res) {
+    update(req, res) {
+        const _super = Object.create(null, {
+            update: { get: () => super.update }
+        });
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const data = yield models_1.Image.find({ uri: req.body.uri });
-                if (data.length != 0) {
-                    res.status(500).json({ error: `resource with a '${req.body.uri}' slug already exists` });
-                    return;
-                }
-                req.body._id = new mongoose_1.Types.ObjectId();
-                let image = new models_1.Image(req.body);
-                const result = yield image.save();
-                res.status(200).json({ data: result });
-            }
-            catch (e) {
-                res.status(500).json(e);
-            }
+            req.body.published = false;
+            yield _super.update.call(this, req, res);
         });
     }
-    update(req, res) {
+    create(req, res) {
+        const _super = Object.create(null, {
+            create: { get: () => super.create }
+        });
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const id = req.params.id;
-                let data = yield models_1.Image.find({ _id: id });
-                if (data.length == 0) {
-                    res.status(500).json({ error: `resource product with '${id}' doesn't exists` });
-                    return;
-                }
-                if (req.body.uri.hasOwnProperty('uri')) {
-                    req.body.uri = req.body.uri.uri;
-                }
-                const result = yield models_1.Image.updateOne({ _id: id }, req.body);
-                res.status(200).json({ data: result });
-            }
-            catch (e) {
-                res.status(500).json(e);
-            }
+            req.body.published = false;
+            yield _super.create.call(this, req, res);
         });
     }
 }
-exports.default = ImageController;
-//# sourceMappingURL=image.controller.js.map
+exports.default = PageController;
+//# sourceMappingURL=page.controller.js.map

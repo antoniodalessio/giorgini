@@ -45,7 +45,7 @@ class CategoryController extends base_controller_1.default {
             let result = yield models_1.Category.updateOne({ _id: id }, category);
         });
     }
-    save(req, res) {
+    create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = yield models_1.Category.find({ slug: req.body.slug });
