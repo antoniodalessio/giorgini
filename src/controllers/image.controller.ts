@@ -17,7 +17,7 @@ class ImageController extends BaseController {
     await super.get(req, res, '')
   }
 
-  async save(req: any, res: any) {
+  async create(req: any, res: any) {
     try{
       const data = await Image.find({uri: req.body.uri})
       if (data.length != 0) {

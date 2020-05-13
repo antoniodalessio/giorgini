@@ -1,14 +1,14 @@
-{{#if sections.categories}}
+{{#if resources.categories}}
 <div class="post-content">
     <ul>
-        {{#each sections.categories}}
+        {{#each resources.categories}}
             <li><a href="#{{this.slug}}">{{this.category_name}}</a></li>
   		{{/each}}
     </ul>
 </div>
 
 
-{{#each sections.categories}}
+{{#each resources.categories}}
     <section id="{{this.slug}}" class="category-container">
         <h1>{{this.category_name}}</h1>
         <div>{{{this.text}}}</div>

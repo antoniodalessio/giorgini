@@ -28,7 +28,7 @@ class CategoryController extends BaseController{
     let result = await Category.updateOne({ _id: id }, category)
   }
 
-  async save(req: any, res: any) {
+  async create(req: any, res: any) {
     
     try{
       const data = await Category.find({slug: req.body.slug})

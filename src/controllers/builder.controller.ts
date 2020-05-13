@@ -7,22 +7,7 @@ class BuilderController {
 
   private assemble: any
   private clientFtp: any
-
-  private staticPages:any[] = [
-    {
-      slug: "index",
-      sections: ['categories']
-    },
-    {
-      slug: "contatta-amalia-cardo-modellista-stilista-sarta"
-    },
-    {
-      slug: "amalia-cardo-sarta-modellista-stilista"
-    },
-    {
-      slug: "cosa-faccio-amalia-cardo-modellista-stilista-sarta"
-    },
-  ]
+  private fileToUpload: string[] = []
 
   constructor() {
     this.initAssemble()
@@ -77,10 +62,16 @@ class BuilderController {
     return (await Product.find({category: id}).sort('ord').populate('images')).map((item: any) => item ? item.toObject() : null)
   }
 
-  async buildStaticPages() {
-    for(const page of this.staticPages) {
-      if (page.hasOwnProperty('sections')){
+  async addResources(page: any) {
 
+  }
+
+  async buildStaticPages(unpublished: boolean) {
+
+    const pages = (await Page.find()).map((item: any) => item ? item.toObject() : null)
+
+    for(const page of pages) {
+      if (page.hasOwnProperty('resources') && page.resources.length > 0){
         // find main category
         const parentCategory = await Category.findOne({parent: null})
         const _id = parentCategory.toObject()._id
@@ -92,19 +83,24 @@ class BuilderController {
           category.products = products
         }
         
-        page.sections = {
+        page.resources = {
           categories
         }
       }
-      await this.assemble.render(page.slug, page)
+
+      if (!unpublished || !page.published) {
+        await this.assemble.render(page.template, page)
+        this.fileToUpload.push(page.slug)
+        await Page.updateOne({_id: page._id}, {published: true})
+      }
     }
   }
 
-  async buildCategories(published: boolean = false) {
+  async buildCategories(unpublished: boolean) {
     
-    let filter: any = !published ? {published: false} : null
+    //let filter: any = !published ? {published: false} : null
     
-    let categories = await Category.find(filter).sort('ord')
+    let categories = await Category.find().sort('ord')
     
     for(const category of categories) {
       let cat:any = category.toObject()
@@ -119,49 +115,58 @@ class BuilderController {
           product.thumb = null 
         }
       });
-      if(category.hasSubcategory) {
-        cat.categories = await this.getSubcategories(category._id)
-        await this.assemble.render("categories", cat)
-      }else{
-        await this.assemble.render("category", cat)
+
+      if (!unpublished || !category.published) {
+        if(category.hasSubcategory) {
+          cat.categories = await this.getSubcategories(category._id)
+          await this.assemble.render("categories", cat)
+        }else{
+          await this.assemble.render("category", cat)
+        }
+
+        this.fileToUpload.push(cat.slug)
+        await Category.updateOne({_id: category._id}, {published: true})
       }
-      await Category.updateOne({_id: category._id}, {published: true})
     }
   
   }
 
-  async buildProducts(published: boolean = false) {
-    const filter = !published ? {published: false} : null
-    let products = await Product.find(filter).populate('images category')
+  async buildProducts(unpublished: boolean) {
+    //const filter = !published ? {published: false} : null
+    let products = await Product.find().populate('images category')
     for(const product of products) {
       let prod = product.toObject()
       prod.key = "product"
       prod.mywork = "active"
-      prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`,
-      await this.assemble.render("product", prod)
-      await Product.updateOne({_id: product._id}, {published: true})
+      prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`
+      
+
+      if (!unpublished || !product.published) {
+        await this.assemble.render("product", prod)
+        this.fileToUpload.push(product.slug)
+        await Product.updateOne({_id: product._id}, {published: true})
+      }
+      
     }
   }
 
-  async build(published: boolean = false) {
-    await this.buildCategories(published)
-    await this.buildProducts(published)
-    await this.buildStaticPages()
+  async build(unpublished: boolean) {
+    await this.buildCategories(unpublished)
+    await this.buildProducts(unpublished)
+    await this.buildStaticPages(unpublished)
   }
 
   async upload() {
-    let fileToUpload: any = await fs.readdirSync(`${process.env.SITE_PATH}`).filter( (file: any) => {
-      return file.match(/.html/ig)
-    });
-
     let filesUploaded = []
 
-    for(const file of fileToUpload) {
-      await this.clientFtp.upload(`${process.env.SITE_PATH}${file}`, `${process.env.FTP_FOLDER}${file}`, 755)
+    for(const file of this.fileToUpload) {
+      await this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755)
       filesUploaded.push(`${file}`)
     }
 
-    return {fileToUpload, filesUploaded}
+    this.fileToUpload = []
+
+    return {filesUploaded}
   }
 
   async clearFolder() {
@@ -176,12 +181,12 @@ class BuilderController {
 
   async publish(req: any, res: any) {
 
-    let published = false
-    if (req.query.hasOwnProperty('published')) {
-      published = true
+    let unpublished = false
+    if (req.query.hasOwnProperty('unpublished')) {
+      unpublished = true
     }
 
-    await this.build(published)
+    await this.build(unpublished)
     let result = await this.upload()
     if (process.env.ENV == 'prod') {
       await this.clearFolder()

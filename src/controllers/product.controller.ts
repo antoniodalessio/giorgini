@@ -25,7 +25,7 @@ class ProductController extends BaseController{
     await super.get(req, res, 'images')
   }
 
-  async save(req: any, res: any) {
+  async create(req: any, res: any) {
     
     try{
       const data = await Product.find({slug: req.body.slug})
