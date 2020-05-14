@@ -163,6 +163,7 @@ class BuilderController {
                     yield this.assemble.render("product", prod);
                     this.fileToUpload.push(product.slug);
                     yield this.renderFabrics(product);
+                    this.fileToUpload.push(product.slug + '_fabrics');
                     yield models_1.Product.updateOne({ _id: product._id }, { published: true });
                 }
             }

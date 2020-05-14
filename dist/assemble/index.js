@@ -62,7 +62,6 @@ class Assemble {
     }
     renderSimple(templatename, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(data.fabrics);
             //render template without a layout
             let templateFile = yield fs.readFileSync(`${this.options.templatesPath}/${templatename}.hbs`, 'utf8');
             let template = handlebars.compile(templateFile);
