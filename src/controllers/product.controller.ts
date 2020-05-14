@@ -18,11 +18,11 @@ class ProductController extends BaseController{
   }
 
   async getAll(req: any, res: any) {
-    await super.getAll(req, res, 'images')
+    await super.getAll(req, res, 'images fabrics')
   }
 
   async get(req: any, res: any) {
-    await super.get(req, res, 'images')
+    await super.get(req, res, 'images fabrics')
   }
 
   async create(req: any, res: any) {

@@ -66,7 +66,7 @@ class CategoryController extends BaseController{
       const data: any = await Category.find({_id: id}).populate('products')
       
       if (data.length == 0) {
-        res.status(500).json({error: `resource category with '${id}' doesn't exists`})
+        res.status(404).json({error: `resource with '${id}' doesn't exists`})
         return;
       }
 
@@ -85,6 +85,7 @@ class CategoryController extends BaseController{
     if (data.hasOwnProperty('file') && data.file.hasOwnProperty('base64')) {
       let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace("jpg", "")
       await this.imageHelper.saveImageFile(data.file.base64, imageName)
+      data.thumb_preview = imageName
     }else{
       const category = await Category.findOne({_id: data.id})
       if (category && category.thumb_preview != data.thumb_preview) {
