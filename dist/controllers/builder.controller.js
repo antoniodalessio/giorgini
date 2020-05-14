@@ -135,10 +135,25 @@ class BuilderController {
             }
         });
     }
+    renderFabrics(product) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (product.fabrics) {
+                let fabricsObj = [];
+                for (const fab of product.fabrics) {
+                    fabricsObj.push(fab.toObject());
+                }
+                const tmpData = {
+                    slug: product.slug + '_fabrics',
+                    fabrics: fabricsObj
+                };
+                yield this.assemble.renderSimple('fabrics-popup', tmpData);
+            }
+        });
+    }
     buildProducts(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
             //const filter = !published ? {published: false} : null
-            let products = yield models_1.Product.find().populate('images category');
+            let products = yield models_1.Product.find().populate('images fabrics category');
             for (const product of products) {
                 let prod = product.toObject();
                 prod.key = "product";
@@ -147,6 +162,7 @@ class BuilderController {
                 if (!unpublished || !product.published) {
                     yield this.assemble.render("product", prod);
                     this.fileToUpload.push(product.slug);
+                    yield this.renderFabrics(product);
                     yield models_1.Product.updateOne({ _id: product._id }, { published: true });
                 }
             }

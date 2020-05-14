@@ -41,6 +41,11 @@
                     <img loading="lazy" src="/images/work/{{this.uri}}_thumb.jpg" alt="{{this.alt}}" itemprop="image"/>
                 </a>
             {{/each}}
+            {{#if this.fabrics}}
+                <a  href="/{{this.slug}}_fabrics.html" class="popup thumb-list__link">
+                    Scopri tessuti disponibili
+                </a>
+            {{/if}}
             </div>
 
         </div>

@@ -1,0 +1,25 @@
+ <style>
+     .popup-container {
+        padding: 20px;
+        width: auto;
+        max-width: 1000px;
+        margin: 20px auto;
+        background-color: #fff;
+     }
+ </style>
+
+ </style>
+ 
+ <div class="popup-container">
+    <h1>Tessuti disponibili</h1>
+    <div class="thumb-list">
+        {{#each fabrics}}
+        <a href="#">
+            <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
+            <p class="black">
+                {{cod}}
+            </p>
+        </a>
+        {{/each}}
+    </div>
+ </div>

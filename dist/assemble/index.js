@@ -60,6 +60,21 @@ class Assemble {
             }
         });
     }
+    renderSimple(templatename, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(data.fabrics);
+            //render template without a layout
+            let templateFile = yield fs.readFileSync(`${this.options.templatesPath}/${templatename}.hbs`, 'utf8');
+            let template = handlebars.compile(templateFile);
+            let result = template(data);
+            try {
+                yield fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+    }
     parseData(template) {
         let pattern = /---([\s\S]*)---/gim;
         let text = pattern.exec(template);

@@ -55,6 +55,19 @@ class Assemble {
     }
   }
 
+  async renderSimple(templatename: string, data: any) {
+    console.log(data.fabrics)
+    //render template without a layout
+    let templateFile = await fs.readFileSync(`${this.options.templatesPath}/${templatename}.hbs`, 'utf8')
+    let template = handlebars.compile(templateFile)
+    let result = template(data)
+    try {
+      await fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result)
+    }catch(e) {
+      console.log(e)
+    }
+  }
+
   parseData(template: any) {
 
     let pattern = /---([\s\S]*)---/gim

@@ -1,6 +1,7 @@
 import Assemble from './../assemble'
 import FTP from './../utils/ftp'
 import { Page, Category, Product, Image } from '../models'
+import { IProduct  } from '../models/product';
 var fs = require('fs');
 
 class BuilderController {
@@ -128,22 +129,36 @@ class BuilderController {
         await Category.updateOne({_id: category._id}, {published: true})
       }
     }
-  
+  }
+
+
+  async renderFabrics(product: IProduct) {
+    if (product.fabrics) {
+      let fabricsObj = []
+      for(const fab of product.fabrics) {
+        fabricsObj.push(fab.toObject())
+      }
+      const tmpData = {
+        slug: product.slug + '_fabrics',
+        fabrics: fabricsObj
+      }
+      await this.assemble.renderSimple('fabrics-popup', tmpData)
+    }
   }
 
   async buildProducts(unpublished: boolean) {
     //const filter = !published ? {published: false} : null
-    let products = await Product.find().populate('images category')
+    let products = await Product.find().populate('images fabrics category')
     for(const product of products) {
       let prod = product.toObject()
       prod.key = "product"
       prod.mywork = "active"
       prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`
-      
 
       if (!unpublished || !product.published) {
         await this.assemble.render("product", prod)
         this.fileToUpload.push(product.slug)
+        await this.renderFabrics(product)
         await Product.updateOne({_id: product._id}, {published: true})
       }
       
