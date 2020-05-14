@@ -89,7 +89,7 @@ class ProductController extends base_controller_1.default {
             if (newData.images && newData.images.length > 0) {
                 let images = newData.images;
                 for (const image of images) {
-                    let imageName = image.hasOwnProperty('uri') ? image.uri : image.file.rawFile.path.replace(".jpeg", "").replace("jpg", "");
+                    let imageName = image.hasOwnProperty('uri') ? image.uri : image.file.rawFile.path.replace(".jpeg", "").replace(".jpg", "");
                     // upload image
                     if (image.file.hasOwnProperty('base64')) {
                         yield this.imageHelper.saveImageFile(image.file.base64, imageName);

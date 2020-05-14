@@ -79,7 +79,7 @@ class FabricController extends base_controller_1.default {
     saveOrUpdateImagePreview(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (data.hasOwnProperty('file') && data.file.hasOwnProperty('base64')) {
-                let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace("jpg", "");
+                let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace(".jpg", "");
                 yield this.imageHelper.saveImageFile(data.file.base64, imageName);
                 data.thumb_preview = imageName;
             }

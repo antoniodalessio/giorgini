@@ -83,7 +83,7 @@ class CategoryController extends BaseController{
 
   async saveOrUpdateImagePreview(data: any) {
     if (data.hasOwnProperty('file') && data.file.hasOwnProperty('base64')) {
-      let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace("jpg", "")
+      let imageName = data.hasOwnProperty('thumb_preview') ? data.thumb_preview : data.file.rawFile.path.replace(".jpeg", "").replace(".jpg", "")
       await this.imageHelper.saveImageFile(data.file.base64, imageName)
       data.thumb_preview = imageName
     }else{
