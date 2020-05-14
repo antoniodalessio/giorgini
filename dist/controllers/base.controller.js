@@ -82,7 +82,7 @@ class BaseController {
                 const id = req.params.id;
                 const data = yield this.model.find({ _id: id });
                 if (data.length == 0) {
-                    res.status(500).json({ error: `resource with '${id}' doesn't exists` });
+                    res.status(404).json({ error: `resource with '${id}' doesn't exists` });
                     return;
                 }
                 let result = yield this.model.updateOne({ _id: id }, req.body);
