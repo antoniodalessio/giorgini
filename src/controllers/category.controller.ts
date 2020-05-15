@@ -72,8 +72,10 @@ class CategoryController extends BaseController{
 
       req.body.published = false
 
-      if (data[0].hasOwnProperty('slug') && data[0].slug != req.body.slug) {
-        this.seoHelper.resourceChangeName( `${data[0].slug}.html`, `${req.body.slug}.html`)
+      let oldData = data[0].toObject()
+
+      if (oldData.hasOwnProperty('slug') && oldData.slug != req.body.slug) {
+        this.seoHelper.resourceChangeName( `${oldData.slug}.html`, `${req.body.slug}.html`)
       }
 
       await this.saveOrUpdateImagePreview(req.body)

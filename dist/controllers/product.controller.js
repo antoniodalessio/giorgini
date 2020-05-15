@@ -71,8 +71,9 @@ class ProductController extends base_controller_1.default {
                 }
                 req.body.published = false;
                 req.body.images = yield this.saveOrUpdateImages(req.body);
-                if (data[0].slug != req.body.slug) {
-                    this.seoHelper.resourceChangeName(`${data[0].slug}.html`, `${req.body.slug}.html`);
+                let oldData = data[0].toObject();
+                if (oldData.slug != req.body.slug) {
+                    this.seoHelper.resourceChangeName(`${oldData.slug}.html`, `${req.body.slug}.html`);
                 }
                 // if (data.images.length > req.body.images.length) {
                 //   //remove from ftp

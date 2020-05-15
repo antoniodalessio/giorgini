@@ -87,8 +87,10 @@ class BaseController {
           return;
         }
 
-        if (data[0].hasOwnProperty('slug') && data[0].slug != req.body.slug) {
-          this.seoHelper.resourceChangeName( `${data[0].slug}.html`, `${req.body.slug}.html`)
+        let oldData = data[0].toObject()
+
+        if (oldData.hasOwnProperty('slug') && oldData.slug != req.body.slug) {
+          this.seoHelper.resourceChangeName( `oldData.slug}.html`, `${req.body.slug}.html`)
         }
 
         let result = await this.model.updateOne({ _id: id }, req.body)
