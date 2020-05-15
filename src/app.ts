@@ -6,6 +6,9 @@ import loginController from './controllers/login.controller'
 import apiRoutes from './routes/api'
 import publicRoutes from './routes/public'
 
+import seoHelper from './helpers/SeoHelper'
+import SeoHelper from './helpers/SeoHelper';
+
 const mongoose = require('mongoose');
 
 var fs = require('fs');
@@ -19,6 +22,10 @@ class App {
     console.log("app init")
     this.setupExpress()
     this.initMongoose()
+
+    const seoHelper:SeoHelper = new SeoHelper()
+    seoHelper.downloadHtaccess()
+
   }
 
   setupExpress() {

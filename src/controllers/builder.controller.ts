@@ -212,6 +212,7 @@ class BuilderController {
 
     await this.buildSitemapXml()
     await this.seoHelper.uploadHtaccess()
+    await this.seoHelper.downloadHtaccess()
 
     res.status(200).json(result);
   }

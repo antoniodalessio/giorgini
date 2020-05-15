@@ -8,9 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const SeoHelper_1 = __importDefault(require("../helpers/SeoHelper"));
 class BaseController {
+    constructor() {
+        this.seoHelper = new SeoHelper_1.default();
+    }
     isEmpty(obj) {
         for (var key in obj) {
             if (obj.hasOwnProperty(key))
@@ -84,6 +91,9 @@ class BaseController {
                 if (data.length == 0) {
                     res.status(404).json({ error: `resource with '${id}' doesn't exists` });
                     return;
+                }
+                if (data[0].hasOwnProperty('slug') && data[0].slug != req.body.slug) {
+                    this.seoHelper.resourceChangeName(`${data[0].slug}.html`, `${req.body.slug}.html`);
                 }
                 let result = yield this.model.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });

@@ -17,6 +17,7 @@ var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
 const public_1 = __importDefault(require("./routes/public"));
+const SeoHelper_1 = __importDefault(require("./helpers/SeoHelper"));
 const mongoose = require('mongoose');
 var fs = require('fs');
 class App {
@@ -24,6 +25,8 @@ class App {
         console.log("app init");
         this.setupExpress();
         this.initMongoose();
+        const seoHelper = new SeoHelper_1.default();
+        seoHelper.downloadHtaccess();
     }
     setupExpress() {
         this._expressApp = express();

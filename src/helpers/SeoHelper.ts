@@ -12,10 +12,14 @@ class SeoHelper {
   }
 
   async resourceChangeName(oldName: string, newName: string) {
-    await this.clientFtp.download(`${process.env.FTP_FOLDER}${this.htaccessFileName}`, `${process.env.SITE_PATH}${this.htaccessFileName}`)
     await fs.readFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`)
     const redirectLine = `\nredirect 301 /${oldName} /${newName}`
     await fs.appendFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`, redirectLine)
+    await this.uploadHtaccess()
+  }
+
+  async downloadHtaccess() {
+    await this.clientFtp.download(`${process.env.FTP_FOLDER}${this.htaccessFileName}`, `${process.env.SITE_PATH}${this.htaccessFileName}`)
   }
 
   async uploadHtaccess() {

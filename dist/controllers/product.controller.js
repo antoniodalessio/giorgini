@@ -16,14 +16,12 @@ const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
 const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
-const SeoHelper_1 = __importDefault(require("../helpers/SeoHelper"));
 const _ = require('underscore');
 class ProductController extends base_controller_1.default {
     constructor() {
         super();
         this.model = models_1.Product;
         this.imageHelper = new ImageHelper_1.default();
-        this.seoHelper = new SeoHelper_1.default();
     }
     getAll(req, res) {
         const _super = Object.create(null, {

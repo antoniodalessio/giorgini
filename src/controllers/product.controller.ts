@@ -3,7 +3,6 @@ import { Product, Image } from '../models/'
 import { IImage } from '../models/image';
 import { Types } from 'mongoose';
 import ImageHelper from '../helpers/ImageHelper'
-import SeoHelper from '../helpers/SeoHelper'
 const _ =  require( 'underscore')
 
 
@@ -11,13 +10,11 @@ const _ =  require( 'underscore')
 class ProductController extends BaseController{
 
   private imageHelper: ImageHelper
-  private seoHelper: SeoHelper
   
   constructor() {
     super()
     this.model = Product
     this.imageHelper = new ImageHelper()
-    this.seoHelper = new SeoHelper()
   }
 
   async getAll(req: any, res: any) {

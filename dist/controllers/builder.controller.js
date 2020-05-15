@@ -212,6 +212,7 @@ class BuilderController {
             }
             yield this.buildSitemapXml();
             yield this.seoHelper.uploadHtaccess();
+            yield this.seoHelper.downloadHtaccess();
             res.status(200).json(result);
         });
     }

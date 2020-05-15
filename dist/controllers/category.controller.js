@@ -80,6 +80,9 @@ class CategoryController extends base_controller_1.default {
                     return;
                 }
                 req.body.published = false;
+                if (data[0].hasOwnProperty('slug') && data[0].slug != req.body.slug) {
+                    this.seoHelper.resourceChangeName(`${data[0].slug}.html`, `${req.body.slug}.html`);
+                }
                 yield this.saveOrUpdateImagePreview(req.body);
                 let result = yield models_1.Category.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });

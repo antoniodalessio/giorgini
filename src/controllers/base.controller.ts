@@ -1,9 +1,15 @@
-import { Types, Model } from 'mongoose';
+import { Types } from 'mongoose';
+import SeoHelper from '../helpers/SeoHelper'
 
 
 class BaseController {
   
   protected model:any;
+  protected seoHelper: SeoHelper
+
+  constructor() {
+    this.seoHelper = new SeoHelper()
+  }
 
   isEmpty(obj: any) {
     for(var key in obj) {
@@ -80,6 +86,11 @@ class BaseController {
           res.status(404).json({error: `resource with '${id}' doesn't exists`})
           return;
         }
+
+        if (data[0].hasOwnProperty('slug') && data[0].slug != req.body.slug) {
+          this.seoHelper.resourceChangeName( `${data[0].slug}.html`, `${req.body.slug}.html`)
+        }
+
         let result = await this.model.updateOne({ _id: id }, req.body)
         res.status(200).json({data: result});
       }catch(e) {

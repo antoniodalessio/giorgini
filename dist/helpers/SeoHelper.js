@@ -21,10 +21,15 @@ class SeoHelper {
     }
     resourceChangeName(oldName, newName) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.clientFtp.download(`${process.env.FTP_FOLDER}${this.htaccessFileName}`, `${process.env.SITE_PATH}${this.htaccessFileName}`);
             yield fs.readFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`);
             const redirectLine = `\nredirect 301 /${oldName} /${newName}`;
             yield fs.appendFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`, redirectLine);
+            yield this.uploadHtaccess();
+        });
+    }
+    downloadHtaccess() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.clientFtp.download(`${process.env.FTP_FOLDER}${this.htaccessFileName}`, `${process.env.SITE_PATH}${this.htaccessFileName}`);
         });
     }
     uploadHtaccess() {
