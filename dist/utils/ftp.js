@@ -36,6 +36,18 @@ class FTPClient {
             this.client.close();
         });
     }
+    download(remotePath, sourcePath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.client.access(this.settings);
+                yield this.client.downloadTo(sourcePath, remotePath);
+            }
+            catch (e) {
+                console.log(e);
+            }
+            this.client.close();
+        });
+    }
     close() {
         this.client.close();
     }

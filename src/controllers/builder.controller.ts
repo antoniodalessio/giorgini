@@ -3,16 +3,19 @@ import FTP from './../utils/ftp'
 import { Page, Category, Product, Image } from '../models'
 import { IProduct  } from '../models/product';
 var fs = require('fs');
+import SeoHelper from '../helpers/SeoHelper'
 
 class BuilderController {
 
   private assemble: any
   private clientFtp: any
   private fileToUpload: string[] = []
+  private seoHelper: SeoHelper
 
   constructor() {
     this.initAssemble()
     this.clientFtp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
+    this.seoHelper = new SeoHelper()
   }
 
   async initAssemble(){
@@ -99,8 +102,6 @@ class BuilderController {
 
   async buildCategories(unpublished: boolean) {
     
-    //let filter: any = !published ? {published: false} : null
-    
     let categories = await Category.find().sort('ord')
     
     for(const category of categories) {
@@ -147,7 +148,6 @@ class BuilderController {
   }
 
   async buildProducts(unpublished: boolean) {
-    //const filter = !published ? {published: false} : null
     let products = await Product.find().populate('images fabrics category')
     for(const product of products) {
       let prod = product.toObject()
@@ -158,8 +158,10 @@ class BuilderController {
       if (!unpublished || !product.published) {
         await this.assemble.render("product", prod)
         this.fileToUpload.push(product.slug)
-        await this.renderFabrics(product)
-        this.fileToUpload.push(product.slug + '_fabrics')
+        if (product.fabrics.length > 0) {
+          await this.renderFabrics(product)
+          this.fileToUpload.push(`${product.slug}_fabrics`)
+        }
         await Product.updateOne({_id: product._id}, {published: true})
       }
       
@@ -209,6 +211,7 @@ class BuilderController {
     }
 
     await this.buildSitemapXml()
+    await this.seoHelper.uploadHtaccess()
 
     res.status(200).json(result);
   }

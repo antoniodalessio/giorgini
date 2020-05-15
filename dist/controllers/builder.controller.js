@@ -16,11 +16,13 @@ const assemble_1 = __importDefault(require("./../assemble"));
 const ftp_1 = __importDefault(require("./../utils/ftp"));
 const models_1 = require("../models");
 var fs = require('fs');
+const SeoHelper_1 = __importDefault(require("../helpers/SeoHelper"));
 class BuilderController {
     constructor() {
         this.fileToUpload = [];
         this.initAssemble();
         this.clientFtp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
+        this.seoHelper = new SeoHelper_1.default();
     }
     initAssemble() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -105,7 +107,6 @@ class BuilderController {
     }
     buildCategories(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            //let filter: any = !published ? {published: false} : null
             let categories = yield models_1.Category.find().sort('ord');
             for (const category of categories) {
                 let cat = category.toObject();
@@ -152,7 +153,6 @@ class BuilderController {
     }
     buildProducts(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            //const filter = !published ? {published: false} : null
             let products = yield models_1.Product.find().populate('images fabrics category');
             for (const product of products) {
                 let prod = product.toObject();
@@ -162,8 +162,10 @@ class BuilderController {
                 if (!unpublished || !product.published) {
                     yield this.assemble.render("product", prod);
                     this.fileToUpload.push(product.slug);
-                    yield this.renderFabrics(product);
-                    this.fileToUpload.push(product.slug + '_fabrics');
+                    if (product.fabrics.length > 0) {
+                        yield this.renderFabrics(product);
+                        this.fileToUpload.push(`${product.slug}_fabrics`);
+                    }
                     yield models_1.Product.updateOne({ _id: product._id }, { published: true });
                 }
             }
@@ -209,6 +211,7 @@ class BuilderController {
                 yield this.clearFolder();
             }
             yield this.buildSitemapXml();
+            yield this.seoHelper.uploadHtaccess();
             res.status(200).json(result);
         });
     }

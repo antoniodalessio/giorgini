@@ -33,6 +33,16 @@ class FTPClient {
       
   }
 
+  async download(remotePath: string, sourcePath: string) {
+    try {
+      await this.client.access(this.settings);
+      await this.client.downloadTo(sourcePath, remotePath)
+    }catch(e) {
+      console.log(e)
+    }
+    this.client.close();
+  }
+
   close() {
     this.client.close();
   }
