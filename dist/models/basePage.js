@@ -35,6 +35,9 @@ const defaultPageField = {
     },
     published: {
         type: Boolean
+    },
+    icon: {
+        type: String
     }
 };
 exports.defaultPageField = defaultPageField;

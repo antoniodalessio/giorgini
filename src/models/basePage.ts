@@ -35,6 +35,9 @@ const defaultPageField = {
   },
   published: {
     type: Boolean
+  },
+  icon: {
+    type: String
   }
 };
 
@@ -46,6 +49,7 @@ interface IBasePage extends Document {
   slug: string;
   ord: number;
   published: boolean;
+  icon: string;
 }
 
 export { defaultPageField, IBasePage }

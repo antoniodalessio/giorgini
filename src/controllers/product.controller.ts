@@ -1,6 +1,5 @@
 import BaseController from './base.controller'
 import { Product, Image } from '../models/'
-import { IImage } from '../models/image';
 import { Types } from 'mongoose';
 import ImageHelper from '../helpers/ImageHelper'
 const _ =  require( 'underscore')
