@@ -24,7 +24,7 @@ class SeoHelper {
             yield fs.readFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`);
             const redirectLine = `\nredirect 301 /${oldName} /${newName}`;
             yield fs.appendFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`, redirectLine);
-            yield this.uploadHtaccess();
+            // await this.uploadHtaccess()
         });
     }
     downloadHtaccess() {

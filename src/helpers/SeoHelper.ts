@@ -15,7 +15,7 @@ class SeoHelper {
     await fs.readFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`)
     const redirectLine = `\nredirect 301 /${oldName} /${newName}`
     await fs.appendFileSync(`${process.env.SITE_PATH}${this.htaccessFileName}`, redirectLine)
-    await this.uploadHtaccess()
+   // await this.uploadHtaccess()
   }
 
   async downloadHtaccess() {
