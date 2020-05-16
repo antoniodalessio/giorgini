@@ -26,37 +26,13 @@ key: about
 		<div class="review__container">
 			<h2>Dicono di me</h2>
 			{{#each this.resources.reviews}}
-			<section>
-				<p class="review__text">{{this.comment}}</p>
-				<p class="quote__signature review__signature">{{this.username}} - {{this.city}}</p>
-			</section>
+				{{#if this.approved}}
+				<section>
+					<p class="review__text">{{this.comment}}</p>
+					<p class="quote__signature review__signature">{{this.username}} - {{this.city}}</p>
+				</section>
+				{{/if}}
 			{{/each}}
-			{{!-- <section>
-				<p class="review__text">Amalia è una persona fantastica, piena di passione, estro e creatività. gentilissima, disponibile e dolce.
-	È un'artista. Sa fare tantissime cose. Oltre ad essere una bravissima sarta è anche un'ottima fotografa.</p>
-				<p class="quote__signature review__signature">Emanuela Mallardi - Firenze</p>
-			</section>
-			<section>
-				<p class="review__text">Una persona di infinita gentilezza, i suoi lavori sono fantastici, i tempi molto celeri.
-	Grazie Amalia</p>
-				<p class="quote__signature review__signature">Erika Ricci - Grosseto</p>
-			</section>
-			<section>
-				<p class="review__text">Ho trovato per caso questa ragazza disponibilissima! le sue creazioni sono perfette, la spedizione celere e soprattutto da 5 stelle è la sua immensa disponibilità e gentilezza. consigliatissima!</p>
-				<p class="quote__signature review__signature">Sofia Achilli - Pavia</p>
-			</section>
-			<section>
-				<p class="review__text">coglie subito le tue esigenze e le trasforma in cose deliziose.
-esprimi un desiderio e lei lo realizza,
-Fantastico!
-Ha mille idee! Brava!</p>
-				<p class="quote__signature review__signature">Barbara Renai - Firenze</p>
-			</section>
-			<section>
-				<p class="review__text">Amalia è una persona gentilissima e super professionale ❤️ tempi di consegna ottimi e articoli deliziosi!!</p>
-				<p class="quote__signature review__signature">Arianna Agostini - Perugia</p>
-			</section> --}}
-			
 		</div>
 	</div>
 </div>

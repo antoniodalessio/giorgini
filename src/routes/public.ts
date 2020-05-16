@@ -5,6 +5,7 @@ function initPublicRoutes() {
 
     const contactCTRL: ContactController = new ContactController()
     routes.post('/contact', async (req: any, res: any) => { await contactCTRL.contact(req, res)} )
+    routes.post('/comment', async (req: any, res: any) => { await contactCTRL.comment(req, res)} )
 }
 
 export default () => {

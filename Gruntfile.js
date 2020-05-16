@@ -38,7 +38,11 @@ module.exports = function(grunt) {
 					[baseDir + 'js/what.min.js']: common.concat([baseDir + 'js/what.js']),
 					[baseDir + 'js/product.min.js']: common.concat([baseDir + 'js/product.js']),
 					[baseDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
-					[baseDir + 'js/contact.min.js']: common.concat([bowerDir + 'jquery-captcha/dist/jquery-captcha.min.js', baseDir + 'js/contact.js']),
+					[baseDir + 'js/contact.min.js']: common.concat(
+						[	bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
+							bowerDir + 'jquery-captcha/dist/jquery-captcha.min.js', 
+							baseDir + 'js/contact.js'
+						]),
 				}
 			}
 		},

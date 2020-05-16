@@ -12,6 +12,7 @@ const review: Schema = new Schema({
     city: {
         type: String,
     },
+    approved: Boolean,
     publishedAt: Date,
     product: {
         type: Schema.Types.ObjectId, ref: 'Product'
@@ -24,6 +25,7 @@ interface IReview extends Document {
     comment: string;
     username: string;
     publishedAt: Date;
+    approved: boolean;
     product: IProduct
 }
 

@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const fetch = require('node-fetch');
-import { Customer } from '../models/'
+import { Customer, Review } from '../models/'
 import { Types } from 'mongoose';
 
 let transporter = nodemailer.createTransport({
@@ -88,6 +88,27 @@ class ContactController {
       })
   
   }
+
+
+  async comment(req: any, res: any) {
+    fetch("https://www.google.com/recaptcha/api/siteverify", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `secret=${process.env.RECAPTCHA_TOKEN}&response=${req.body['g-recaptcha-response']}`
+      })
+      .then((result: any) => result.json())
+      .then(async (res: any) => {
+        let review = new Review({username: req.body.username, comment: req.body.comment, city: req.body.city})
+        let result = review.save()
+        res.status(200).json({result});
+      })
+      .catch((e:any) => {
+        res.status(406).json(e);
+      })
+  }
+
 
 
 
