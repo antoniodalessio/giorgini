@@ -20,6 +20,7 @@ const builder_controller_1 = __importDefault(require("../controllers/builder.con
 const image_controller_1 = __importDefault(require("../controllers/image.controller"));
 const customer_controller_1 = __importDefault(require("../controllers/customer.controller"));
 const fabric_controller_1 = __importDefault(require("../controllers/fabric.controller"));
+const review_controller_1 = __importDefault(require("../controllers/review.controller"));
 function initApiRoutes() {
     let pageCTRL = new page_controller_1.default();
     let categoryCTRL = new category_controller_1.default();
@@ -28,6 +29,7 @@ function initApiRoutes() {
     let imageCTRL = new image_controller_1.default();
     let customerCTRL = new customer_controller_1.default();
     let fabricCTRL = new fabric_controller_1.default();
+    let reviewCTRL = new review_controller_1.default();
     routes.use((req, res, next) => verifyToken(req, res, next));
     routes.get('/page', (req, res) => __awaiter(this, void 0, void 0, function* () { yield pageCTRL.getAll(req, res); }));
     routes.get('/page/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield pageCTRL.get(req, res); }));
@@ -59,6 +61,11 @@ function initApiRoutes() {
     routes.post('/fabric', (req, res) => __awaiter(this, void 0, void 0, function* () { yield fabricCTRL.create(req, res); }));
     routes.put('/fabric/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield fabricCTRL.update(req, res); }));
     routes.delete('/fabric/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield fabricCTRL.delete(req, res); }));
+    routes.get('/review', (req, res) => __awaiter(this, void 0, void 0, function* () { yield reviewCTRL.getAll(req, res); }));
+    routes.get('/review/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield reviewCTRL.get(req, res); }));
+    routes.post('/review', (req, res) => __awaiter(this, void 0, void 0, function* () { yield reviewCTRL.create(req, res); }));
+    routes.put('/review/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield reviewCTRL.update(req, res); }));
+    routes.delete('/review/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield reviewCTRL.delete(req, res); }));
     routes.get('/publish', (req, res) => __awaiter(this, void 0, void 0, function* () { yield builderCTRL.publish(req, res); }));
 }
 function verifyToken(req, res, next) {

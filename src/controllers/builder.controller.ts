@@ -1,6 +1,6 @@
 import Assemble from './../assemble'
 import FTP from './../utils/ftp'
-import { Page, Category, Product, Image } from '../models'
+import { Page, Category, Product, Image, Review } from '../models'
 import { IProduct  } from '../models/product';
 var fs = require('fs');
 import SeoHelper from '../helpers/SeoHelper'
@@ -68,29 +68,48 @@ class BuilderController {
 
   async addResources(page: any) {
 
+    if (page.hasOwnProperty('resources') && page.resources.length > 0){
+      
+      let resources: any = {}
+
+      for (const resource of page.resources) {
+        //console.log(resource)
+        if (resource.type == 'category') {
+          // find main category
+          const parentCategory = await Category.findOne({parent: null})
+          const _id = parentCategory.toObject()._id
+          
+          // get subcategory of main category
+          const categories = (await Category.find({parent: _id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
+          for(const category of categories ) {
+            const products = (await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null)
+            category.products = products
+          }
+          
+          resources.categories = categories
+        }
+
+        if (resource.type == 'review') {
+          const reviews = (await Review.find().sort('_id')).map((item: any) => item ? item.toObject() : null)
+          resources.reviews = reviews
+        }
+
+      }
+
+      page.resources = resources
+
+    }
+
+    return page
+
   }
 
   async buildStaticPages(unpublished: boolean) {
 
     const pages = (await Page.find()).map((item: any) => item ? item.toObject() : null)
 
-    for(const page of pages) {
-      if (page.hasOwnProperty('resources') && page.resources.length > 0){
-        // find main category
-        const parentCategory = await Category.findOne({parent: null})
-        const _id = parentCategory.toObject()._id
-        
-        // get subcategory of main category
-        const categories = (await Category.find({parent: _id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
-        for(const category of categories ) {
-          const products = (await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null)
-          category.products = products
-        }
-        
-        page.resources = {
-          categories
-        }
-      }
+    for(let page of pages) {
+      page = await this.addResources(page)
 
       if (!unpublished || !page.published) {
         await this.assemble.render(page.template, page)

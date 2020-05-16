@@ -7,6 +7,7 @@ import { product, IProduct } from './product'
 import { image, IImage } from './image'
 import { customer, ICustomer } from './customer'
 import { fabric, IFabric } from './fabric'
+import { review, IReview } from './review'
 
 let User = model<IUser>('User', user)
 let Page = model<IPage>('Page', page)
@@ -15,15 +16,19 @@ let Product = model<IProduct>('Product', product)
 let Image = model<IImage>('Image', image)
 let Customer = model<ICustomer>('Customer', customer)
 let Fabric = model<IFabric>('Fabric', fabric)
+let Review = model<IReview>('Review', review)
 
 export {
     Page,
     Category,
     Product,
+    IProduct,
     Image,
     User,
     IUser,
     Customer,
     Fabric,
-    IFabric
+    IFabric,
+    Review,
+    IReview
 }

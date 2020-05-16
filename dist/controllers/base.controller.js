@@ -25,7 +25,7 @@ class BaseController {
         }
         return true;
     }
-    getAll(req, res, populate) {
+    getAll(req, res, populate = '') {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let limit = 0;
@@ -58,7 +58,7 @@ class BaseController {
             }
         });
     }
-    get(req, res, populate) {
+    get(req, res, populate = '') {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = req.params.id;

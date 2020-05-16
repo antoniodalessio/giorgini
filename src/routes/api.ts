@@ -6,6 +6,7 @@ import builderController from '../controllers/builder.controller'
 import imageController from '../controllers/image.controller'
 import customerController from '../controllers/customer.controller'
 import fabricController from '../controllers/fabric.controller'
+import reviewController from '../controllers/review.controller'
 
 function initApiRoutes() {
 
@@ -16,6 +17,7 @@ function initApiRoutes() {
   let imageCTRL = new imageController()
   let customerCTRL = new customerController()
   let fabricCTRL = new fabricController()
+  let reviewCTRL = new reviewController()
   
 
   routes.use((req: any, res: any, next: any) => verifyToken(req, res, next))
@@ -56,6 +58,13 @@ function initApiRoutes() {
   routes.put('/fabric/:id', async (req: any, res: any) => { await fabricCTRL.update(req, res)} )
   routes.delete('/fabric/:id', async (req: any, res: any) => { await fabricCTRL.delete(req, res)} )
 
+  routes.get('/review', async (req: any, res: any) => { await reviewCTRL.getAll(req, res)} )
+  routes.get('/review/:id', async (req: any, res: any) => { await reviewCTRL.get(req, res)} )
+  routes.post('/review', async (req: any, res: any) => { await reviewCTRL.create(req, res)} )
+  routes.put('/review/:id', async (req: any, res: any) => { await reviewCTRL.update(req, res)} )
+  routes.delete('/review/:id', async (req: any, res: any) => { await reviewCTRL.delete(req, res)} )
+
+  
   routes.get('/publish', async (req: any, res: any) => { await builderCTRL.publish(req, res)} )
   
 }

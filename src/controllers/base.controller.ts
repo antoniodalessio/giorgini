@@ -19,7 +19,7 @@ class BaseController {
     return true;
 }
   
-  async getAll(req: any, res: any, populate: string) {
+  async getAll(req: any, res: any, populate: string = '') {
       try {
         let limit = 0
 
@@ -57,7 +57,7 @@ class BaseController {
       }
     }
 
-    async get(req: any, res: any, populate: string) {
+    async get(req: any, res: any, populate: string = '') {
       try {
         const id = req.params.id
         const data = await this.model.findOne({_id: id}).populate(populate)

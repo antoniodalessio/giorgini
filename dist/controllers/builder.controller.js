@@ -77,26 +77,37 @@ class BuilderController {
     }
     addResources(page) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (page.hasOwnProperty('resources') && page.resources.length > 0) {
+                let resources = {};
+                for (const resource of page.resources) {
+                    //console.log(resource)
+                    if (resource.type == 'category') {
+                        // find main category
+                        const parentCategory = yield models_1.Category.findOne({ parent: null });
+                        const _id = parentCategory.toObject()._id;
+                        // get subcategory of main category
+                        const categories = (yield models_1.Category.find({ parent: _id }).sort('ord')).map((item) => item ? item.toObject() : null);
+                        for (const category of categories) {
+                            const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
+                            category.products = products;
+                        }
+                        resources.categories = categories;
+                    }
+                    if (resource.type == 'review') {
+                        const reviews = (yield models_1.Review.find().sort('_id')).map((item) => item ? item.toObject() : null);
+                        resources.reviews = reviews;
+                    }
+                }
+                page.resources = resources;
+            }
+            return page;
         });
     }
     buildStaticPages(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
             const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
-            for (const page of pages) {
-                if (page.hasOwnProperty('resources') && page.resources.length > 0) {
-                    // find main category
-                    const parentCategory = yield models_1.Category.findOne({ parent: null });
-                    const _id = parentCategory.toObject()._id;
-                    // get subcategory of main category
-                    const categories = (yield models_1.Category.find({ parent: _id }).sort('ord')).map((item) => item ? item.toObject() : null);
-                    for (const category of categories) {
-                        const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
-                        category.products = products;
-                    }
-                    page.resources = {
-                        categories
-                    };
-                }
+            for (let page of pages) {
+                page = yield this.addResources(page);
                 if (!unpublished || !page.published) {
                     yield this.assemble.render(page.template, page);
                     this.fileToUpload.push(page.slug);
