@@ -1,4 +1,5 @@
 const routes = require('express').Router();
+import userController from '../controllers/user.controller'
 import pageController from '../controllers/page.controller'
 import categoryController from '../controllers/category.controller'
 import productController from '../controllers/product.controller'
@@ -10,6 +11,7 @@ import reviewController from '../controllers/review.controller'
 
 function initApiRoutes() {
 
+  let userCTRL = new userController()
   let pageCTRL = new pageController()
   let categoryCTRL = new categoryController()
   let productCTRL = new productController()
@@ -21,6 +23,12 @@ function initApiRoutes() {
   
 
   routes.use((req: any, res: any, next: any) => verifyToken(req, res, next))
+
+  routes.get('/user', async (req: any, res: any) => { await userCTRL.getAll(req, res)} )
+  routes.get('/user/:id', async (req: any, res: any) => { await userCTRL.get(req, res)} )
+  routes.post('/user', async (req: any, res: any) => { await userCTRL.create(req, res)} )
+  routes.put('/user/:id', async (req: any, res: any) => { await userCTRL.update(req, res)} )
+  routes.delete('/user/:id', async (req: any, res: any) => { await userCTRL.delete(req, res)} )
 
   routes.get('/page', async (req: any, res: any) => { await pageCTRL.getAll(req, res)} )
   routes.get('/page/:id', async (req: any, res: any) => { await pageCTRL.get(req, res)} )

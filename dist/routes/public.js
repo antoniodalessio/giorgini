@@ -17,6 +17,7 @@ const contact_controller_1 = __importDefault(require("../controllers/contact.con
 function initPublicRoutes() {
     const contactCTRL = new contact_controller_1.default();
     routes.post('/contact', (req, res) => __awaiter(this, void 0, void 0, function* () { yield contactCTRL.contact(req, res); }));
+    routes.post('/comment', (req, res) => __awaiter(this, void 0, void 0, function* () { yield contactCTRL.comment(req, res); }));
 }
 exports.default = () => {
     initPublicRoutes();

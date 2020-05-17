@@ -90,6 +90,26 @@ class ContactController {
             });
         });
     }
+    comment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            fetch("https://www.google.com/recaptcha/api/siteverify", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `secret=${process.env.RECAPTCHA_TOKEN}&response=${req.body['g-recaptcha-response']}`
+            })
+                .then((result) => result.json())
+                .then((res) => __awaiter(this, void 0, void 0, function* () {
+                let review = new models_1.Review({ username: req.body.username, comment: req.body.comment, city: req.body.city });
+                let result = review.save();
+                res.status(200).json({ result });
+            }))
+                .catch((e) => {
+                res.status(406).json(e);
+            });
+        });
+    }
 }
 exports.default = ContactController;
 //# sourceMappingURL=contact.controller.js.map

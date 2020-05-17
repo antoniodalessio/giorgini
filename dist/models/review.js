@@ -12,6 +12,7 @@ const review = new mongoose_1.Schema({
     city: {
         type: String,
     },
+    approved: Boolean,
     publishedAt: Date,
     product: {
         type: mongoose_1.Schema.Types.ObjectId, ref: 'Product'

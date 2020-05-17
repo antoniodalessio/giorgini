@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const routes = require('express').Router();
+const user_controller_1 = __importDefault(require("../controllers/user.controller"));
 const page_controller_1 = __importDefault(require("../controllers/page.controller"));
 const category_controller_1 = __importDefault(require("../controllers/category.controller"));
 const product_controller_1 = __importDefault(require("../controllers/product.controller"));
@@ -22,6 +23,7 @@ const customer_controller_1 = __importDefault(require("../controllers/customer.c
 const fabric_controller_1 = __importDefault(require("../controllers/fabric.controller"));
 const review_controller_1 = __importDefault(require("../controllers/review.controller"));
 function initApiRoutes() {
+    let userCTRL = new user_controller_1.default();
     let pageCTRL = new page_controller_1.default();
     let categoryCTRL = new category_controller_1.default();
     let productCTRL = new product_controller_1.default();
@@ -31,6 +33,11 @@ function initApiRoutes() {
     let fabricCTRL = new fabric_controller_1.default();
     let reviewCTRL = new review_controller_1.default();
     routes.use((req, res, next) => verifyToken(req, res, next));
+    routes.get('/user', (req, res) => __awaiter(this, void 0, void 0, function* () { yield userCTRL.getAll(req, res); }));
+    routes.get('/user/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield userCTRL.get(req, res); }));
+    routes.post('/user', (req, res) => __awaiter(this, void 0, void 0, function* () { yield userCTRL.create(req, res); }));
+    routes.put('/user/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield userCTRL.update(req, res); }));
+    routes.delete('/user/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield userCTRL.delete(req, res); }));
     routes.get('/page', (req, res) => __awaiter(this, void 0, void 0, function* () { yield pageCTRL.getAll(req, res); }));
     routes.get('/page/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield pageCTRL.get(req, res); }));
     routes.post('/page', (req, res) => __awaiter(this, void 0, void 0, function* () { yield pageCTRL.create(req, res); }));
