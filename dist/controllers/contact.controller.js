@@ -72,7 +72,7 @@ class ContactController {
             });
             submission._id = new mongoose_1.Types.ObjectId();
             yield submission.save();
-            return {};
+            return submission;
         });
     }
     contact(req, res) {

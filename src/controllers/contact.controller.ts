@@ -74,7 +74,7 @@ class ContactController {
     submission._id = new Types.ObjectId()
     await submission.save()
 
-    return {}
+    return submission
   }
   
   async contact(req: any, res: any) {
