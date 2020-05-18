@@ -25,11 +25,18 @@ let transporter = nodemailer.createTransport({
 class ContactController {
     sendEmailToInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
+            let msg = data.message;
+            let subject = "Richiesta informazioni dal sito amaliacardo.it";
+            if (data.hasOwnProperty('productId') && data.productId != '') {
+                const product = (yield models_1.Product.findOne({ _id: data.productId })).toObject();
+                subject = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it`;
+                msg = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it<br>${data.message}`;
+            }
             let info = yield transporter.sendMail({
                 from: `"${data.name}" <${data.email}>`,
                 to: `info@amaliacardo.it`,
-                subject: "Richiesta informazioni dal sito amaliacardo.it",
-                text: `${data.message}`,
+                subject: subject,
+                text: msg,
                 html: ''
             });
             return info;
@@ -49,14 +56,21 @@ class ContactController {
     }
     saveInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const customer = yield models_1.Customer.find({ email: data.email });
-            if (customer.length == 0) {
+            let customer = (yield models_1.Customer.findOne({ email: data.email })).toObject();
+            if (!customer._id) {
                 //save
                 const id = new mongoose_1.Types.ObjectId();
                 const model = new models_1.Customer({ _id: id, email: data.email, firstname: data.name });
-                const result = yield model.save();
-                return result;
+                customer = yield model.save();
+                return customer;
             }
+            const submission = new models_1.Submission({
+                text: data.message,
+                requestAt: new Date(),
+                customer: customer._id,
+                product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
+            });
+            yield submission.save();
             return {};
         });
     }

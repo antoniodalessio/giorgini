@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const fetch = require('node-fetch');
-import { Customer, Review } from '../models/'
+import { Customer, Review, Product, Submission } from '../models/'
 import { Types } from 'mongoose';
 
 let transporter = nodemailer.createTransport({
@@ -18,11 +18,20 @@ class ContactController {
   
   async sendEmailToInfo(data: any) {
 
+    let msg: string = data.message;
+    let subject: string = "Richiesta informazioni dal sito amaliacardo.it"
+
+    if (data.hasOwnProperty('productId') && data.productId != '') {
+      const product: any = (await Product.findOne({_id: data.productId})).toObject()
+      subject = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it`
+      msg = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it<br>${data.message}`
+    }
+
      let info = await transporter.sendMail({
       from: `"${data.name}" <${data.email}>`,
       to: `info@amaliacardo.it`,
-      subject: "Richiesta informazioni dal sito amaliacardo.it",
-      text: `${data.message}`,
+      subject: subject,
+      text: msg,
       html: ''
     });
 
@@ -44,15 +53,26 @@ class ContactController {
   }
 
   async saveInfo(data: any) {
-    const customer: any = await Customer.find({email: data.email})
+    let customer: any = (await Customer.findOne({email: data.email})).toObject()
 
-    if (customer.length == 0) {
+    if (!customer._id) {
       //save
       const id = new Types.ObjectId()
       const model = new Customer({_id: id, email: data.email, firstname: data.name})
-      const result = await model.save()
-      return result
+      customer = await model.save()
+      return customer
     }
+
+    const submission = new Submission(
+      {
+        text: data.message,
+        requestAt: new Date(),
+        customer: customer._id,
+        product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
+      })
+
+    await submission.save()
+
     return {}
   }
   
