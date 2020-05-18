@@ -30,7 +30,7 @@ class ContactController {
             if (data.hasOwnProperty('productId') && data.productId != '') {
                 const product = (yield models_1.Product.findOne({ _id: data.productId })).toObject();
                 subject = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it`;
-                msg = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it<br>${data.message}`;
+                msg = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it\n${data.message}`;
             }
             let info = yield transporter.sendMail({
                 from: `"${data.name}" <${data.email}>`,
@@ -70,6 +70,7 @@ class ContactController {
                 customer: customer._id,
                 product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
             });
+            submission._id = new mongoose_1.Types.ObjectId();
             yield submission.save();
             return {};
         });

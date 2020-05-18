@@ -24,7 +24,7 @@ class ContactController {
     if (data.hasOwnProperty('productId') && data.productId != '') {
       const product: any = (await Product.findOne({_id: data.productId})).toObject()
       subject = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it`
-      msg = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it<br>${data.message}`
+      msg = `Richiesta informazioni sul prodotto ${product.title} dal sito amaliacardo.it\n${data.message}`
     }
 
      let info = await transporter.sendMail({
@@ -70,7 +70,8 @@ class ContactController {
         customer: customer._id,
         product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
       })
-
+    
+    submission._id = new Types.ObjectId()
     await submission.save()
 
     return {}
