@@ -22,6 +22,7 @@ const image_controller_1 = __importDefault(require("../controllers/image.control
 const customer_controller_1 = __importDefault(require("../controllers/customer.controller"));
 const fabric_controller_1 = __importDefault(require("../controllers/fabric.controller"));
 const review_controller_1 = __importDefault(require("../controllers/review.controller"));
+const submission_controller_1 = __importDefault(require("../controllers/submission.controller"));
 function initApiRoutes() {
     let userCTRL = new user_controller_1.default();
     let pageCTRL = new page_controller_1.default();
@@ -30,6 +31,7 @@ function initApiRoutes() {
     let builderCTRL = new builder_controller_1.default();
     let imageCTRL = new image_controller_1.default();
     let customerCTRL = new customer_controller_1.default();
+    let submissionCTRL = new submission_controller_1.default();
     let fabricCTRL = new fabric_controller_1.default();
     let reviewCTRL = new review_controller_1.default();
     routes.use((req, res, next) => verifyToken(req, res, next));
@@ -63,6 +65,11 @@ function initApiRoutes() {
     routes.post('/customer', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.create(req, res); }));
     routes.put('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.update(req, res); }));
     routes.delete('/customer/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield customerCTRL.delete(req, res); }));
+    routes.get('/submission', (req, res) => __awaiter(this, void 0, void 0, function* () { yield submissionCTRL.getAll(req, res); }));
+    routes.get('/submission/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield submissionCTRL.get(req, res); }));
+    routes.post('/submission', (req, res) => __awaiter(this, void 0, void 0, function* () { yield submissionCTRL.create(req, res); }));
+    routes.put('/submission/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield submissionCTRL.update(req, res); }));
+    routes.delete('/submission/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield submissionCTRL.delete(req, res); }));
     routes.get('/fabric', (req, res) => __awaiter(this, void 0, void 0, function* () { yield fabricCTRL.getAll(req, res); }));
     routes.get('/fabric/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield fabricCTRL.get(req, res); }));
     routes.post('/fabric', (req, res) => __awaiter(this, void 0, void 0, function* () { yield fabricCTRL.create(req, res); }));
