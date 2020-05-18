@@ -8,6 +8,7 @@ import imageController from '../controllers/image.controller'
 import customerController from '../controllers/customer.controller'
 import fabricController from '../controllers/fabric.controller'
 import reviewController from '../controllers/review.controller'
+import submissionController from '../controllers/submission.controller';
 
 function initApiRoutes() {
 
@@ -18,6 +19,7 @@ function initApiRoutes() {
   let builderCTRL = new builderController()
   let imageCTRL = new imageController()
   let customerCTRL = new customerController()
+  let submissionCTRL = new submissionController()
   let fabricCTRL = new fabricController()
   let reviewCTRL = new reviewController()
   
@@ -59,6 +61,12 @@ function initApiRoutes() {
   routes.post('/customer', async (req: any, res: any) => { await customerCTRL.create(req, res)} )
   routes.put('/customer/:id', async (req: any, res: any) => { await customerCTRL.update(req, res)} )
   routes.delete('/customer/:id', async (req: any, res: any) => { await customerCTRL.delete(req, res)} )
+
+  routes.get('/submission', async (req: any, res: any) => { await submissionCTRL.getAll(req, res)} )
+  routes.get('/submission/:id', async (req: any, res: any) => { await submissionCTRL.get(req, res)} )
+  routes.post('/submission', async (req: any, res: any) => { await submissionCTRL.create(req, res)} )
+  routes.put('/submission/:id', async (req: any, res: any) => { await submissionCTRL.update(req, res)} )
+  routes.delete('/submission/:id', async (req: any, res: any) => { await submissionCTRL.delete(req, res)} )
 
   routes.get('/fabric', async (req: any, res: any) => { await fabricCTRL.getAll(req, res)} )
   routes.get('/fabric/:id', async (req: any, res: any) => { await fabricCTRL.get(req, res)} )
