@@ -34,6 +34,10 @@ class BaseController {
                 let range = [];
                 if (req.query.hasOwnProperty('filter')) {
                     filter = JSON.parse(req.query.filter);
+                    if (filter.hasOwnProperty('id')) {
+                        filter._id = Object.assign([], filter.id);
+                        delete (filter.id);
+                    }
                     if (filter.hasOwnProperty("q")) {
                         //$text: {$search: request.searchtext}
                         filter.$text = { $search: filter.q };
