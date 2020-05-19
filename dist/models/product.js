@@ -7,9 +7,10 @@ const product = new mongoose_1.Schema(Object.assign(basePage_1.defaultPageField,
     images: [
         { type: mongoose_1.Schema.Types.ObjectId, ref: 'Image' }
     ],
-    fabrics: [
-        { type: mongoose_1.Schema.Types.ObjectId, ref: 'Fabric' }
-    ],
+    fabrics: {
+        internal: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Fabric' }],
+        external: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Fabric' }]
+    },
     category: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Category' },
 }));
 exports.product = product;

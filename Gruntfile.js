@@ -40,6 +40,7 @@ module.exports = function(grunt) {
 						bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
 						baseDir + 'js/product.js'
 					]),
+					[baseDir + 'js/fabrics.min.js']: [bowerDir + 'jquery/dist/jquery.js'].concat([baseDir + 'js/fabrics.js']),
 					[baseDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
 					[baseDir + 'js/contact.min.js']: common.concat(
 						[	bowerDir + 'jquery-validation/dist/jquery.validate.min.js',

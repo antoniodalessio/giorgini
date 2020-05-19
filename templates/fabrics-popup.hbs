@@ -1,25 +1,48 @@
- <style>
-     .popup-container {
-        padding: 20px;
-        width: auto;
-        max-width: 1000px;
-        margin: 20px auto;
-        background-color: #fff;
-     }
- </style>
+ <link rel="stylesheet" href="/css/fabrics.css">
+ <script src="js/fabrics.min.js" async deferred></script>
 
- </style>
- 
  <div class="popup-container">
-    <h1>Tessuti disponibili</h1>
-    <div class="thumb-list">
-        {{#each fabrics}}
-        <a href="#">
-            <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
-            <p class="black">
-                {{cod}}
-            </p>
-        </a>
-        {{/each}}
+    
+    <header>
+        {{#if fabrics.internal}}
+        <a href="#" class="active">Tessuti interni</a>
+        {{/if}}
+
+        {{#if fabrics.external}}
+        <a href="#">Tessuti esterni</a>
+         {{/if}}
+    </header>
+
+    <div class="tab-content">
+        {{#if fabrics.internal}}
+        <section class="active">
+            <h1>Tessuti interni disponibili</h1>
+            <div class="thumb-list">
+                {{#each fabrics.internal}}
+                <a href="#">
+                    <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
+                    <p class="black">
+                        {{cod}}
+                    </p>
+                </a>
+                {{/each}}
+            </div>
+        </section>
+        {{/if}}
+        {{#if fabrics.internal}}
+        <section>
+            <h1>Tessuti esterni disponibili</h1>
+            <div class="thumb-list">
+                {{#each fabrics.external}}
+                <a href="#">
+                    <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
+                    <p class="black">
+                        {{cod}}
+                    </p>
+                </a>
+                {{/each}}
+            </div>
+        </section>
+        {{/if}}
     </div>
  </div>

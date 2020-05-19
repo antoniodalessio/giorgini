@@ -28,7 +28,7 @@ class ProductController extends base_controller_1.default {
             getAll: { get: () => super.getAll }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            yield _super.getAll.call(this, req, res, 'images fabrics');
+            yield _super.getAll.call(this, req, res, 'images fabrics.internal fabrics.external');
         });
     }
     get(req, res) {
@@ -36,7 +36,7 @@ class ProductController extends base_controller_1.default {
             get: { get: () => super.get }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            yield _super.get.call(this, req, res, 'images fabrics');
+            yield _super.get.call(this, req, res, 'images fabrics.internal fabrics.external');
         });
     }
     create(req, res) {

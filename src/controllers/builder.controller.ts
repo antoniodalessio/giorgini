@@ -154,13 +154,16 @@ class BuilderController {
 
   async renderFabrics(product: IProduct) {
     if (product.fabrics) {
-      let fabricsObj = []
-      for(const fab of product.fabrics) {
-        fabricsObj.push(fab.toObject())
-      }
+      if (product.fabrics.internal) {
+        product.fabrics.internal = product.fabrics.internal.map((item: any) => item.hasOwnProperty('toObject') ? item.toObject() : null)
+      } 
+
+      if (product.fabrics.external) {
+        product.fabrics.external = product.fabrics.external.map((item: any) => item.hasOwnProperty('toObject') ? item.toObject() : null)
+      } 
       const tmpData = {
         slug: product.slug + '_fabrics',
-        fabrics: fabricsObj
+        fabrics: product.fabrics
       }
       await this.assemble.renderSimple('fabrics-popup', tmpData)
     }
@@ -177,7 +180,7 @@ class BuilderController {
       if (!unpublished || !product.published) {
         await this.assemble.render("product", prod)
         this.fileToUpload.push(product.slug)
-        if (product.fabrics.length > 0) {
+        if (product.fabrics.internal.length > 0 || product.fabrics.external.length) {
           await this.renderFabrics(product)
           this.fileToUpload.push(`${product.slug}_fabrics`)
         }

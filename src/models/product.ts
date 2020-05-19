@@ -10,9 +10,10 @@ const product: Schema = new Schema(Object.assign(defaultPageField, {
     images: [
         { type: Schema.Types.ObjectId, ref: 'Image' }
     ],
-    fabrics: [
-        { type: Schema.Types.ObjectId, ref: 'Fabric' }
-    ],
+    fabrics: {
+        internal: [{ type: Schema.Types.ObjectId, ref: 'Fabric' }],
+        external: [{ type: Schema.Types.ObjectId, ref: 'Fabric'}]
+    },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
 }))
 
@@ -20,7 +21,10 @@ product.index({'$**': 'text'});
 
 interface IProduct extends IBasePage {
     images: IImage[];
-    fabrics: IFabric[];
+    fabrics: {
+        internal: IFabric[],
+        external: IFabric[],
+    }
     category: ICategory;
 }
 
