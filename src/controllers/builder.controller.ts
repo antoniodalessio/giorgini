@@ -170,7 +170,7 @@ class BuilderController {
   }
 
   async buildProducts(unpublished: boolean) {
-    let products = await Product.find().populate('images fabrics category')
+    let products = await Product.find().populate('images fabrics.internal fabrics.external category')
     for(const product of products) {
       let prod = product.toObject()
       prod.key = "product"
