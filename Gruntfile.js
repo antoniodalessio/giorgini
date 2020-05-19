@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
 	var baseDir = './site/'
 	var bowerDir = "bower_components/";
+	var nodeDir = 'node_modules/'
 		
 	var common = [
 		bowerDir + 'jquery/dist/jquery.js',
@@ -40,7 +41,10 @@ module.exports = function(grunt) {
 						bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
 						baseDir + 'js/product.js'
 					]),
-					[baseDir + 'js/fabrics.min.js']: [bowerDir + 'jquery/dist/jquery.js'].concat([baseDir + 'js/fabrics.js']),
+					[baseDir + 'js/fabrics.min.js']: [
+						bowerDir + 'jquery/dist/jquery.js',
+						nodeDir + 'jquery-zoom/jquery.zoom.js'
+					].concat([baseDir + 'js/fabrics.js']),
 					[baseDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
 					[baseDir + 'js/contact.min.js']: common.concat(
 						[	bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
