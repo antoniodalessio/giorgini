@@ -151,10 +151,10 @@ class BuilderController {
         return __awaiter(this, void 0, void 0, function* () {
             if (product.fabrics) {
                 if (product.fabrics.internal) {
-                    product.fabrics.internal = product.fabrics.internal.map((item) => item ? item.toObject() : null);
+                    product.fabrics.internal = product.fabrics.internal.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null);
                 }
                 if (product.fabrics.external) {
-                    product.fabrics.external = product.fabrics.external.map((item) => item ? item.toObject() : null);
+                    product.fabrics.external = product.fabrics.external.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null);
                 }
                 const tmpData = {
                     slug: product.slug + '_fabrics',
