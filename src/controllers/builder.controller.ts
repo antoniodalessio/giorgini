@@ -154,16 +154,15 @@ class BuilderController {
 
   async renderFabrics(product: IProduct) {
     if (product.fabrics) {
-      if (product.fabrics.internal) {
-        product.fabrics.internal = product.fabrics.internal.map((item: any) => item && typeof item.toObject == 'function' ? item.toObject() : null)
-      } 
+    
+      const fabrics = {
+        internal: product.fabrics.internal.map((item: any) => item && typeof item.toObject == 'function' ? item.toObject() : null),
+        external: product.fabrics.external.map((item: any) => item && typeof item.toObject == 'function' ? item.toObject() : null),
+      }
 
-      if (product.fabrics.external) {
-        product.fabrics.external = product.fabrics.external.map((item: any) => item && typeof item.toObject == 'function' ? item.toObject() : null)
-      } 
       const tmpData = {
         slug: product.slug + '_fabrics',
-        fabrics: product.fabrics
+        fabrics
       }
       await this.assemble.renderSimple('fabrics-popup', tmpData)
     }

@@ -150,15 +150,13 @@ class BuilderController {
     renderFabrics(product) {
         return __awaiter(this, void 0, void 0, function* () {
             if (product.fabrics) {
-                if (product.fabrics.internal) {
-                    product.fabrics.internal = product.fabrics.internal.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null);
-                }
-                if (product.fabrics.external) {
-                    product.fabrics.external = product.fabrics.external.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null);
-                }
+                const fabrics = {
+                    internal: product.fabrics.internal.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null),
+                    external: product.fabrics.external.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null),
+                };
                 const tmpData = {
                     slug: product.slug + '_fabrics',
-                    fabrics: product.fabrics
+                    fabrics
                 };
                 yield this.assemble.renderSimple('fabrics-popup', tmpData);
             }
