@@ -9,7 +9,11 @@
                 <img class="logo" src="/images/logo.png" alt="logo Amalia Cardo"/>
             </a>
 		</div>
-		<a class="back" href="/lavori-amalia-cardo.html"><span class="icon icon_arrow-left"></span>I miei lavori</a>
+		{{#if (ne slug 'lavori-amalia-cardo')}}
+		<div class="breadcrumb">
+            <a href="/lavori-amalia-cardo.html">lavori</a>&nbsp;&nbsp;<span class="space ">>></span>&nbsp;&nbsp;<a href="/{{slug}}.html">{{category_name}}</a>
+        </div>
+		{{/if}}
 		<h1 class="work__title">{{category_name}}</h1>
 		<div class="description">{{{text}}}</div>
 		<div class="thumb-list">
