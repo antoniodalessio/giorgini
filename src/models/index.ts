@@ -23,6 +23,7 @@ let Review = model<IReview>('Review', review)
 export {
     Page,
     Category,
+    ICategory,
     Product,
     IProduct,
     Image,

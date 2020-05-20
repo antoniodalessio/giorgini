@@ -116,6 +116,21 @@ class BuilderController {
             }
         });
     }
+    buildBreadCrumb(cat, array = []) {
+        return __awaiter(this, void 0, void 0, function* () {
+            array.push({
+                slug: cat.slug,
+                label: cat.category_name
+            });
+            if (!cat.parent) {
+                return array;
+            }
+            else {
+                const parentCat = (yield models_1.Category.findOne({ _id: cat.parent })).toObject();
+                return yield this.buildBreadCrumb(parentCat, array);
+            }
+        });
+    }
     buildCategories(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
             let categories = yield models_1.Category.find().sort('ord');
@@ -134,6 +149,7 @@ class BuilderController {
                         }
                     });
                 if (!unpublished || !category.published) {
+                    cat.breadcrumb = (yield this.buildBreadCrumb(cat)).reverse();
                     if (category.hasSubcategory) {
                         cat.categories = yield this.getSubcategories(category._id);
                         yield this.assemble.render("categories", cat);

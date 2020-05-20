@@ -9,11 +9,11 @@
                 <img class="logo" src="/images/logo.png" alt="logo Amalia Cardo"/>
             </a>
 		</div>
-		{{#if (ne slug 'lavori-amalia-cardo')}}
 		<div class="breadcrumb">
-            <a href="/lavori-amalia-cardo.html">lavori</a>&nbsp;&nbsp;<span class="space ">>></span>&nbsp;&nbsp;<a href="/{{slug}}.html">{{category_name}}</a>
-        </div>
-		{{/if}}
+		{{#each breadcrumb}}
+			<a href="/{{this.slug}}.html">{{this.label}}</a>&nbsp;&nbsp;<span class="space ">>>&nbsp;&nbsp;</span>
+		{{/each}}
+		</div>
 		<h1 class="work__title">{{category_name}}</h1>
 		<div class="description">{{{text}}}</div>
 		<div class="thumb-list">

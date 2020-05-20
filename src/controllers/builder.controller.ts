@@ -1,9 +1,14 @@
 import Assemble from './../assemble'
 import FTP from './../utils/ftp'
-import { Page, Category, Product, Image, Review } from '../models'
+import { Page, Category, Product, Image, Review, ICategory } from '../models'
 import { IProduct  } from '../models/product';
 var fs = require('fs');
 import SeoHelper from '../helpers/SeoHelper'
+
+interface IBreadcrumb {
+  slug: string
+  label: string
+}
 
 class BuilderController {
 
@@ -119,6 +124,22 @@ class BuilderController {
     }
   }
 
+
+  async buildBreadCrumb(cat: ICategory, array: IBreadcrumb[] = []):Promise<IBreadcrumb[]> {
+    array.push(
+      {
+        slug: cat.slug,
+        label: cat.category_name
+      }
+    )
+    if (!cat.parent){
+      return array
+    }else{
+      const parentCat = (await Category.findOne({_id: cat.parent})).toObject()
+      return await this.buildBreadCrumb(parentCat, array)
+    }
+  }
+
   async buildCategories(unpublished: boolean) {
     
     let categories = await Category.find().sort('ord')
@@ -138,6 +159,7 @@ class BuilderController {
       });
 
       if (!unpublished || !category.published) {
+        cat.breadcrumb = (await this.buildBreadCrumb(cat)).reverse()
         if(category.hasSubcategory) {
           cat.categories = await this.getSubcategories(category._id)
           await this.assemble.render("categories", cat)

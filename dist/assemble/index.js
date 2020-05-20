@@ -8,30 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var handlebars = require("handlebars");
+const handlebarsHelper_1 = __importDefault(require("../helpers/handlebarsHelper"));
 var fs = require('fs');
 const YAML = require('yaml');
-handlebars.registerHelper('limit', function (arr, limit) {
-    if (!Array.isArray(arr)) {
-        return [];
-    }
-    return arr.slice(0, limit);
-});
-handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
-        return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
-        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
-});
 class Assemble {
     constructor(options) {
         this.options = options;
@@ -42,7 +25,7 @@ class Assemble {
             let files = fs.readdirSync(this.options.partialsPath);
             files.forEach((file) => __awaiter(this, void 0, void 0, function* () {
                 const data = yield fs.readFileSync(`${this.options.partialsPath}${file}`, 'utf8');
-                handlebars.partials[file.replace(".hbs", "")] = handlebars.compile(data);
+                handlebarsHelper_1.default.partials[file.replace(".hbs", "")] = handlebarsHelper_1.default.compile(data);
             }));
         });
     }
@@ -51,7 +34,7 @@ class Assemble {
             try {
                 const template = yield fs.readFileSync(`${this.options.templatesPath}/${name}.hbs`, 'utf8');
                 let templateData = this.parseData(template);
-                handlebars.partials['body'] = handlebars.compile(templateData.template);
+                handlebarsHelper_1.default.partials['body'] = handlebarsHelper_1.default.compile(templateData.template);
                 return templateData.data;
             }
             catch (e) {
@@ -63,7 +46,7 @@ class Assemble {
         return __awaiter(this, void 0, void 0, function* () {
             let templateFile = yield fs.readFileSync(`${this.options.defaultLayout}`, 'utf8');
             let newdata = yield this.setTemplate(name, data);
-            let template = handlebars.compile(templateFile);
+            let template = handlebarsHelper_1.default.compile(templateFile);
             const tmpData = Object.assign(data, newdata);
             let result = template(tmpData);
             try {
@@ -78,7 +61,7 @@ class Assemble {
         return __awaiter(this, void 0, void 0, function* () {
             //render template without a layout
             let templateFile = yield fs.readFileSync(`${this.options.templatesPath}/${templatename}.hbs`, 'utf8');
-            let template = handlebars.compile(templateFile);
+            let template = handlebarsHelper_1.default.compile(templateFile);
             let result = template(data);
             try {
                 yield fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result);
