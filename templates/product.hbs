@@ -10,18 +10,18 @@
                 <img class="logo" src="/images/logo.png" alt="logo Amalia Cardo"/>
             </a>
         </div>
-        <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumb">
+        <ol itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
             {{#each breadcrumb}}
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="/{{this.slug}}.html">
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a itemprop="item" href="/{{this.slug}}.html">
                         <span property="name">{{this.label}}</span>
                     </a>
                     <span class="space">>></span>
-                    <meta property="position" content="{{@index}}">
+                    <meta itemprop="position" content="{{@index}}" />
                 </li>
             {{/each}}
             <li>
-                 <a property="item" typeof="WebPage" href="/{{slug}}.html">{{title}}</a>
+                 <a itemprop="item" href="/{{slug}}.html">{{title}}</a>
             </li>
 		</ol>
 
