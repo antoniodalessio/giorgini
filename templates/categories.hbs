@@ -11,7 +11,11 @@
 		</div>
 		<div class="breadcrumb">
 		{{#each breadcrumb}}
-			<a href="/{{this.slug}}.html">{{this.label}}</a>&nbsp;&nbsp;<span class="space ">>>&nbsp;&nbsp;</span>
+			<li property="itemListElement" typeof="ListItem">
+				<a property="item" typeof="WebPage" href="/{{this.slug}}.html">{{this.label}}</a>
+				<span class="space ">>></span>
+				<meta property="position" content="{{@index}}">
+			</li>
 		{{/each}}
 		</div>
 		<h1>{{category_name}}</h1>

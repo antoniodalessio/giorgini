@@ -9,11 +9,15 @@
                 <img class="logo" src="/images/logo.png" alt="logo Amalia Cardo"/>
             </a>
 		</div>
-		<div class="breadcrumb">
+		<ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumb">
 		{{#each breadcrumb}}
-			<a href="/{{this.slug}}.html">{{this.label}}</a>&nbsp;&nbsp;<span class="space ">>>&nbsp;&nbsp;</span>
+			<li property="itemListElement" typeof="ListItem">
+				<a property="item" typeof="WebPage" href="/{{this.slug}}.html">{{this.label}}</a>
+				<span class="space ">>></span>
+				<meta property="position" content="{{@index}}">
+			</li>
 		{{/each}}
-		</div>
+		</ol>
 		<h1 class="work__title">{{category_name}}</h1>
 		<div class="description">{{{text}}}</div>
 		<div class="thumb-list">

@@ -187,6 +187,8 @@ class BuilderController {
                 prod.mywork = "active";
                 prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`;
                 if (!unpublished || !product.published) {
+                    const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
+                    prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
                     yield this.assemble.render("product", prod);
                     this.fileToUpload.push(product.slug);
                     if (product.fabrics.internal.length > 0 || product.fabrics.external.length) {
