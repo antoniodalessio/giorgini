@@ -4,21 +4,21 @@
  <div class="popup-container">
     
     <header>
+        {{#if fabrics.external}}
+        <a href="#">Tessuti esterni</a>
+        {{/if}}
+
         {{#if fabrics.internal}}
         <a href="#" class="active">Tessuti interni</a>
         {{/if}}
-
-        {{#if fabrics.external}}
-        <a href="#">Tessuti esterni</a>
-         {{/if}}
     </header>
 
     <div class="tab-content">
-        {{#if fabrics.internal}}
+        {{#if fabrics.external}}
         <section class="active">
-            <h1>Tessuti interni disponibili</h1>
+            <h1>Tessuti esterni disponibili</h1>
             <div class="thumb-list">
-                {{#each fabrics.internal}}
+                {{#each fabrics.external}}
                 <a href="#">
                     <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
                     <p class="black">
@@ -29,11 +29,11 @@
             </div>
         </section>
         {{/if}}
-        {{#if fabrics.external}}
+        {{#if fabrics.internal}}
         <section>
-            <h1>Tessuti esterni disponibili</h1>
+            <h1>Tessuti interni disponibili</h1>
             <div class="thumb-list">
-                {{#each fabrics.external}}
+                {{#each fabrics.internal}}
                 <a href="#">
                     <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
                     <p class="black">
