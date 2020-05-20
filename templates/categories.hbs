@@ -13,7 +13,7 @@
 		{{#each breadcrumb}}
 			<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 				<a itemprop="item" href="/{{this.slug}}.html">
-					<span property="name">{{this.label}}</span>
+					<span itemprop="name">{{this.label}}</span>
 				</a>
 				<span class="space">>></span>
 				<meta itemprop="position" content="{{@index}}" />
