@@ -180,7 +180,7 @@ class BuilderController {
     }
     buildProducts(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            let products = yield models_1.Product.find().populate({ path: 'images', options: { sort: { 'ord': -1 } } }).populate('fabrics.internal fabrics.external category');
+            let products = yield models_1.Product.find().populate({ path: 'images', options: { sort: { 'ord': 1 } } }).populate('fabrics.internal fabrics.external category');
             for (const product of products) {
                 let prod = product.toObject();
                 prod.key = "product";
