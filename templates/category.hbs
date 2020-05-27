@@ -26,7 +26,7 @@
 			
 			{{#each products}}
 				<a href="/{{this.slug}}.html" title="{{this.description}}">
-					<img src="/images/work/{{this.thumb}}_thumb.jpg" alt="{{this.title}}" />
+					<img src="/images/work/{{this.thumb}}_thumb.jpg" alt="{{../category_name}} {{this.title}}" />
 					<p class="black">{{this.title}}</p>
 				</a>
 			{{/each}}
