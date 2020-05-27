@@ -26,8 +26,8 @@
 		<div class="work-category">
 
 			{{#each categories}}
-				<a href="/{{this.slug}}.html" >
-					<img src="images/work/{{this.thumb_preview}}_thumb.jpg" />
+				<a href="/{{this.slug}}.html" title="{{this.description}}">
+					<img src="images/work/{{this.thumb_preview}}_thumb.jpg" alt="{{this.title}}" />
 					<span></span>
 					<p>{{this.category_name}}</p>
 				</a>
