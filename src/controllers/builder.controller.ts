@@ -115,7 +115,7 @@ class BuilderController {
 
     for(let page of pages) {
       page = await this.addResources(page)
-      page.pageImage = `${process.env.SITE_URL}images/logo.png`
+      page.pageImage = `${process.env.SITE_URL}/images/logo.png`
 
       if (!unpublished || !page.published) {
         await this.assemble.render(page.template, page)
