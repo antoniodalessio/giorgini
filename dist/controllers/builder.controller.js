@@ -108,7 +108,7 @@ class BuilderController {
             const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
             for (let page of pages) {
                 page = yield this.addResources(page);
-                page.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}logo.png`;
+                page.pageImage = `${process.env.SITE_URL}images/logo.png`;
                 if (!unpublished || !page.published) {
                     yield this.assemble.render(page.template, page);
                     this.fileToUpload.push(page.slug);
