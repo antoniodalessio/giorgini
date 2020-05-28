@@ -10,7 +10,7 @@
 
 {{#each resources.categories}}
     <section id="{{this.slug}}" class="category-container">
-        <h1>{{this.category_name}}</h1>
+        <h1>{{this.title}}</h1>
         <div>{{{this.text}}}</div>
         <ul>
         {{#each (limit this.products 3) }}
