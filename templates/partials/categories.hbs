@@ -1,16 +1,7 @@
 {{#if resources.categories}}
-<div class="post-content">
-    <ul>
-        {{#each resources.categories}}
-            <li><a href="#{{this.slug}}"><i class="icon icon_{{this.icon}}"></i>{{this.category_name}}</a></li>
-  		{{/each}}
-    </ul>
-</div>
-
-
 {{#each resources.categories}}
     <section id="{{this.slug}}" class="category-container">
-        <h1>{{this.title}}</h1>
+        <h3>{{this.title}}</h3>
         <div>{{{this.text}}}</div>
         <ul>
         {{#each (limit this.products 3) }}
@@ -28,5 +19,4 @@
      </ul>
     </section>
 {{/each}}
-
 {{/if}}

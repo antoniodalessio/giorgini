@@ -30,6 +30,12 @@ const defaultPageField = {
   body: {
     type: String
   },
+  subtitle: {
+    type: String
+  },
+  subbody: {
+    type: String
+  },
   ord: {
     type: Number
   },

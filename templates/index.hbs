@@ -26,6 +26,33 @@ key: index
 	</div>
 </div>
 
-{{> categories}}
+
+{{> categoriesmenu }}
+
+<div class="project-description">
+	{{#if (and this.title this.body)}}
+	<section>
+		<h1>{{this.title}}</h1>
+		<div class="project-description__content">
+		{{{this.body}}}
+		</div>
+	</section>
+	{{/if}}
+	{{#if (and this.subtitle this.subbody)}}
+	<section>
+		<h2>{{this.subtitle}}</h2>
+		<div class="project-description__content">
+		{{{this.subbody}}}
+		</div>
+	</section>
+	{{/if}}
+</div>
+
+{{> categories }}
+
+
+
+
+
 
 <script src="/js/index.min.js" async deferred></script>
