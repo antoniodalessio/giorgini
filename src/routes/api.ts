@@ -9,6 +9,7 @@ import customerController from '../controllers/customer.controller'
 import fabricController from '../controllers/fabric.controller'
 import reviewController from '../controllers/review.controller'
 import submissionController from '../controllers/submission.controller';
+import orderController from '../controllers/order.controller';
 
 function initApiRoutes() {
 
@@ -22,6 +23,7 @@ function initApiRoutes() {
   let submissionCTRL = new submissionController()
   let fabricCTRL = new fabricController()
   let reviewCTRL = new reviewController()
+  let orderCTRL = new orderController()
   
 
   routes.use((req: any, res: any, next: any) => verifyToken(req, res, next))
@@ -79,6 +81,12 @@ function initApiRoutes() {
   routes.post('/review', async (req: any, res: any) => { await reviewCTRL.create(req, res)} )
   routes.put('/review/:id', async (req: any, res: any) => { await reviewCTRL.update(req, res)} )
   routes.delete('/review/:id', async (req: any, res: any) => { await reviewCTRL.delete(req, res)} )
+
+  routes.get('/order', async (req: any, res: any) => { await orderCTRL.getAll(req, res)} )
+  routes.get('/order/:id', async (req: any, res: any) => { await orderCTRL.get(req, res)} )
+  routes.post('/order', async (req: any, res: any) => { await orderCTRL.create(req, res)} )
+  routes.put('/order/:id', async (req: any, res: any) => { await orderCTRL.update(req, res)} )
+  routes.delete('/order/:id', async (req: any, res: any) => { await orderCTRL.delete(req, res)} )
 
   
   routes.get('/publish', async (req: any, res: any) => { await builderCTRL.publish(req, res)} )

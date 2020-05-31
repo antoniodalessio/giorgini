@@ -3,9 +3,11 @@ import { Schema, Document } from 'mongoose';
 
 const order: Schema = new Schema({
   _id: Schema.Types.ObjectId,
+  clientName: String,
   acquisitionDate: Date,
   orderFulfillmentDate: Date,
   paymentDate: Date,
+  products: String,
   price: String,
   comment: String,
 })
