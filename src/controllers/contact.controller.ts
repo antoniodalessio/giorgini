@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const fetch = require('node-fetch');
-import { Customer, Review, Product, Submission } from '../models/'
+import { Customer, Review, Product, Submission, ISubmission } from '../models/'
 import { Types } from 'mongoose';
 
 let transporter = nodemailer.createTransport({
@@ -63,13 +63,13 @@ class ContactController {
       return customer
     }
 
-    const submission = new Submission(
-      {
+    const submission = new Submission({
         text: data.message,
         requestAt: new Date(),
         customer: customer._id,
         product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
-      })
+      }
+    )
     
     submission._id = new Types.ObjectId()
     await submission.save()

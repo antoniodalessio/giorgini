@@ -22,7 +22,7 @@ interface ISubmission extends Document {
     text: string;
     customer: ICustomer,
     requestAt: Date,
-    product: IProduct
+    product?: IProduct
 }
 
 export { 
