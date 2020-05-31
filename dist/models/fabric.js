@@ -24,7 +24,11 @@ const fabric = new mongoose_1.Schema({
     },
     ord: {
         type: Number
-    }
+    },
+    active: {
+        type: Boolean,
+        default: true
+    },
 });
 exports.fabric = fabric;
 fabric.index({ '$**': 'text' });

@@ -23,7 +23,11 @@ const fabric: Schema = new Schema({
     },
     ord: {
         type: Number
-    } 
+    },
+    active: {
+        type: Boolean,
+        default: true
+    }, 
 })
 
 fabric.index({'$**': 'text'});

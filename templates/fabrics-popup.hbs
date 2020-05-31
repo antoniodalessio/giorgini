@@ -19,12 +19,14 @@
             <h1>Tessuti esterni disponibili</h1>
             <div class="thumb-list">
                 {{#each fabrics.external}}
-                <a href="#">
-                    <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
-                    <p class="black">
-                        {{cod}}
-                    </p>
-                </a>
+                    {{#if active}}
+                    <a href="#">
+                        <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
+                        <p class="black">
+                            {{cod}}
+                        </p>
+                    </a>
+                    {{/if}}
                 {{/each}}
             </div>
         </section>
@@ -34,12 +36,14 @@
             <h1>Tessuti interni disponibili</h1>
             <div class="thumb-list">
                 {{#each fabrics.internal}}
-                <a href="#">
-                    <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
-                    <p class="black">
-                        {{cod}}
-                    </p>
-                </a>
+                    {{#if active}}
+                    <a href="#">
+                        <img loading="lazy" src="/images/work/{{thumb_preview}}_thumb.jpg" />
+                        <p class="black">
+                            {{cod}}
+                        </p>
+                    </a>
+                    {{/if}}
                 {{/each}}
             </div>
         </section>
