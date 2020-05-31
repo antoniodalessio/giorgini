@@ -67,7 +67,7 @@ class ContactController {
         text: data.message,
         requestAt: new Date(),
         customer: customer._id,
-        product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
+        product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : null
       }
     )
     

@@ -68,7 +68,7 @@ class ContactController {
                 text: data.message,
                 requestAt: new Date(),
                 customer: customer._id,
-                product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : ''
+                product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : null
             });
             submission._id = new mongoose_1.Types.ObjectId();
             yield submission.save();
