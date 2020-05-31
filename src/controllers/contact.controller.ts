@@ -93,7 +93,6 @@ class ContactController {
         let sendEmailInfoRes;
 
         if (result.success) {
-          console.log(req.body, result)
           sendEmailInfoRes = await this.sendEmailToInfo(req.body)
           sendEmailContactRes = await this.sendEmailToContact(req.body)
           const save = await this.saveInfo(req.body)
