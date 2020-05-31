@@ -15,6 +15,9 @@ const product: Schema = new Schema(Object.assign(defaultPageField, {
         external: [{ type: Schema.Types.ObjectId, ref: 'Fabric'}]
     },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
+    price: {
+        type: String
+    },
 }))
 
 product.index({'$**': 'text'});

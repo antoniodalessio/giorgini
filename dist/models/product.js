@@ -12,6 +12,9 @@ const product = new mongoose_1.Schema(Object.assign(basePage_1.defaultPageField,
         external: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Fabric' }]
     },
     category: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Category' },
+    price: {
+        type: String
+    },
 }));
 exports.product = product;
 product.index({ '$**': 'text' });
