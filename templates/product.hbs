@@ -22,31 +22,15 @@
             {{/each}}
 		</ol>
 
-        <div itemscope itemtype="http://schema.org/Product">
+        <div>
 
-            <h1 itemprop="name">{{title}}</h1>
-            <meta itemprop="description" content="{{description}}" />
-            <div class="description">{{description}}</div>
-
-            <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
-                <meta itemprop="name" content="Amalia Cardo" />
-            </div>
-
-            <div itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
-                <link itemprop="url" href="https://amaliacardo.it/{{slug}}.html" />
-                <meta itemprop="availability" content="https://schema.org/InStock" />
-                <meta itemprop="priceCurrency" content="EUR" />
-                <meta itemprop="price" content="0.00" />
-                <meta itemprop="priceValidUntil" content="2020-12-31" />
-                <div itemprop="seller" itemtype="http://schema.org/Organization" itemscope>
-                <meta itemprop="name" content="{{title}}" />
-                </div>
-            </div>
+            <h1>{{title}}</h1>
+            <p class="description">{{description}}</p>
 
             <div class="thumb-list">
             {{#each images}}
                 <a href="/images/work/{{this.uri}}_x2.jpg" title="{{this.alt}}">
-                    <img loading="lazy" src="/images/work/{{this.uri}}_thumb.jpg" alt="{{this.alt}}" itemprop="image"/>
+                    <img loading="lazy" src="/images/work/{{this.uri}}_thumb.jpg" alt="{{this.alt}}" />
                 </a>
             {{/each}}
             {{#if (or this.fabrics.internal.length this.fabrics.external.length) }}
@@ -72,7 +56,7 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
         <div class="formContainer">
-            <h2>Richiedi ulteriori informazioni sul prodotto {{title}}</h2>
+            <div class="title">Richiedi ulteriori informazioni sul prodotto {{title}}</div>
             <form class="contactForm" method="POST" action="https://amaliacardo.cloudno.de/public/contact?type=product">
                 <div class="form-messages"></div>
 
@@ -101,7 +85,7 @@
                 <div class="g-recaptcha" data-sitekey="6LfNxfQUAAAAAAyNejuUvrXmV7BMG35FWPGrY9N4"></div>
 
                 <div class="informativa-privacy">
-                    <h5>Termini e condizioni</h5>
+                    <div class="informativa-privacy--title">Termini e condizioni</div>
                     <p>Desideriamo farti sapere come conserveremo i tuoi dati, per quanto tempo e per quali finalità. Potrai in ogni momento richiederci la loro cancellazione</p>
                     <input type="checkbox" class="privacy" name="privacy" required ><label rel="privacy">Acconsento alla vostra <a class="popup" href="/privacy-policy.html">Informativa sulla privacy</a></label>
                 </div>
