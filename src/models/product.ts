@@ -15,9 +15,16 @@ const product: Schema = new Schema(Object.assign(defaultPageField, {
         external: [{ type: Schema.Types.ObjectId, ref: 'Fabric'}]
     },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
+    sku: {
+        type: String
+    },
     price: {
         type: String
     },
+    priceValidUntil: Date,
+    resources: [
+        { type: { type: String } }
+    ]
 }))
 
 product.index({'$**': 'text'});
@@ -28,7 +35,11 @@ interface IProduct extends IBasePage {
         internal: IFabric[],
         external: IFabric[],
     }
-    category: ICategory;
+    category: ICategory
+    sku: string
+    price: string
+    priceValidUntil: Date
+    resources: String[]
 }
 
 export { 

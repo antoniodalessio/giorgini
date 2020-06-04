@@ -82,6 +82,9 @@ class BuilderController {
       let resources: any = {}
 
       for (const resource of page.resources) {
+
+        console.log(resource)
+
         //console.log(resource)
         if (resource.type == 'category') {
           // find main category
@@ -99,7 +102,7 @@ class BuilderController {
         }
 
         if (resource.type == 'review') {
-          const reviews = (await Review.find().sort('_id')).map((item: any) => item ? item.toObject() : null)
+          const reviews = (await Review.find({product: page._id}).sort('_id')).map((item: any) => item ? item.toObject() : null)
           resources.reviews = reviews
         }
 
@@ -199,6 +202,9 @@ class BuilderController {
     let products = await Product.find().populate({path: 'images', options: { sort: { 'ord': 1 } } }).populate('fabrics.internal fabrics.external category')
     for(const product of products) {
       let prod = product.toObject()
+      prod.resources = [{type: 'review'}]
+      prod = await this.addResources(prod)
+      console.log(prod)
       prod.key = "product"
       prod.mywork = "active"
       prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`

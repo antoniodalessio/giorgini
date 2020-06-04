@@ -1,3 +1,47 @@
+<script type="application/ld+json">
+    /*{
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "description": "{{{description}}}",
+      "name": "{{title}}",
+      "image": "{{pageImage}}",
+        "brand": {
+          "@type": "Thing",
+          "name": "Amalia Cardo"
+        },
+      "sku": "{{sku}}",
+      "url": "https://www.amaliacardo.it/{{slug}}.html",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "EUR",
+        "price": "0",
+        "availability": "InStock"
+      },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "reviewCount": "{{resources.reviews.length}}"
+        },
+      "review": [
+        {{#each resources.reviews}}
+            {
+              "@type": "Review",
+              "author": "{{username}}",
+              "datePublished": "{{publishedAt}}",
+              "description": "{{comment}}",
+              "name": "{{username}}",
+              "reviewRating": {
+                "@type": "Rating",
+                "bestRating": "5",
+                "ratingValue": "5",
+                "worstRating": "1"
+              }
+            }
+        {{/each}}
+      ]
+  }*/
+</script>
+
 <div class="content">
 	<div class="content--wrapper">
 		{{> menu}}
@@ -25,7 +69,7 @@
         <div>
 
             <h1>{{title}}</h1>
-            <p class="description">{{description}}</p>
+            <p class="description">{{{description}}}</p>
 
             <div class="thumb-list">
             {{#each images}}
@@ -39,65 +83,70 @@
                 </a>
             {{/if}}
             </div>
-
-            {{#if resources.reviews}}
-            <div class="reviews">
-                <h6>Recensioni</h6>
-                {{#each resources.reviews}}
-                    <section>
-                        <p class="review__text">{{this.comment}}</p>
-                        <p class="quote__signature review__signature">{{this.username}} - {{this.city}}</p>
-				    </section>
-                {{/each}}
-            </div>
-            {{/if}}
         </div>
 
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-        <div class="formContainer">
-            <div class="title">Richiedi ulteriori informazioni sul prodotto {{title}}</div>
-            <form class="contactForm" method="POST" action="https://amaliacardo.cloudno.de/public/contact?type=product">
-                <div class="form-messages"></div>
 
-                 <div class="field-container">
-                    <input type="text" disabled class="product_name" name="product_name" value="{{this.title}}">
+        <div class="container-double">
+
+            <div class="formContainer">
+                <div class="title">Richiedi ulteriori informazioni sul prodotto {{title}}</div>
+                <form class="contactForm" method="POST" action="https://amaliacardo.cloudno.de/public/contact?type=product">
+                    <div class="form-messages"></div>
+
+                    <div class="field-container">
+                        <input type="text" disabled class="product_name" name="product_name" value="{{this.title}}">
+                    </div>
+
+                    <div class="field-container">
+                        <label rel="name">Nome*</label>
+                        <input type="text" class="name" name="name" minlength="2" required>
+                        <div class="error name"></div>
+                    </div>
+                    
+                    <div class="field-container">
+                        <label rel="email">Email*</label>
+                        <input type="email" class="email" name="email" required >
+                        <div class="error email"></div>
+                    </div>
+
+                    <div class="field-container">
+                        <label rel="message">Richiesta*</label>
+                        <textarea class="message" name="message" required></textarea>
+                        <div class="error message"></div>
+                    </div>
+
+                    <div class="g-recaptcha" data-sitekey="6LfNxfQUAAAAAAyNejuUvrXmV7BMG35FWPGrY9N4"></div>
+
+                    <div class="informativa-privacy">
+                        <div class="informativa-privacy--title">Termini e condizioni</div>
+                        <p>Desideriamo farti sapere come conserveremo i tuoi dati, per quanto tempo e per quali finalità. Potrai in ogni momento richiederci la loro cancellazione</p>
+                        <input type="checkbox" class="privacy" name="privacy" required ><label rel="privacy">Acconsento alla vostra <a class="popup" href="/privacy-policy.html">Informativa sulla privacy</a></label>
+                    </div>
+
+                    <input type="hidden" class="product_id" name="product_id" value="{{this._id}}">
+
+                    <button type="submit"><span class="label">INVIA</span><span class="loader"><img src="/images/loader.gif"/></span></button>
+                    <div class="info-message"></div>
+                </form>
+                <div class="success-message"></div>
+            </div>
+
+            {{#if resources.reviews}}
+            <div class="review-container">
+                <div class="reviews">
+                    <div class="title">Recensioni</div>
+                    {{#each resources.reviews}}
+                        <section>
+                            <p class="review__text">{{this.comment}}</p>
+                            <p class="quote__signature review__signature">{{this.username}} - {{this.city}}</p>
+                        </section>
+                    {{/each}}
                 </div>
-
-                <div class="field-container">
-                    <label rel="name">Nome*</label>
-                    <input type="text" class="name" name="name" minlength="2" required>
-                    <div class="error name"></div>
-                </div>
-                
-                <div class="field-container">
-                    <label rel="email">Email*</label>
-                    <input type="email" class="email" name="email" required >
-                    <div class="error email"></div>
-                </div>
-
-                <div class="field-container">
-                    <label rel="message">Richiesta*</label>
-                    <textarea class="message" name="message" required></textarea>
-                    <div class="error message"></div>
-                </div>
-
-                <div class="g-recaptcha" data-sitekey="6LfNxfQUAAAAAAyNejuUvrXmV7BMG35FWPGrY9N4"></div>
-
-                <div class="informativa-privacy">
-                    <div class="informativa-privacy--title">Termini e condizioni</div>
-                    <p>Desideriamo farti sapere come conserveremo i tuoi dati, per quanto tempo e per quali finalità. Potrai in ogni momento richiederci la loro cancellazione</p>
-                    <input type="checkbox" class="privacy" name="privacy" required ><label rel="privacy">Acconsento alla vostra <a class="popup" href="/privacy-policy.html">Informativa sulla privacy</a></label>
-                </div>
-
-                <input type="hidden" class="product_id" name="product_id" value="{{this._id}}">
-
-                <button type="submit"><span class="label">INVIA</span><span class="loader"><img src="/images/loader.gif"/></span></button>
-                <div class="info-message"></div>
-            </form>
-            <div class="success-message"></div>
+            </div>
+            {{/if}}
         </div>
-
     </div>
 </div>
 
