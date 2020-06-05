@@ -1,5 +1,5 @@
 <script type="application/ld+json">
-    /*{
+    {
       "@context": "http://schema.org/",
       "@type": "Product",
       "description": "{{{description}}}",
@@ -10,12 +10,13 @@
           "name": "Amalia Cardo"
         },
       "sku": "{{sku}}",
-      "url": "https://www.amaliacardo.it/{{slug}}.html",
       "offers": {
         "@type": "Offer",
         "priceCurrency": "EUR",
         "price": "0",
-        "availability": "InStock"
+        "availability": "InStock",
+        "url": "https://www.amaliacardo.it/{{slug}}.html",
+        "priceValidUntil": "{{priceValidUntil}}"
       },
         "aggregateRating": {
           "@type": "AggregateRating",
@@ -36,14 +37,12 @@
                 "ratingValue": "5",
                 "worstRating": "1"
               }
-            }
-            {{#if (listlt @index ../this.resources.reviews.length)}}
-            ,
-            {{/if}}
+            }{{#if (listlt @index ../this.resources.reviews.length)}},{{/if}}
         {{/each}}
       ]
-  }*/
+  }
 </script>
+
 
 <div class="content">
 	<div class="content--wrapper">
