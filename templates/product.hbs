@@ -17,7 +17,8 @@
         "availability": "InStock",
         "url": "https://www.amaliacardo.it/{{slug}}.html",
         "priceValidUntil": "{{priceValidUntil}}"
-      },
+      }
+      {{#if resources.reviews.length}},
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "5.0",
@@ -40,6 +41,7 @@
             }{{#if (listlt @index ../this.resources.reviews.length)}},{{/if}}
         {{/each}}
       ]
+      {{/if}}
   }
 </script>
 
