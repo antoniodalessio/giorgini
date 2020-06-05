@@ -99,6 +99,10 @@ class BuilderController {
                         const reviews = (yield models_1.Review.find(resource.filter).sort('_id')).map((item) => item ? item.toObject() : null);
                         resources.reviews = reviews;
                     }
+                    if (resource.type == 'fabric') {
+                        const fabrics = (yield models_1.Fabric.find(resource.filter).sort('_id')).map((item) => item ? item.toObject() : null);
+                        resources.fabrics = fabrics;
+                    }
                 }
                 page.resources = resources;
             }

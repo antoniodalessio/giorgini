@@ -1,6 +1,6 @@
 import Assemble from './../assemble'
 import FTP from './../utils/ftp'
-import { Page, Category, Product, Image, Review, ICategory } from '../models'
+import { Page, Category, Product, Image, Review, ICategory, Fabric } from '../models'
 import { IProduct  } from '../models/product';
 var fs = require('fs');
 import SeoHelper from '../helpers/SeoHelper'
@@ -101,6 +101,11 @@ class BuilderController {
         if (resource.type == 'review') {
           const reviews = (await Review.find(resource.filter).sort('_id')).map((item: any) => item ? item.toObject() : null)
           resources.reviews = reviews
+        }
+
+        if (resource.type == 'fabric') {
+          const fabrics = (await Fabric.find(resource.filter).sort('_id')).map((item: any) => item ? item.toObject() : null)
+          resources.fabrics = fabrics
         }
 
       }
