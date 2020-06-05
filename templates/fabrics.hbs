@@ -26,9 +26,14 @@ key: all_fabrics
 
             <div class="thumb-list">
             {{#each resources.fabrics}}
+                {{#if active}}
                 <a href="/images/work/{{this.thumb_preview}}_x2.jpg">
                     <img loading="lazy" src="/images/work/{{this.thumb_preview}}_thumb.jpg"  />
+                    <p class="black">
+                        {{cod}}
+                    </p>
                 </a>
+                {{/if}}
             {{/each}}
             </div>
         </div>
