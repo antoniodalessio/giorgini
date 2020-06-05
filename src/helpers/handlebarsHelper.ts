@@ -17,11 +17,8 @@ handlebars.registerHelper('limit', function (arr: any, limit: any) {
     },
     or() {
         return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
+    },
+    listlt: (v1: any, v2: any) => v1 + 1 < v2,
   });
-
-//   handlebars.registerHelper('breadcrumb', function(type: string, _id: any) {
-//     return `<div>Io sono il breadcrumb UUUUUUUUUU</div>`
-//   })
 
   export default handlebars;

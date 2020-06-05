@@ -19,10 +19,8 @@ handlebars.registerHelper({
     },
     or() {
         return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
+    },
+    listlt: (v1, v2) => v1 + 1 < v2,
 });
-//   handlebars.registerHelper('breadcrumb', function(type: string, _id: any) {
-//     return `<div>Io sono il breadcrumb UUUUUUUUUU</div>`
-//   })
 exports.default = handlebars;
 //# sourceMappingURL=handlebarsHelper.js.map
