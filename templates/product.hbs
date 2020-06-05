@@ -37,6 +37,9 @@
                 "worstRating": "1"
               }
             }
+            {{#if (lt @index resources.reviews.length}}
+            ,
+            {{/if}}
         {{/each}}
       ]
   }*/
