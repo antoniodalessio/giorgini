@@ -96,7 +96,7 @@ class BuilderController {
                         resources.categories = categories;
                     }
                     if (resource.type == 'review') {
-                        const reviews = (yield models_1.Review.find({ product: page._id }).sort('_id')).map((item) => item ? item.toObject() : null);
+                        const reviews = (yield models_1.Review.find(resource.filter).sort('_id')).map((item) => item ? item.toObject() : null);
                         resources.reviews = reviews;
                     }
                 }
@@ -186,7 +186,7 @@ class BuilderController {
             let products = yield models_1.Product.find().populate({ path: 'images', options: { sort: { 'ord': 1 } } }).populate('fabrics.internal fabrics.external category');
             for (const product of products) {
                 let prod = product.toObject();
-                prod.resources = [{ type: 'review' }];
+                prod.resources = [{ type: 'review', filter: { product: prod._id } }];
                 prod = yield this.addResources(prod);
                 prod.key = "product";
                 prod.mywork = "active";
