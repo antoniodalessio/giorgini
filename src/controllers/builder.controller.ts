@@ -83,9 +83,6 @@ class BuilderController {
 
       for (const resource of page.resources) {
 
-        console.log(resource)
-
-        //console.log(resource)
         if (resource.type == 'category') {
           // find main category
           const parentCategory = await Category.findOne({parent: null})
@@ -204,7 +201,6 @@ class BuilderController {
       let prod = product.toObject()
       prod.resources = [{type: 'review'}]
       prod = await this.addResources(prod)
-      console.log(prod)
       prod.key = "product"
       prod.mywork = "active"
       prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`

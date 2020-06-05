@@ -28,7 +28,7 @@
               "@type": "Review",
               "author": "{{username}}",
               "datePublished": "{{publishedAt}}",
-              "description": "{{~#comment~}}",
+              "description": "{{~comment~}}",
               "name": "{{username}}",
               "reviewRating": {
                 "@type": "Rating",
@@ -37,7 +37,7 @@
                 "worstRating": "1"
               }
             }
-            {{#if (lt @index resources.reviews.length}}
+            {{#if (lt @index resources.reviews.length)}}
             ,
             {{/if}}
         {{/each}}
