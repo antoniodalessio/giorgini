@@ -1,3 +1,4 @@
+{{#if resources.reviews.length}}
 <script type="application/ld+json">
     {
       "@context": "http://schema.org/",
@@ -17,9 +18,8 @@
         "availability": "InStock",
         "url": "https://www.amaliacardo.it/{{slug}}.html",
         "priceValidUntil": "{{priceValidUntil}}"
-      }
-      {{#if resources.reviews.length}},
-        "aggregateRating": {
+      },
+      "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "5.0",
           "reviewCount": "{{resources.reviews.length}}"
@@ -41,9 +41,9 @@
             }{{#if (listlt @index ../this.resources.reviews.length)}},{{/if}}
         {{/each}}
       ]
-      {{/if}}
   }
 </script>
+ {{/if}}
 
 
 <div class="content">
