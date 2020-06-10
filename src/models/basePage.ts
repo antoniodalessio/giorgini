@@ -52,6 +52,8 @@ interface IBasePage extends Document {
   title: string;
   description: string;
   body: string;
+  subtitle: string;
+  subbody: string;
   slug: string;
   ord: number;
   published: boolean;

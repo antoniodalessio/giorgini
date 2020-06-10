@@ -73,7 +73,6 @@
 		</ol>
 
         <div>
-
             <h1>{{title}}</h1>
             <p class="description">{{{description}}}</p>
 
@@ -90,6 +89,27 @@
             {{/if}}
             </div>
         </div>
+
+        {{#if (and this.body this.subbody)}}
+        <div class="project-description">
+            {{#if (and this.meta.title this.body)}}
+            <section>
+                <h2>{{this.meta.title}}</h1>
+                <div class="project-description__content">
+                {{{this.body}}}
+                </div>
+            </section>
+            {{/if}}
+            {{#if (and this.subtitle this.subbody)}}
+            <section>
+                <h3>{{this.subtitle}}</h2>
+                <div class="project-description__content">
+                {{{this.subbody}}}
+                </div>
+            </section>
+            {{/if}}
+        </div>
+        {{/if}}
 
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 

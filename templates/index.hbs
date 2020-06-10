@@ -29,26 +29,30 @@ key: index
 
 {{> categoriesmenu }}
 
-<div class="project-description">
-	{{#if (and this.title this.body)}}
-	<section>
-		<h1>{{this.title}}</h1>
-		<div class="project-description__content">
-		{{{this.body}}}
-		</div>
-	</section>
+<main>
+	{{#if (and this.body this.subbody)}}
+	<div class="project-description">
+		{{#if (and this.title this.body)}}
+		<section>
+			<h1>{{this.title}}</h1>
+			<div class="project-description__content">
+			{{{this.body}}}
+			</div>
+		</section>
+		{{/if}}
+		{{#if (and this.subtitle this.subbody)}}
+		<section>
+			<h2>{{this.subtitle}}</h2>
+			<div class="project-description__content">
+			{{{this.subbody}}}
+			</div>
+		</section>
+		{{/if}}
+	</div>
 	{{/if}}
-	{{#if (and this.subtitle this.subbody)}}
-	<section>
-		<h2>{{this.subtitle}}</h2>
-		<div class="project-description__content">
-		{{{this.subbody}}}
-		</div>
-	</section>
-	{{/if}}
-</div>
 
-{{> categories }}
+	{{> categories }}
+</main>
 
 
 <script src="/js/index.min.js" async deferred></script>
