@@ -16,6 +16,7 @@ const category = new mongoose_1.Schema(Object.assign(basePage_1.defaultPageField
     parent: {
         type: mongoose_1.Schema.Types.ObjectId
     },
+    template: { type: String, default: 'category' },
     hasSubcategory: {
         type: Boolean,
     }

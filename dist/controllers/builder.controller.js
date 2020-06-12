@@ -39,32 +39,13 @@ class BuilderController {
             const categories = (yield models_1.Category.find()).map((item) => item ? item.toObject() : null);
             const products = (yield models_1.Product.find().populate('images')).map((item) => item ? item.toObject() : null);
             const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
-            let resources = categories.concat(products).concat(pages);
-            let siteMap = `
-      <?xml version="1.0" encoding="UTF-8"?>
-      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-      ${resources.map((item) => {
-                if (item.template == 'index' || item.template == '404') {
-                    return '';
-                }
-                return `
-        <url>
-          <loc>${process.env.SITE_URL}/${item.slug}.html</loc>
-          ${item.images && item.images.length && item.images.map((image) => {
-                    return `
-              <image:image>
-                <image:caption>${image.alt}</image:caption>
-                <image:geo_location>Florence, Italy</image:geo_location>
-                <image:loc>${process.env.SITE_URL}/images/work/${image.uri}_thumb.jpg</image:loc>
-              </image:image>
-            `;
-                }).join('\n') || ''}
-        </url>
-      `;
-            }).join('\n')}
-      </urlset>
-    `;
-            yield fs.writeFileSync(`${process.env.SITE_PATH}sitemap.xml`, siteMap);
+            const resources = categories.concat(products).concat(pages);
+            const data = {
+                resources: resources.filter((resource) => resource.template != 'index' && resource.template != '404'),
+                baseUrl: process.env.SITE_URL,
+                slug: 'sitemap'
+            };
+            yield this.assemble.renderSimple('sitemap', data, "xml");
             yield this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755);
         });
     }
@@ -109,12 +90,21 @@ class BuilderController {
             return page;
         });
     }
-    buildStaticPages(unpublished) {
+    buildStaticPages() {
         return __awaiter(this, void 0, void 0, function* () {
             const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
+            const pags = [];
             for (let page of pages) {
                 page = yield this.addResources(page);
                 page.pageImage = `${process.env.SITE_URL}/images/logo.png`;
+                pags.push(page);
+            }
+            return pags;
+        });
+    }
+    uploadStaticPages(pages, unpublished) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (let page of pages) {
                 if (!unpublished || !page.published) {
                     yield this.assemble.render(page.template, page);
                     this.fileToUpload.push(page.slug);
@@ -138,34 +128,33 @@ class BuilderController {
             }
         });
     }
-    buildCategories(unpublished) {
+    buildCategories() {
         return __awaiter(this, void 0, void 0, function* () {
             let categories = yield models_1.Category.find().sort('ord');
+            let cats = [];
             for (const category of categories) {
                 let cat = category.toObject();
-                cat.key = "work";
-                cat.mywork = "active";
                 cat.products = yield this.getProductsOfCategory(category._id);
-                cat.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${cat.thumb_preview}_normal.jpg`,
-                    cat.products.forEach((product) => {
-                        if (product.hasOwnProperty("images") && product.images.length > 0) {
-                            product.thumb = product.images[0].uri;
-                        }
-                        else {
-                            product.thumb = null;
-                        }
-                    });
-                if (!unpublished || !category.published) {
-                    cat.breadcrumb = (yield this.buildBreadCrumb(cat)).reverse();
-                    if (category.hasSubcategory) {
-                        cat.categories = yield this.getSubcategories(category._id);
-                        yield this.assemble.render("categories", cat);
-                    }
-                    else {
-                        yield this.assemble.render("category", cat);
-                    }
+                cat.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${cat.thumb_preview}_normal.jpg`;
+                cat.products.forEach((product) => {
+                    product.thumb = product.hasOwnProperty("images") && product.images.length > 0 ? product.images[0].uri : null;
+                });
+                cat.breadcrumb = (yield this.buildBreadCrumb(cat)).reverse();
+                if (category.hasSubcategory) {
+                    cat.categories = yield this.getSubcategories(category._id);
+                }
+                cats.push(cat);
+            }
+            return cats;
+        });
+    }
+    uploadCategories(categories, unpublished) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (const cat of categories) {
+                if (!unpublished || !cat.published) {
+                    cat.hasSubcategory ? yield this.assemble.render("categories", cat) : yield this.assemble.render("category", cat);
                     this.fileToUpload.push(cat.slug);
-                    yield models_1.Category.updateOne({ _id: category._id }, { published: true });
+                    yield models_1.Category.updateOne({ _id: cat._id }, { published: true });
                 }
             }
         });
@@ -185,23 +174,30 @@ class BuilderController {
             }
         });
     }
-    buildProducts(unpublished) {
+    buildProducts() {
         return __awaiter(this, void 0, void 0, function* () {
             let products = yield models_1.Product.find().populate({ path: 'images', options: { sort: { 'ord': 1 } } }).populate('fabrics.internal fabrics.external category');
+            let prods = [];
             for (const product of products) {
                 let prod = product.toObject();
                 prod.resources = [{ type: 'review', filter: { product: prod._id } }];
                 prod = yield this.addResources(prod);
-                prod.key = "product";
-                prod.mywork = "active";
                 prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`;
+                const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
+                prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
+                prod.breadcrumb.push({ slug: prod.slug, label: prod.title });
+                prods.push(prod);
+            }
+            return prods;
+        });
+    }
+    uploadProducts(products, unpublished) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (const product of products) {
                 if (!unpublished || !product.published) {
-                    const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
-                    prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
-                    prod.breadcrumb.push({ slug: prod.slug, label: prod.title });
-                    yield this.assemble.render("product", prod);
+                    yield this.assemble.render("product", product);
                     this.fileToUpload.push(product.slug);
-                    if (product.fabrics.internal.length > 0 || product.fabrics.external.length) {
+                    if (product.fabrics && ((product.fabrics.internal && product.fabrics.internal.length > 0) || (product.fabrics.external && product.fabrics.external.length))) {
                         yield this.renderFabrics(product);
                         this.fileToUpload.push(`${product.slug}_fabrics`);
                     }
@@ -212,9 +208,9 @@ class BuilderController {
     }
     build(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.buildCategories(unpublished);
-            yield this.buildProducts(unpublished);
-            yield this.buildStaticPages(unpublished);
+            yield this.uploadCategories(yield this.buildCategories(), unpublished);
+            yield this.uploadProducts(yield this.buildProducts(), unpublished);
+            yield this.uploadStaticPages(yield this.buildStaticPages(), unpublished);
         });
     }
     upload() {
@@ -236,6 +232,21 @@ class BuilderController {
             for (const file of filesToRemove) {
                 yield fs.unlinkSync(`${process.env.SITE_PATH}${file}`);
             }
+        });
+    }
+    renderBySlug(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const allPages = [yield this.buildCategories(), yield this.buildStaticPages(), yield this.buildProducts()].reduce((acc, curr) => {
+                return acc.concat(curr);
+            });
+            for (let page of allPages) {
+                page = yield this.addResources(page);
+            }
+            name = name.replace(".html", "");
+            const page = allPages.filter(resource => resource.slug == name);
+            console.log(page[0].template);
+            const result = yield this.assemble.renderPage(page[0]);
+            return result;
         });
     }
     publish(req, res) {

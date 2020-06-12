@@ -17,6 +17,7 @@ var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
 const public_1 = __importDefault(require("./routes/public"));
+const site_1 = __importDefault(require("./routes/site"));
 const SeoHelper_1 = __importDefault(require("./helpers/SeoHelper"));
 const mongoose = require('mongoose');
 var fs = require('fs');
@@ -37,16 +38,16 @@ class App {
             "preflightContinue": false,
             "optionsSuccessStatus": 204
         }));
-        this._expressApp.use;
+        this._expressApp.use(express.static('site'));
         this._expressApp.use(express.json({ limit: '50mb' }));
         this._expressApp.use(express.urlencoded({ limit: '50mb' }));
         this._expressApp.setMaxListeners(0);
         this._expressApp.listen(process.env.PORT, () => {
             console.log(`Server running on port ${process.env.PORT}`);
         });
-        this._expressApp.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            res.send("hello world");
-        }));
+        // this._expressApp.get('/', async (req: any, res: any) => {
+        //   res.send("hello world")
+        // })
         this._expressApp.post('/testgh', (req, res) => __awaiter(this, void 0, void 0, function* () {
             res.status(200).json({ data: 'hello google home' });
         }));
@@ -56,6 +57,7 @@ class App {
         this._expressApp.post('/logout', (req, res) => __awaiter(this, void 0, void 0, function* () { yield loginCTRL.logout(req, res); }));
         this._expressApp.use('/api/', api_1.default());
         this._expressApp.use('/public/', public_1.default());
+        this._expressApp.use('/', site_1.default());
     }
     initMongoose() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -57,14 +57,24 @@ class Assemble {
             }
         });
     }
-    renderSimple(templatename, data) {
+    renderPage(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let templateFile = yield fs.readFileSync(`${this.options.defaultLayout}`, 'utf8');
+            let newdata = yield this.setTemplate(data.template, data);
+            console.log(newdata);
+            let template = handlebarsHelper_1.default.compile(templateFile);
+            const tmpData = Object.assign(data, newdata);
+            return yield template(tmpData);
+        });
+    }
+    renderSimple(templatename, data, ext = "html") {
         return __awaiter(this, void 0, void 0, function* () {
             //render template without a layout
             let templateFile = yield fs.readFileSync(`${this.options.templatesPath}/${templatename}.hbs`, 'utf8');
             let template = handlebarsHelper_1.default.compile(templateFile);
             let result = template(data);
             try {
-                yield fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result);
+                yield fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.${ext}`, result);
             }
             catch (e) {
                 console.log(e);

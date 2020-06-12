@@ -19,6 +19,7 @@ const product = new mongoose_1.Schema(Object.assign(basePage_1.defaultPageField,
         type: String
     },
     priceValidUntil: Date,
+    template: { type: String, default: 'product' },
     resources: [
         { type: { type: String } }
     ]
