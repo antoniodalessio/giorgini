@@ -1,3 +1,8 @@
+---
+mywork: active
+key: work
+---	
+	
 <div class="content">
 	<div class="content--wrapper">
 		{{> menu}}
@@ -20,11 +25,9 @@
 			</li>
 		{{/each}}
 		</ol>
-		<h1>{{title}}</h1>
+		<h1 class="work__title">{{title}}</h1>
 		<div class="description">{{{text}}}</div>
-		
-		<div class="work-category">
-
+		<div class="thumb-list">
 			{{#each categories}}
 				<a href="/{{this.slug}}.html" title="{{this.description}}">
 					<img src="images/work/{{this.thumb_preview}}_thumb.jpg" alt="{{this.title}}" />
@@ -34,16 +37,13 @@
 			{{/each}}
 
 			{{#each products}}
-				<a href="/{{this.slug}}.html" title="{{this.title}}">
-					<img src="/images/work/{{this.thumb}}_thumb.jpg" alt="{{../category_name}} {{this.title}}"/>
+				<a href="/{{this.slug}}.html" title="{{this.description}}">
+					<img src="/images/work/{{this.thumb}}_thumb.jpg" alt="{{../category_name}} {{this.title}}" />
 					<p class="black">{{this.title}}</p>
 				</a>
 			{{/each}}
-
 		</div>
 	</div>
 </div>
-
-
 
 <script src="js/work.min.js" async deferred></script>

@@ -50,13 +50,23 @@ class Assemble {
     }
   }
 
-  async renderSimple(templatename: string, data: any) {
+
+  async renderPage(data: any) {
+    let templateFile = await fs.readFileSync(`${this.options.defaultLayout}`, 'utf8')
+    let newdata = await this.setTemplate(data.template, data)
+    console.log(newdata)
+    let template = handlebars.compile(templateFile)
+    const tmpData = Object.assign(data, newdata);
+    return await template(tmpData)
+  }
+
+  async renderSimple(templatename: string, data: any, ext:String = "html") {
     //render template without a layout
     let templateFile = await fs.readFileSync(`${this.options.templatesPath}/${templatename}.hbs`, 'utf8')
     let template = handlebars.compile(templateFile)
     let result = template(data)
     try {
-      await fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.html`, result)
+      await fs.writeFileSync(`${this.options.defaultFolder}${data.slug}.${ext}`, result)
     }catch(e) {
       console.log(e)
     }

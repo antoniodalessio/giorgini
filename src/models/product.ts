@@ -22,6 +22,7 @@ const product: Schema = new Schema(Object.assign(defaultPageField, {
         type: String
     },
     priceValidUntil: Date,
+    template: { type: String, default: 'product' },
     resources: [
         { type: { type: String } }
     ]

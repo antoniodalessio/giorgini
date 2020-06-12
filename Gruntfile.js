@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
 
-	var baseDir = './site/'
+	var baseDir = './src/assets/'
 	var bowerDir = "bower_components/";
 	var nodeDir = 'node_modules/'
 		

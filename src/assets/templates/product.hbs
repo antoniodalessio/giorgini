@@ -1,3 +1,8 @@
+---
+mywork: active
+key: product
+---	
+
 
 <script type="application/ld+json">
     {
@@ -53,7 +58,6 @@
 		{{> menu}}
 		<img class="logo" src="/images/logo.png" alt="logo Amalia cardo" />
 	</div>
-	
     <div class="column--second">
         <div class="logo--version--two">
             <a alt="Amalia Cardo Stilista, sarta e modellista a Firenze" href="/">
@@ -73,11 +77,12 @@
 		</ol>
         
         <main>
-            <div>
+            <div class="description">
                 <h1>{{title}}</h1>
                 <p class="description">{{{description}}}</p>
+            </div>
 
-                <div class="thumb-list">
+             <div class="thumb-list">
                 {{#each images}}
                     <a href="/images/work/{{this.uri}}_x2.jpg" title="{{this.alt}}">
                         <img loading="lazy" src="/images/work/{{this.uri}}_thumb.jpg" alt="{{this.alt}}" />
@@ -88,7 +93,6 @@
                         Scopri tutti i tessuti disponibili
                     </a>
                 {{/if}}
-                </div>
             </div>
 
             {{#if (and this.body this.subbody)}}

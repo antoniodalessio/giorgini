@@ -15,6 +15,7 @@ const category: Schema = new Schema(Object.assign(defaultPageField, {
     parent: {
         type: Schema.Types.ObjectId
     },
+    template: { type: String, default: 'category' },
     hasSubcategory: {
         type: Boolean,
     }
@@ -27,6 +28,7 @@ interface ICategory extends IBasePage {
     thumb_preview: string;
     hasSubcategory: boolean;
     parent: ICategory;
+    template: string;
 }
 
 export { 

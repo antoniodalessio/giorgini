@@ -5,8 +5,8 @@ import loginController from './controllers/login.controller'
 
 import apiRoutes from './routes/api'
 import publicRoutes from './routes/public'
+import siteRoutes from './routes/site'
 
-import seoHelper from './helpers/SeoHelper'
 import SeoHelper from './helpers/SeoHelper';
 
 const mongoose = require('mongoose');
@@ -37,7 +37,7 @@ class App {
       "preflightContinue": false,
       "optionsSuccessStatus": 204
     }));
-    this._expressApp.use
+    this._expressApp.use(express.static('site'))
     this._expressApp.use(express.json({limit: '50mb'}));
     this._expressApp.use(express.urlencoded({limit: '50mb'}));
     this._expressApp.setMaxListeners(0);
@@ -46,9 +46,9 @@ class App {
       console.log(`Server running on port ${process.env.PORT!}`);
     });
 
-    this._expressApp.get('/', async (req: any, res: any) => {
-      res.send("hello world")
-    })
+    // this._expressApp.get('/', async (req: any, res: any) => {
+    //   res.send("hello world")
+    // })
 
     this._expressApp.post('/testgh', async (req: any, res: any) => {
       res.status(200).json({data: 'hello google home'});
@@ -63,6 +63,7 @@ class App {
     this._expressApp.use('/api/', apiRoutes());
     this._expressApp.use('/public/', publicRoutes());
 
+    this._expressApp.use('/', siteRoutes())
     
   }
 
