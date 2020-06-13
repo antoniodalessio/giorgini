@@ -71,7 +71,8 @@ class ContactController {
     }
 
     if (data.hasOwnProperty('productId') && data.productId != ''){
-      sub.product = data.productId
+      const product: any = await Product.findOne({_id: data.productId})
+      sub.product = product
     }
     const submission = new Submission(sub)
     await submission.save()

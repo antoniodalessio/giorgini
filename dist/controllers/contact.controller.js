@@ -71,7 +71,8 @@ class ContactController {
                 _id: new mongoose_1.Types.ObjectId()
             };
             if (data.hasOwnProperty('productId') && data.productId != '') {
-                sub.product = data.productId;
+                const product = yield models_1.Product.findOne({ _id: data.productId });
+                sub.product = product;
             }
             const submission = new models_1.Submission(sub);
             yield submission.save();
