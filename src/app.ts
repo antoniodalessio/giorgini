@@ -63,7 +63,7 @@ class App {
     this._expressApp.use('/api/', apiRoutes());
     this._expressApp.use('/public/', publicRoutes());
 
-    this._expressApp.use('/', siteRoutes())
+    //this._expressApp.use('/', siteRoutes())
     
   }
 

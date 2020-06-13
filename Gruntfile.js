@@ -2,7 +2,8 @@ module.exports = function(grunt) {
 
 	var baseDir = './src/assets/'
 	var bowerDir = "bower_components/";
-	var nodeDir = 'node_modules/'
+	var nodeDir = 'node_modules/';
+	var destDir = './site/'
 		
 	var common = [
 		bowerDir + 'jquery/dist/jquery.js',
@@ -34,19 +35,19 @@ module.exports = function(grunt) {
 			},
 			my_target: {
 				files: {
-					[baseDir + 'js/index.min.js']: common.concat([baseDir + 'js/index.js']),
-					[baseDir + 'js/about.min.js']: common.concat([baseDir + 'js/about.js']),
-					[baseDir + 'js/what.min.js']: common.concat([baseDir + 'js/what.js']),
-					[baseDir + 'js/product.min.js']: common.concat([
+					[destDir + 'js/index.min.js']: common.concat([baseDir + 'js/index.js']),
+					[destDir + 'js/about.min.js']: common.concat([baseDir + 'js/about.js']),
+					[destDir + 'js/what.min.js']: common.concat([baseDir + 'js/what.js']),
+					[destDir + 'js/product.min.js']: common.concat([
 						bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
 						baseDir + 'js/product.js'
 					]),
-					[baseDir + 'js/fabrics.min.js']: [
+					[destDir + 'js/fabrics.min.js']: [
 						bowerDir + 'jquery/dist/jquery.js',
 						nodeDir + 'jquery-zoom/jquery.zoom.js'
 					].concat([baseDir + 'js/fabrics.js']),
-					[baseDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
-					[baseDir + 'js/contact.min.js']: common.concat(
+					[destDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
+					[destDir + 'js/contact.min.js']: common.concat(
 						[	bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
 							baseDir + 'js/contact.js'
 						]),

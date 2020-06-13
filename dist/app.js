@@ -17,7 +17,6 @@ var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
 const public_1 = __importDefault(require("./routes/public"));
-const site_1 = __importDefault(require("./routes/site"));
 const SeoHelper_1 = __importDefault(require("./helpers/SeoHelper"));
 const mongoose = require('mongoose');
 var fs = require('fs');
@@ -57,7 +56,7 @@ class App {
         this._expressApp.post('/logout', (req, res) => __awaiter(this, void 0, void 0, function* () { yield loginCTRL.logout(req, res); }));
         this._expressApp.use('/api/', api_1.default());
         this._expressApp.use('/public/', public_1.default());
-        this._expressApp.use('/', site_1.default());
+        //this._expressApp.use('/', siteRoutes())
     }
     initMongoose() {
         return __awaiter(this, void 0, void 0, function* () {

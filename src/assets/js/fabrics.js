@@ -20,9 +20,11 @@ $(document).ready(function(){
 
         var bigImg = $(this).attr('src').replace('_thumb', '_x2')
         
-        $(this)
-        .parent()
-        .zoom({url: bigImg, magnify: 1.4});
+        if ($(window).width() > 1024) {
+            $(this)
+            .parent()
+            .zoom({url: bigImg, magnify: 1.4});
+         }
     })
 
 

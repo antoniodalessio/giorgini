@@ -186,7 +186,7 @@ class BuilderController {
                 const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
                 prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
                 prod.breadcrumb.push({ slug: prod.slug, label: prod.title });
-                if (product.fabrics.internal.length > 0 || product.fabrics.external.length) {
+                if (product.fabrics.internal.length || product.fabrics.external.length) {
                     console.log(product.fabrics.internal);
                     yield this.renderFabrics(product);
                     this.fileToUpload.push(`${product.slug}_fabrics`);
