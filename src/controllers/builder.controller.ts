@@ -197,7 +197,12 @@ class BuilderController {
       prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`
       const category = (await Category.findOne({_id: prod.category})).toObject()
       prod.breadcrumb = (await this.buildBreadCrumb(category)).reverse()
-      prod.breadcrumb.push({slug: prod.slug, label: prod.title}) 
+      prod.breadcrumb.push({slug: prod.slug, label: prod.title})
+      if ( product.fabrics.internal.length > 0 || product.fabrics.external.length) {
+        console.log(product.fabrics.internal)
+        await this.renderFabrics(product)
+        this.fileToUpload.push(`${product.slug}_fabrics`)
+      }
       prods.push(prod)     
     }
     return prods;
@@ -208,10 +213,6 @@ class BuilderController {
       if (!unpublished || !product.published) {
         await this.assemble.render("product", product)
         this.fileToUpload.push(product.slug)
-        if ( product.fabrics && ((product.fabrics.internal && product.fabrics.internal.length > 0) || (product.fabrics.external && product.fabrics.external.length) )) {
-          await this.renderFabrics(product)
-          this.fileToUpload.push(`${product.slug}_fabrics`)
-        }
         await Product.updateOne({_id: product._id}, {published: true})
       }
     }

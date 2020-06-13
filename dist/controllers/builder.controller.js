@@ -186,6 +186,11 @@ class BuilderController {
                 const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
                 prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
                 prod.breadcrumb.push({ slug: prod.slug, label: prod.title });
+                if (product.fabrics.internal.length > 0 || product.fabrics.external.length) {
+                    console.log(product.fabrics.internal);
+                    yield this.renderFabrics(product);
+                    this.fileToUpload.push(`${product.slug}_fabrics`);
+                }
                 prods.push(prod);
             }
             return prods;
@@ -197,10 +202,6 @@ class BuilderController {
                 if (!unpublished || !product.published) {
                     yield this.assemble.render("product", product);
                     this.fileToUpload.push(product.slug);
-                    if (product.fabrics && ((product.fabrics.internal && product.fabrics.internal.length > 0) || (product.fabrics.external && product.fabrics.external.length))) {
-                        yield this.renderFabrics(product);
-                        this.fileToUpload.push(`${product.slug}_fabrics`);
-                    }
                     yield models_1.Product.updateOne({ _id: product._id }, { published: true });
                 }
             }
