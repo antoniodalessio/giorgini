@@ -64,10 +64,10 @@ class ContactController {
                 customer = yield model.save();
             }
             const sub = {
+                _id: new mongoose_1.Types.ObjectId(),
                 text: data.message,
                 requestAt: new Date(),
-                customer: customer._id,
-                _id: new mongoose_1.Types.ObjectId()
+                customer: customer
             };
             if (data.hasOwnProperty('productId') && data.productId != '') {
                 const product = yield models_1.Product.findOne({ _id: data.productId });

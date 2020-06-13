@@ -63,10 +63,10 @@ class ContactController {
     }
 
     const sub: any = {
+      _id: new Types.ObjectId(),
       text: data.message,
       requestAt: new Date(),
-      customer: customer._id,
-      _id: new Types.ObjectId()
+      customer: customer
     }
 
     if (data.hasOwnProperty('productId') && data.productId != ''){
