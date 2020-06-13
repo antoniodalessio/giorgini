@@ -64,13 +64,16 @@ class ContactController {
                 customer = yield model.save();
                 return customer;
             }
-            const submission = new models_1.Submission({
+            const sub = {
                 text: data.message,
                 requestAt: new Date(),
                 customer: customer._id,
-                product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : null
-            });
-            submission._id = new mongoose_1.Types.ObjectId();
+                _id: new mongoose_1.Types.ObjectId()
+            };
+            if (data.hasOwnProperty('productId') && data.productId != '') {
+                sub.product = data.productId;
+            }
+            const submission = new models_1.Submission(sub);
             yield submission.save();
             return submission;
         });

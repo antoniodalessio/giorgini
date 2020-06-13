@@ -63,15 +63,17 @@ class ContactController {
       return customer
     }
 
-    const submission = new Submission({
-        text: data.message,
-        requestAt: new Date(),
-        customer: customer._id,
-        product: data.hasOwnProperty('productId') && data.productId != '' ? data.productId : null
-      }
-    )
-    
-    submission._id = new Types.ObjectId()
+    const sub: any = {
+      text: data.message,
+      requestAt: new Date(),
+      customer: customer._id,
+      _id: new Types.ObjectId()
+    }
+
+    if (data.hasOwnProperty('productId') && data.productId != ''){
+      sub.product = data.productId
+    }
+    const submission = new Submission(sub)
     await submission.save()
 
     return submission
