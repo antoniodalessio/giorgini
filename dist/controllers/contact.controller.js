@@ -57,21 +57,23 @@ class ContactController {
     saveInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             let customer = yield models_1.Customer.findOne({ email: data.email });
-            if (!customer._id) {
+            console.log("customer1", customer);
+            if (!customer) {
                 //save
                 const id = new mongoose_1.Types.ObjectId();
-                const model = new models_1.Customer({ _id: id, email: data.email, firstname: data.name });
-                customer = yield model.save();
+                const cust = new models_1.Customer({ _id: id, email: data.email, firstname: data.name });
+                customer = yield cust.save();
             }
+            console.log("customer2", customer);
             const sub = {
                 _id: new mongoose_1.Types.ObjectId(),
                 text: data.message,
                 requestAt: new Date(),
-                customer: customer
+                customer: customer._id
             };
             if (data.hasOwnProperty('productId') && data.productId != '') {
                 const product = yield models_1.Product.findOne({ _id: data.productId });
-                sub.product = product;
+                sub.product = product._id;
             }
             const submission = new models_1.Submission(sub);
             yield submission.save();

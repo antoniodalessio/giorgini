@@ -55,23 +55,27 @@ class ContactController {
   async saveInfo(data: any) {
     let customer: any = await Customer.findOne({email: data.email})
 
-    if (!customer._id) {
+    console.log("customer1", customer)
+
+    if (!customer) {
       //save
       const id = new Types.ObjectId()
-      const model = new Customer({_id: id, email: data.email, firstname: data.name})
-      customer = await model.save()
+      const cust = new Customer({_id: id, email: data.email, firstname: data.name})
+      customer = await cust.save()
     }
+
+    console.log("customer2", customer)
 
     const sub: any = {
       _id: new Types.ObjectId(),
       text: data.message,
       requestAt: new Date(),
-      customer: customer
+      customer: customer._id
     }
 
     if (data.hasOwnProperty('productId') && data.productId != ''){
       const product: any = await Product.findOne({_id: data.productId})
-      sub.product = product
+      sub.product = product._id
     }
     const submission = new Submission(sub)
     await submission.save()
