@@ -198,7 +198,7 @@ class BuilderController {
       const category = (await Category.findOne({_id: prod.category})).toObject()
       prod.breadcrumb = (await this.buildBreadCrumb(category)).reverse()
       prod.breadcrumb.push({slug: prod.slug, label: prod.title})
-      if ( product.fabrics.internal.length > 0 || product.fabrics.external.length) {
+      if ( product.fabrics.internal.length || product.fabrics.external.length) {
         console.log(product.fabrics.internal)
         await this.renderFabrics(product)
         this.fileToUpload.push(`${product.slug}_fabrics`)
