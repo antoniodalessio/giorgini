@@ -62,7 +62,6 @@ class ContactController {
                 const id = new mongoose_1.Types.ObjectId();
                 const model = new models_1.Customer({ _id: id, email: data.email, firstname: data.name });
                 customer = yield model.save();
-                return customer;
             }
             const sub = {
                 text: data.message,

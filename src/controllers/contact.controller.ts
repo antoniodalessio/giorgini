@@ -60,7 +60,6 @@ class ContactController {
       const id = new Types.ObjectId()
       const model = new Customer({_id: id, email: data.email, firstname: data.name})
       customer = await model.save()
-      return customer
     }
 
     const sub: any = {
