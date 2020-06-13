@@ -56,7 +56,7 @@ class ContactController {
     }
     saveInfo(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            let customer = (yield models_1.Customer.findOne({ email: data.email })).toObject();
+            let customer = yield models_1.Customer.findOne({ email: data.email });
             if (!customer._id) {
                 //save
                 const id = new mongoose_1.Types.ObjectId();

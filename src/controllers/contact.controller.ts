@@ -53,7 +53,7 @@ class ContactController {
   }
 
   async saveInfo(data: any) {
-    let customer: any = (await Customer.findOne({email: data.email})).toObject()
+    let customer: any = await Customer.findOne({email: data.email})
 
     if (!customer._id) {
       //save
