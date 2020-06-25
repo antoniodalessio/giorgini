@@ -87,7 +87,8 @@ class BuilderController {
           for(const category of categories ) {
             const products = (await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null)
             if (products.length > 0) {
-              category.products = products
+              const subcategoryProduct = await this.getProductsFromSubCategory(category._id)
+              category.products = shuffle(products.concat(subcategoryProduct))
             }else{
               // load products randomly? from subcategory 
               category.products = await this.getProductsFromSubCategory(category._id)

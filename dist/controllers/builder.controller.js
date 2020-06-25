@@ -84,7 +84,8 @@ class BuilderController {
                         for (const category of categories) {
                             const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
                             if (products.length > 0) {
-                                category.products = products;
+                                const subcategoryProduct = yield this.getProductsFromSubCategory(category._id);
+                                category.products = array_1.shuffle(products.concat(subcategoryProduct));
                             }
                             else {
                                 // load products randomly? from subcategory 
