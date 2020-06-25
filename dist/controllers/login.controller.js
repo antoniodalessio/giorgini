@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const models_1 = require("./../models");
-var crypto = require('crypto');
+const utils_1 = require("../utils/utils");
 class LoginController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { username, password } = req.body;
-            const hash = this.toHash(username, password);
+            const hash = utils_1.toHash(username, password);
             let result = yield models_1.User.find({ hash });
             if (result.length > 0) {
-                let token = this.createRandomToken();
+                let token = utils_1.createRandomToken();
                 result[0].token = token;
                 yield models_1.User.updateOne({ _id: result[0]._id }, result[0]);
                 res.status(200).json({ token });
@@ -48,12 +48,6 @@ class LoginController {
             yield models_1.User.updateOne({ _id: result[0]._id }, result[0]);
             res.status(200).json({ message: "logout" });
         });
-    }
-    toHash(username, password) {
-        return crypto.createHash('sha256').update(`${username}${password}`).digest('base64');
-    }
-    createRandomToken() {
-        return crypto.randomBytes(64).toString('hex');
     }
 }
 exports.default = LoginController;
