@@ -17,6 +17,7 @@ const ftp_1 = __importDefault(require("./../utils/ftp"));
 const models_1 = require("../models");
 var fs = require('fs');
 const SeoHelper_1 = __importDefault(require("../helpers/SeoHelper"));
+const array_1 = require("../utils/array");
 class BuilderController {
     constructor() {
         this.fileToUpload = [];
@@ -59,20 +60,6 @@ class BuilderController {
             return (yield models_1.Product.find({ category: id }).sort('ord').populate('images')).map((item) => item ? item.toObject() : null);
         });
     }
-    /**
-   * Shuffles array in place.
-   * @param {Array} a items An array containing the items.
-   */
-    shuffle(a) {
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
-    }
     getProductsFromSubCategory(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const categories = (yield models_1.Category.find({ parent: id }).sort('ord')).map((item) => item ? item.toObject() : null);
@@ -80,7 +67,7 @@ class BuilderController {
             for (const category of categories) {
                 products = products.concat((yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null));
             }
-            return this.shuffle(products);
+            return array_1.shuffle(products);
         });
     }
     addResources(page) {
@@ -216,11 +203,7 @@ class BuilderController {
                 const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
                 prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
                 prod.breadcrumb.push({ slug: prod.slug, label: prod.title });
-                if (product.fabrics.internal.length || product.fabrics.external.length) {
-                    console.log(product.fabrics.internal);
-                    yield this.renderFabrics(product);
-                    this.fileToUpload.push(`${product.slug}_fabrics`);
-                }
+                prod.fabrics = product.fabrics;
                 prods.push(prod);
             }
             return prods;
@@ -230,6 +213,10 @@ class BuilderController {
         return __awaiter(this, void 0, void 0, function* () {
             for (const product of products) {
                 if (!unpublished || !product.published) {
+                    if (product.fabrics.internal.length || product.fabrics.external.length) {
+                        yield this.renderFabrics(product);
+                        this.fileToUpload.push(`${product.slug}_fabrics`);
+                    }
                     yield this.assemble.render("product", product);
                     this.fileToUpload.push(product.slug);
                     yield models_1.Product.updateOne({ _id: product._id }, { published: true });

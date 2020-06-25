@@ -4,6 +4,7 @@ import { Page, Category, Product, Image, Review, ICategory, Fabric } from '../mo
 import { IProduct  } from '../models/product';
 var fs = require('fs');
 import SeoHelper from '../helpers/SeoHelper'
+import { shuffle } from '../utils/array'
 
 interface IBreadcrumb {
   slug: string
@@ -58,20 +59,6 @@ class BuilderController {
     return (await Product.find({category: id}).sort('ord').populate('images')).map((item: any) => item ? item.toObject() : null)
   }
 
-  /**
- * Shuffles array in place.
- * @param {Array} a items An array containing the items.
- */
-  shuffle(a: any) {
-    var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-    }
-    return a;
-  }
 
   async getProductsFromSubCategory(id: any) {
     const categories = (await Category.find({parent: id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
@@ -79,7 +66,7 @@ class BuilderController {
     for(const category of categories ) {
       products = products.concat((await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null))
     }
-    return this.shuffle(products)
+    return shuffle(products)
   }
 
   async addResources(page: any) {
@@ -227,11 +214,7 @@ class BuilderController {
       const category = (await Category.findOne({_id: prod.category})).toObject()
       prod.breadcrumb = (await this.buildBreadCrumb(category)).reverse()
       prod.breadcrumb.push({slug: prod.slug, label: prod.title})
-      if ( product.fabrics.internal.length || product.fabrics.external.length) {
-        console.log(product.fabrics.internal)
-        await this.renderFabrics(product)
-        this.fileToUpload.push(`${product.slug}_fabrics`)
-      }
+      prod.fabrics = product.fabrics
       prods.push(prod)     
     }
     return prods;
@@ -240,6 +223,10 @@ class BuilderController {
   async uploadProducts(products: any, unpublished: boolean) {
     for(const product of products) {
       if (!unpublished || !product.published) {
+        if ( product.fabrics.internal.length || product.fabrics.external.length) {
+          await this.renderFabrics(product)
+          this.fileToUpload.push(`${product.slug}_fabrics`)
+        }
         await this.assemble.render("product", product)
         this.fileToUpload.push(product.slug)
         await Product.updateOne({_id: product._id}, {published: true})
