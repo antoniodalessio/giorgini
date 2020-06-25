@@ -165,9 +165,9 @@ class BuilderController {
         product.thumb = product.hasOwnProperty("images") && product.images.length > 0 ? product.images[0].uri : null
       });
       cat.breadcrumb = (await this.buildBreadCrumb(cat)).reverse()
-      if(category.hasSubcategory) {
+      //if(category.hasSubcategory) {
         cat.categories = await this.getSubcategories(category._id)
-      }
+      //}
       cats.push(cat)
     }
 
