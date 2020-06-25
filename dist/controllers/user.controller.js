@@ -23,6 +23,7 @@ class UserController extends base_controller_1.default {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
             try {
                 const data = yield this.model.find({ username: req.body.username });
                 if (data.length != 0) {
@@ -30,11 +31,12 @@ class UserController extends base_controller_1.default {
                     return;
                 }
                 req.body._id = new mongoose_1.Types.ObjectId();
-                const { username, password } = req.body;
-                req.body.hash = utils_1.toHash(username, password);
+                if (req.body.hasOwnProperty('password') && req.body.password != '') {
+                    req.body.hash = utils_1.toHash(req.body.username, req.body.password);
+                }
                 let user = new models_1.User(req.body);
                 const result = yield user.save();
-                res.status(200).json({ data: result });
+                res.status(200).json(result);
             }
             catch (e) {
                 res.status(500).json(e);
@@ -50,10 +52,11 @@ class UserController extends base_controller_1.default {
                     res.status(500).json({ error: `resource with '${id}' doesn't exists` });
                     return;
                 }
-                const { username, password } = req.body;
-                req.body.hash = utils_1.toHash(username, password);
+                if (req.body.hasOwnProperty('password') && req.body.password != '') {
+                    req.body.hash = utils_1.toHash(req.body.username, req.body.password);
+                }
                 const result = yield this.model.updateOne({ _id: id }, req.body);
-                res.status(200).json({ data: result });
+                res.status(200).json(result);
             }
             catch (e) {
                 res.status(500).json(e);
