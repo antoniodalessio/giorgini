@@ -58,13 +58,28 @@ class BuilderController {
     return (await Product.find({category: id}).sort('ord').populate('images')).map((item: any) => item ? item.toObject() : null)
   }
 
+  /**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+  shuffle(a: any) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+  }
+
   async getProductsFromSubCategory(id: any) {
     const categories = (await Category.find({parent: id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
     let products: any = [];
     for(const category of categories ) {
       products = products.concat((await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null))
     }
-    return products
+    return this.shuffle(products)
   }
 
   async addResources(page: any) {

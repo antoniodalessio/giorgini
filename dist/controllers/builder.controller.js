@@ -59,6 +59,20 @@ class BuilderController {
             return (yield models_1.Product.find({ category: id }).sort('ord').populate('images')).map((item) => item ? item.toObject() : null);
         });
     }
+    /**
+   * Shuffles array in place.
+   * @param {Array} a items An array containing the items.
+   */
+    shuffle(a) {
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+    }
     getProductsFromSubCategory(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const categories = (yield models_1.Category.find({ parent: id }).sort('ord')).map((item) => item ? item.toObject() : null);
@@ -66,7 +80,7 @@ class BuilderController {
             for (const category of categories) {
                 products = products.concat((yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null));
             }
-            return products;
+            return this.shuffle(products);
         });
     }
     addResources(page) {
