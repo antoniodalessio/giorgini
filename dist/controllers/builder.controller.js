@@ -59,6 +59,16 @@ class BuilderController {
             return (yield models_1.Product.find({ category: id }).sort('ord').populate('images')).map((item) => item ? item.toObject() : null);
         });
     }
+    getProductsFromSubCategory(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const categories = (yield models_1.Category.find({ parent: id }).sort('ord')).map((item) => item ? item.toObject() : null);
+            let products = [];
+            for (const category of categories) {
+                products = products.concat((yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null));
+            }
+            return products;
+        });
+    }
     addResources(page) {
         return __awaiter(this, void 0, void 0, function* () {
             if (page.hasOwnProperty('resources') && page.resources.length > 0) {
@@ -72,7 +82,13 @@ class BuilderController {
                         const categories = (yield models_1.Category.find({ parent: _id }).sort('ord')).map((item) => item ? item.toObject() : null);
                         for (const category of categories) {
                             const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
-                            category.products = products;
+                            if (products.length > 0) {
+                                category.products = products;
+                            }
+                            else {
+                                // load products randomly from subcategory 
+                                category.product = yield this.getProductsFromSubCategory(category._id);
+                            }
                         }
                         resources.categories = categories;
                     }

@@ -58,6 +58,15 @@ class BuilderController {
     return (await Product.find({category: id}).sort('ord').populate('images')).map((item: any) => item ? item.toObject() : null)
   }
 
+  async getProductsFromSubCategory(id: any) {
+    const categories = (await Category.find({parent: id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
+    let products: any = [];
+    for(const category of categories ) {
+      products = products.concat((await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null))
+    }
+    return products
+  }
+
   async addResources(page: any) {
 
     if (page.hasOwnProperty('resources') && page.resources.length > 0){
@@ -75,7 +84,12 @@ class BuilderController {
           const categories = (await Category.find({parent: _id}).sort('ord')).map((item: any) => item ? item.toObject() : null)
           for(const category of categories ) {
             const products = (await Product.find({category: category._id}).populate('images')).map((item: any) => item ? item.toObject() : null)
-            category.products = products
+            if (products.length > 0) {
+              category.products = products
+            }else{
+              // load products randomly from subcategory 
+              category.product = await this.getProductsFromSubCategory(category._id)
+            }
           }
           
           resources.categories = categories

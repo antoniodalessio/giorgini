@@ -55,16 +55,12 @@ class ContactController {
   async saveInfo(data: any) {
     let customer: any = await Customer.findOne({email: data.email})
 
-    console.log("customer1", customer)
-
     if (!customer) {
       //save
       const id = new Types.ObjectId()
       const cust = new Customer({_id: id, email: data.email, firstname: data.name})
       customer = await cust.save()
     }
-
-    console.log("customer2", customer)
 
     const sub: any = {
       _id: new Types.ObjectId(),
