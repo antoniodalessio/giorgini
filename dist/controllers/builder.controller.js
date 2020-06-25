@@ -86,8 +86,8 @@ class BuilderController {
                                 category.products = products;
                             }
                             else {
-                                // load products randomly from subcategory 
-                                category.product = yield this.getProductsFromSubCategory(category._id);
+                                // load products randomly? from subcategory 
+                                category.products = yield this.getProductsFromSubCategory(category._id);
                             }
                         }
                         resources.categories = categories;

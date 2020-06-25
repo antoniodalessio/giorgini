@@ -87,8 +87,8 @@ class BuilderController {
             if (products.length > 0) {
               category.products = products
             }else{
-              // load products randomly from subcategory 
-              category.product = await this.getProductsFromSubCategory(category._id)
+              // load products randomly? from subcategory 
+              category.products = await this.getProductsFromSubCategory(category._id)
             }
           }
           
