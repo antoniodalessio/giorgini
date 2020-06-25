@@ -18,7 +18,7 @@ class UserController extends BaseController {
     try{
       const data = await this.model.find({username: req.body.username})
       if (data.length != 0) {
-        res.status(500).json({error: `resource with a '${req.body.username}' slug already exists`})
+        res.status(500).json({error: `resource with a '${req.body.username}' already exists`})
         return;
       }
 

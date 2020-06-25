@@ -27,7 +27,7 @@ class UserController extends base_controller_1.default {
             try {
                 const data = yield this.model.find({ username: req.body.username });
                 if (data.length != 0) {
-                    res.status(500).json({ error: `resource with a '${req.body.username}' slug already exists` });
+                    res.status(500).json({ error: `resource with a '${req.body.username}' already exists` });
                     return;
                 }
                 req.body._id = new mongoose_1.Types.ObjectId();
