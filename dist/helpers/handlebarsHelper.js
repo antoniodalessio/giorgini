@@ -22,5 +22,8 @@ handlebars.registerHelper({
     },
     listlt: (v1, v2) => v1 + 1 < v2,
 });
+handlebars.registerHelper('escape', function (variable) {
+    return variable.replace(/(['"])/g, '\\$1');
+});
 exports.default = handlebars;
 //# sourceMappingURL=handlebarsHelper.js.map

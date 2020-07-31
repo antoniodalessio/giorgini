@@ -21,4 +21,8 @@ handlebars.registerHelper('limit', function (arr: any, limit: any) {
     listlt: (v1: any, v2: any) => v1 + 1 < v2,
   });
 
+  handlebars.registerHelper('escape', function(variable: any) {
+    return variable.replace(/(['"])/g, '\\$1');
+  });
+
   export default handlebars;
