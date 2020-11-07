@@ -18,14 +18,14 @@ module.exports = function(grunt) {
 			dist: {
 			options: {
 				sassDir: baseDir + 'scss',
-				cssDir: baseDir + 'css',
+				cssDir: destDir + 'css',
 				environment: 'production'
 			}
 			},
 			dev: {
 				options: {
 					sassDir: baseDir + 'scss',
-					cssDir: baseDir + 'css'
+					cssDir: destDir + 'css'
 				}
 			}
 		},
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 				relativeFontPath: '../fonts'
 			},
 			src: baseDir + 'svg/*.svg',
-			dest: baseDir + 'fonts',
+			dest: destDir + 'fonts',
 			destCss: baseDir + 'scss/'
 			}
 		},

@@ -235,12 +235,6 @@ class BuilderController {
     }
   }
 
-  async build(unpublished: boolean) {
-    await this.uploadCategories(await this.buildCategories(), unpublished)
-    await this.uploadProducts(await this.buildProducts(), unpublished)
-    await this.uploadStaticPages(await this.buildStaticPages(), unpublished)
-  }
-
   async upload() {
     let filesUploaded = []
 
@@ -281,6 +275,12 @@ class BuilderController {
 
     return result
 
+  }
+
+  async build(unpublished: boolean) {
+    //await this.uploadCategories(await this.buildCategories(), unpublished)
+    //await this.uploadProducts(await this.buildProducts(), unpublished)
+    await this.uploadStaticPages(await this.buildStaticPages(), unpublished)
   }
 
   async publish(req: any, res: any) {

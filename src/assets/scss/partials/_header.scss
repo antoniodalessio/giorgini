@@ -1,0 +1,31 @@
+header.main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px $default-grid-margin;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100% - #{$default-grid-margin} * 2);
+    z-index: 2;
+    .logo {
+        width: 140px;
+        img {
+            width: 100%;
+        }
+    }
+    nav.menu {
+        ul {
+            display: flex;
+            align-items: center;
+            text-transform: uppercase;
+            li {
+                margin-left: 25px;
+            }
+            li .button {
+                border: 1px solid $primary;
+                color: $primary;
+            }
+        }
+    }
+}

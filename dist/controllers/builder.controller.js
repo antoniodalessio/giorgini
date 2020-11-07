@@ -47,7 +47,7 @@ class BuilderController {
                 slug: 'sitemap'
             };
             yield this.assemble.renderSimple('sitemap', data, "xml");
-            yield this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755);
+            //await this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755)
         });
     }
     getSubcategories(id) {
@@ -227,16 +227,17 @@ class BuilderController {
     }
     build(unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.uploadCategories(yield this.buildCategories(), unpublished);
-            yield this.uploadProducts(yield this.buildProducts(), unpublished);
-            yield this.uploadStaticPages(yield this.buildStaticPages(), unpublished);
+            //await this.uploadCategories(await this.buildCategories(), unpublished)
+            //await this.uploadProducts(await this.buildProducts(), unpublished)
+            //await this.uploadStaticPages(await this.buildStaticPages(), unpublished)
+            yield this.buildStaticPages();
         });
     }
     upload() {
         return __awaiter(this, void 0, void 0, function* () {
             let filesUploaded = [];
             for (const file of this.fileToUpload) {
-                yield this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755);
+                //await this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755)
                 filesUploaded.push(`${file}`);
             }
             this.fileToUpload = [];
@@ -280,8 +281,8 @@ class BuilderController {
                 yield this.clearFolder();
             }
             yield this.buildSitemapXml();
-            yield this.seoHelper.uploadHtaccess();
-            yield this.seoHelper.downloadHtaccess();
+            //await this.seoHelper.uploadHtaccess()
+            //await this.seoHelper.downloadHtaccess()
             res.status(200).json(result);
         });
     }
