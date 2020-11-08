@@ -26,7 +26,7 @@
 	}
 	&-facebook {
 		.icon {
-			@extend .icon_facebook;
+			//@extend .icon_facebook;
 		}
 		a:hover {
 			background-color: #3b5998;
@@ -34,7 +34,7 @@
 	}
 	&-flickr {
 		.icon {
-			@extend .icon_flickr;
+			//@extend .icon_flickr;
 		}
 		a:hover {
 			background-color: #ff0084;
@@ -42,7 +42,7 @@
 	}
 	&-linkedin {
 		.icon {
-			@extend .icon_linkedin;
+			//@extend .icon_linkedin;
 		}
 		a:hover {
 			background-color: #007bb5;
@@ -50,7 +50,7 @@
 	}
 	&-instagram {
 		.icon {
-			@extend .icon_instagram;
+			//@extend .icon_instagram;
 			font-size: 16px;
 		}
 		a:hover {

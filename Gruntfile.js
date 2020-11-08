@@ -2,7 +2,6 @@ module.exports = function(grunt) {
 
 	var baseDir = './src/assets/'
 	var bowerDir = "bower_components/";
-	var nodeDir = 'node_modules/';
 	var destDir = './site/'
 		
 	var common = [
@@ -35,34 +34,8 @@ module.exports = function(grunt) {
 			},
 			my_target: {
 				files: {
-					[destDir + 'js/index.min.js']: common.concat([baseDir + 'js/index.js']),
-					[destDir + 'js/about.min.js']: common.concat([baseDir + 'js/about.js']),
-					[destDir + 'js/what.min.js']: common.concat([baseDir + 'js/what.js']),
-					[destDir + 'js/product.min.js']: common.concat([
-						bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
-						baseDir + 'js/product.js'
-					]),
-					[destDir + 'js/fabrics.min.js']: [
-						bowerDir + 'jquery/dist/jquery.js',
-						nodeDir + 'jquery-zoom/jquery.zoom.js'
-					].concat([baseDir + 'js/fabrics.js']),
-					[destDir + 'js/work.min.js']: common.concat([baseDir + 'js/work.js']),
-					[destDir + 'js/contact.min.js']: common.concat(
-						[	bowerDir + 'jquery-validation/dist/jquery.validate.min.js',
-							baseDir + 'js/contact.js'
-						]),
+					[destDir + 'js/index.min.js']: common.concat([baseDir + 'js/index.js'])
 				}
-			}
-		},
-		webfont: {
-			icons: {
-				options: {
-				stylesheet: 'scss',
-				relativeFontPath: '../fonts'
-			},
-			src: baseDir + 'svg/*.svg',
-			dest: destDir + 'fonts',
-			destCss: baseDir + 'scss/'
 			}
 		},
 		watch: {
@@ -79,23 +52,14 @@ module.exports = function(grunt) {
 				options: {
 				spawn: false,
 				},
-			},
-			webfont: {
-				files: [baseDir + 'svg/**/*.svg'],
-				tasks: ['webfont'],
-				options: {
-				spawn: false,
-				},
-			},
+			}
 		},
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-compass');
-	grunt.loadNpmTasks('grunt-webfont');
 
 
-	grunt.registerTask('default', ['compass', 'uglify', 'webfont', 'watch']);
-
+	grunt.registerTask('default', ['compass', 'uglify', 'watch']);
 }
