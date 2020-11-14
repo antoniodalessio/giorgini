@@ -134,7 +134,7 @@ class BuilderController {
     for(let page of pages) {
       if (!unpublished || !page.published) {
         await this.assemble.render(page.template, page)
-        this.fileToUpload.push(page.slug)
+        //this.fileToUpload.push(page.slug)
         await Page.updateOne({_id: page._id}, {published: true})
       }
     }
@@ -270,7 +270,6 @@ class BuilderController {
     
     name = name.replace(".html", "")
     const page: any = allPages.filter(resource => resource.slug == name)
-    console.log(page[0].template)
     const result = await this.assemble.renderPage(page[0])
 
     return result

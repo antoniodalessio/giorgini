@@ -6,11 +6,13 @@ export enum Icons {
   Chirurgia = "chirurgia",
   Conservativa = "conservativa",
   EsteticaSorriso = "estetica-sorriso",
+  Facebook = "facebook",
   Finanziamento = "finanziamento",
   Formazione = "formazione",
   Geoloc = "geoloc",
   IgieneOrale = "igiene-orale",
   ImpiantiDentali = "impianti-dentali",
+  Instagram = "instagram",
   Logo = "logo",
   Mail = "mail",
   Orario = "orario",
@@ -29,19 +31,21 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Chirurgia]: "61701",
   [Icons.Conservativa]: "61702",
   [Icons.EsteticaSorriso]: "61703",
-  [Icons.Finanziamento]: "61704",
-  [Icons.Formazione]: "61705",
-  [Icons.Geoloc]: "61706",
-  [Icons.IgieneOrale]: "61707",
-  [Icons.ImpiantiDentali]: "61708",
-  [Icons.Logo]: "61709",
-  [Icons.Mail]: "61710",
-  [Icons.Orario]: "61711",
-  [Icons.OrtodonziaInvisibile]: "61712",
-  [Icons.Paradontologia]: "61713",
-  [Icons.Pododanzia]: "61714",
-  [Icons.Tecnologia]: "61715",
-  [Icons.Telefono]: "61716",
+  [Icons.Facebook]: "61704",
+  [Icons.Finanziamento]: "61705",
+  [Icons.Formazione]: "61706",
+  [Icons.Geoloc]: "61707",
+  [Icons.IgieneOrale]: "61708",
+  [Icons.ImpiantiDentali]: "61709",
+  [Icons.Instagram]: "61710",
+  [Icons.Logo]: "61711",
+  [Icons.Mail]: "61712",
+  [Icons.Orario]: "61713",
+  [Icons.OrtodonziaInvisibile]: "61714",
+  [Icons.Paradontologia]: "61715",
+  [Icons.Pododanzia]: "61716",
+  [Icons.Tecnologia]: "61717",
+  [Icons.Telefono]: "61718",
 };
 
 export type IconsId =
@@ -52,11 +56,13 @@ export type IconsId =
   | "chirurgia"
   | "conservativa"
   | "estetica-sorriso"
+  | "facebook"
   | "finanziamento"
   | "formazione"
   | "geoloc"
   | "igiene-orale"
   | "impianti-dentali"
+  | "instagram"
   | "logo"
   | "mail"
   | "orario"

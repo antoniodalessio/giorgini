@@ -1,0 +1,28 @@
+.blockimage {
+    width: 100vw;
+    height: calc(100vw * 0.75);
+    position: relative;
+    padding-top: 80px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    &__tag {
+        margin-bottom: 20px;
+    }
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1
+    }
+    &__text {
+        position: relative;
+        z-index: 2;
+        width: column(6);
+        text-align: center;
+        h2 {
+            color: white;
+        }
+    }
+}

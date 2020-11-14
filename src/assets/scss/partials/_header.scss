@@ -2,14 +2,15 @@ header.main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px $default-grid-margin;
+    padding: 30px $gutter;
     position: fixed;
     top: 0;
     left: 0;
-    width: calc(100% - #{$default-grid-margin} * 2);
+    right: 0;
     z-index: 100;
+    transition: padding 0.3s, background-color 0.3s;
     .logo {
-        width: 140px;
+        width: column(1);
         img {
             width: 100%;
         }
@@ -21,11 +22,24 @@ header.main {
             text-transform: uppercase;
             li {
                 margin-left: 25px;
+                &:hover {
+                    a {
+                        color: $primary;
+                    }
+                }
             }
             li .button {
                 border: 1px solid $primary;
                 color: $primary;
+                &:hover {
+                    color: black;
+                }
             }
         }
+    }
+    &.scrolled {
+        background: white;
+        padding: 5px $gutter;
+        box-shadow: 0px 2px 20px 0px #ccc
     }
 }

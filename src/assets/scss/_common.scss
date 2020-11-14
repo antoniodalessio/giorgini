@@ -75,38 +75,40 @@ $primary: #0080c9;
 
 $black: #000;
 $white: #fff;
-$yellow: #e4b01e;
-$yellowLight: #f8ecca;
 
 $default-grid-margin: 20px;
+$gutter: 1vw;
 
 $tablet: 1024px;
 $mobile: 769px;
 
+@function column($num) {
+	@return calc( (((100vw - #{$gutter * 13})/12) * #{$num})  + #{$gutter * ($num + 1)});
+    //@return calc( (((100vw - #{$gutter})/12) * #{$num})  + #{$gutter * ($num + 1)});
+}
+
 
 h1, h2, h3 {
 	font-size: 22px;
-	margin: 10px 0;
-	padding-bottom: 10px;
 	font-family: $font-secondary;
 	color: $primary;
 }
 
 h1 {
-	font-size: 50px;
+	font-size: 44px;
 	line-height: 60px;
 	margin-bottom: 40px;
 }
 
 h2 {
-	font-size: 40px;
-	line-height: 48px;
-	margin: 40px 0;
+	font-size: 36px;
+	line-height: 40px;
+	margin-bottom: 40px;
 }
 
 p {
-	font-size: 16px;
-	line-height: 24px;
+	font-size: 14px;
+	line-height: 22px;
 }
 
 a {
@@ -118,6 +120,8 @@ a {
 @import "partials/social";
 @import "partials/header";
 @import "partials/footer";
+@import "partials/cookie_law";
+//@import "vendor/simple-grid";
 //@import "../../../bower_components/magnific-popup/src/css/main";
 
 
@@ -130,7 +134,7 @@ body {
 }
 
 a.button, button.button {
-	display: flex;
+	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 	padding: 10px 30px;
@@ -138,12 +142,13 @@ a.button, button.button {
 	color: black;
 	text-transform: uppercase;
 	background-color: transparent;
+	font-size: 12px;
 }
 
 .block-h1 {
 	p {
-		font-size: 20px;
-		line-height: 24px; 
+		font-size: 18px;
+		line-height: 24px;
 	}
 }
 
@@ -155,33 +160,118 @@ a.button, button.button {
 }
 
 main {
-	padding: 0 $default-grid-margin;
+	//padding: 0 $default-grid-margin;
 }
 
-.cookie-law {
-	position: fixed;
-	z-index: 11;
-	bottom: 0;
-	background-color: #000;
-	color: #fff;
-	padding: 20px 10vw;
-	box-sizing: border-box;
-	border-top: 5px solid #fff;
-	display: none;
-	a {
-		text-decoration: underline;
-		color: #fff;
-	}
-	.close-icon {
+/* FORM */
+.control {
+	font-family: arial;
+	display: block;
+	position: relative;
+	padding-left: 30px;
+	margin-bottom: 5px;
+	padding-top: 4px;
+	cursor: pointer;
+	font-size: 16px;
+	input {
 		position: absolute;
-		top: 10px;
-		right: 10px;
-		text-decoration: none;
-		.icon {
-			//@extend .icon_clear;
-			font-size: 20px;
-			color: #fff;
-		}
+		z-index: -1;
+		opacity: 0;
 	}
 }
+.control_indicator {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 20px;
+	width: 20px;
+	border: 1px solid white;
+	border-radius: 0px;
+}
+.control:hover input ~ .control_indicator,
+.control input:focus ~ .control_indicator {
+	//background: #cccccc;
+}
 
+.control input:checked ~ .control_indicator {
+	//background: #2aa1c0;
+}
+.control:hover input:not([disabled]):checked ~ .control_indicator,
+.control input:checked:focus ~ .control_indicator {
+	//background: #0e6647d;
+}
+.control input:disabled ~ .control_indicator {
+	//background: #e6e6e6;
+	opacity: 0.6;
+	pointer-events: none;
+}
+.control_indicator:after {
+	box-sizing: unset;
+	content: '';
+	position: absolute;
+	display: none;
+}
+.control input:checked ~ .control_indicator:after {
+	display: block;
+}
+.control-checkbox .control_indicator:after {
+	left: 8px;
+	top: 4px;
+	width: 3px;
+	height: 8px;
+	border: solid #ffffff;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+.control-checkbox input:disabled ~ .control_indicator:after {
+	border-color: #7b7b7b;
+}
+.control-checkbox .control_indicator::before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 4.5rem;
+	height: 4.5rem;
+	margin-left: -1.5rem;
+	margin-top: -1.5rem;
+	background: #2aa1c0;
+	border-radius: 3rem;
+	opacity: 0.6;
+	z-index: 99999;
+	transform: scale(0);
+}
+@keyframes s-ripple {
+	0% {
+		transform: scale(0);
+	}
+	20% {
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(1);
+	}
+}
+@keyframes s-ripple-dup {
+   0% {
+	   transform: scale(0);
+	}
+   30% {
+		transform: scale(1);
+	}
+	60% {
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(1);
+	}
+}
+.control-checkbox input + .control_indicator::before {
+	animation: s-ripple 250ms ease-out;
+}
+.control-checkbox input:checked + .control_indicator::before {
+	animation-name: s-ripple-dup;
+}

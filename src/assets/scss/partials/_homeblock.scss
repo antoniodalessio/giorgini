@@ -1,0 +1,43 @@
+.homeblock {
+    margin-top: 80px;
+    display: flex;
+    font-size: 16px;
+    &__tag {
+        margin-bottom: 40px;
+        font-size: 0.8em;
+    }
+    &__text, &__img {
+        width: column(6);
+    }
+    &__img {
+        margin-left: $gutter;
+        img {
+            width: 100%;
+        }
+    }
+    &__text {
+        display: flex;
+        align-items: center;
+        &__container {
+            &--left {
+                padding-left: column(1);
+                padding-right: column(2);
+            }
+            &--right {
+                padding-left: column(2);
+                padding-right: column(1);
+            }
+        }
+    }
+    .button {
+        margin-top: 54px;
+    }
+    &--reverse {
+        .homeblock__img {
+            margin-left: 0;
+        }
+        .homeblock__text {
+            margin-right: $gutter;
+        }
+    }
+}

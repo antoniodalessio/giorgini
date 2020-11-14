@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("../fonts/icons.eot?2b45099b4ae6714b515f8d63f2fd9d2f#iefix") format("embedded-opentype"),
-url("../fonts/icons.woff2?2b45099b4ae6714b515f8d63f2fd9d2f") format("woff2"),
-url("../fonts/icons.woff?2b45099b4ae6714b515f8d63f2fd9d2f") format("woff");
+    src: url("../fonts/icons.eot?b5e0f659983d29a1d3fb46cb42dbf143#iefix") format("embedded-opentype"),
+url("../fonts/icons.woff2?b5e0f659983d29a1d3fb46cb42dbf143") format("woff2"),
+url("../fonts/icons.woff?b5e0f659983d29a1d3fb46cb42dbf143") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -37,42 +37,48 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-estetica-sorriso:before {
     content: "\f107";
 }
-.icon-finanziamento:before {
+.icon-facebook:before {
     content: "\f108";
 }
-.icon-formazione:before {
+.icon-finanziamento:before {
     content: "\f109";
 }
-.icon-geoloc:before {
+.icon-formazione:before {
     content: "\f10a";
 }
-.icon-igiene-orale:before {
+.icon-geoloc:before {
     content: "\f10b";
 }
-.icon-impianti-dentali:before {
+.icon-igiene-orale:before {
     content: "\f10c";
 }
-.icon-logo:before {
+.icon-impianti-dentali:before {
     content: "\f10d";
 }
-.icon-mail:before {
+.icon-instagram:before {
     content: "\f10e";
 }
-.icon-orario:before {
+.icon-logo:before {
     content: "\f10f";
 }
-.icon-ortodonzia-invisibile:before {
+.icon-mail:before {
     content: "\f110";
 }
-.icon-paradontologia:before {
+.icon-orario:before {
     content: "\f111";
 }
-.icon-pododanzia:before {
+.icon-ortodonzia-invisibile:before {
     content: "\f112";
 }
-.icon-tecnologia:before {
+.icon-paradontologia:before {
     content: "\f113";
 }
-.icon-telefono:before {
+.icon-pododanzia:before {
     content: "\f114";
+}
+.icon-tecnologia:before {
+    content: "\f115";
+}
+.icon-telefono:before {
+    content: "\f116";
 }

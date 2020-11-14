@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 		
 	var common = [
 		bowerDir + 'jquery/dist/jquery.js',
-		bowerDir + 'magnific-popup/dist/jquery.magnific-popup.js',
+		//bowerDir + 'magnific-popup/dist/jquery.magnific-popup.js',
 		baseDir + 'js/common.js'
 	];
 
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 			},
 			my_target: {
 				files: {
-					[destDir + 'js/index.min.js']: common.concat([baseDir + 'js/index.js'])
+					[destDir + 'js/index.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/index.js'])
 				}
 			}
 		},

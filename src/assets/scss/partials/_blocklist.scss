@@ -1,0 +1,26 @@
+.blocklist {
+    padding: 80px 0;
+    &__row {
+        display: flex;
+        padding-bottom: 80px;
+        &:last-child {
+            padding-bottom: 0;
+        }
+    }
+    &__icon {
+        width: column(5);
+        font-size: 80px;
+        text-align: right;
+        color: $primary;
+        padding-top: 90px;
+        i {
+            margin-right: column(1);
+        }
+    }
+    &__text {
+        width: column(7);
+        h2, p {
+            width: column(4)
+        }
+    }
+}

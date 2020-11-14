@@ -1,27 +1,28 @@
 footer {
 	background-color: $primary;
 	color: white;
-	padding: 0 $default-grid-margin;
+	padding: 0 column(1);
 	padding-top: 98px;
+	padding-bottom: 30px;
+	.footer__label {
+		margin-top: 13px;
+	}
+	p {
+		font-size: 14px;
+	}
 
 	.footer-top {
 		display: flex;
-		width: 90%;
-		//width: calc((100vw - 260px)/2);
 		margin: 0 auto;
 		margin-bottom: 20px;
 		section:first-child {
-			flex-basis: 25%;
-			//width: calc(((100vw - 260px)/12)*2);
+			width: column(2);
 		}
 		section:nth-child(2) {
-			flex-basis: 50%;
-			//width: calc(((100vw - 260px)/12)*4);
+			width: column(4);
 		}
 		section:nth-child(3) {
-			flex-basis: 25%;
-			//width: calc(((100vw - 260px)/12)*4);
-			//width: 30%;
+			width: column(4);
 		}
 	}
 
@@ -37,9 +38,14 @@ footer {
 		.footer-block__body {
 			height: 60px;
 			font-size: 14px;
-			.icon {
-				font-size: 50px;
-				color: white;
+			.sx {
+				.icon {
+					font-size: 50px;
+					color: white;
+					&:before {
+						font-weight: bold !important;
+					}
+				}
 			}
 		}
 		h6 {
@@ -47,23 +53,30 @@ footer {
 			margin-bottom: 30px;
 		}
 		.sx {
-			//width: 80px;
 			min-height: 1px;
-			padding-left: $default-grid-margin;
-			width: calc((100vw - 260px)/12 );
+			width: column(1);
 			display: flex;
     		justify-content: center;
 		}
 		.dx {
-			//width: 60%;
+			width: column(1);
 			min-height: 1px;
-			padding-left: $default-grid-margin;
-			//width: calc((100vw - 260px)/12 );
+			&.center-v {
+				display: flex;
+				align-items: center;
+			}
 		}
 
 		&.custom {
 			.sx {
 				justify-content: flex-end;
+				margin-right: $gutter;
+			}
+			.dx {
+				width: column(3);
+				&.little {
+					font-size: 11px;
+				}
 			}
 			.icon {
 				opacity: 1;
@@ -76,10 +89,17 @@ footer {
 	}
 
 	form {
+		// label {
+		// 	margin-top: 13px;
+		// }
 		input {
 			border: none;
 			border-bottom: 1px solid white;
 			background-color: transparent;
+			width: 100%;
+			font-size: 16px;
+    		color: #fff;
+    		font-family: 'Nunito';
 			&:focus {
 				border: none;
 				border-bottom: 1px solid #ccc;
@@ -88,17 +108,16 @@ footer {
 			}
 		}
 		button.button {
-			//margin-top: 40px;
 			color: white;
 			border: 1px solid white;
 			width: 160px;
 			height: 50px;
 		}
 		input[type="checkbox"] {
-			appearance: none;
-			width: 20px;
-			height: 20px;
-			border: 1px solid white;
+			// appearance: none;
+			// width: 20px;
+			// height: 20px;
+			// border: 1px solid white;
 		}
 	}
 
