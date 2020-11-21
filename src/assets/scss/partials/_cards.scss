@@ -1,0 +1,27 @@
+.cards {
+    padding: 0 column(1);
+    display: flex;
+    flex-wrap: wrap;
+    .card {
+        width: calc(50% - #{$gutter});
+        display: flex;
+        margin-right: $gutter;
+        margin-bottom: 80px;
+        &:nth-child(2n+0) {
+            margin-right: 0;
+        }
+        &__image {
+            width: column(2);
+            img {
+                width: 100%;
+            }
+        }
+        &__txt {
+            width: column(3);
+            margin-left: $gutter;
+        }
+        &__label, h3 {
+            margin-bottom: 20px;
+        }
+    }
+}

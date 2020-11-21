@@ -8,6 +8,8 @@ class LoginController {
     const { username, password } = req.body
     const hash = toHash(username, password)
 
+    console.log(hash)
+
     let result:IUser[] = await User.find({ hash })
 
     if (result.length > 0) {

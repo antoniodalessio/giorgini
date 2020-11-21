@@ -5,7 +5,11 @@ import loginController from './controllers/login.controller'
 
 import apiRoutes from './routes/api'
 import publicRoutes from './routes/public'
-import siteRoutes from './routes/site'
+//import siteRoutes from './routes/site'
+import { User } from './models'
+
+import { Types } from 'mongoose';
+import { toHash } from './utils/utils'
 
 import SeoHelper from './helpers/SeoHelper';
 
@@ -19,13 +23,19 @@ class App {
   private _expressApp: any
 
   constructor() {
+    this.init()
+  }
+
+  async init() {
     console.log("app init")
     this.setupExpress()
     this.initMongoose()
+    this.setupFirstAdminUser()
 
-    const seoHelper:SeoHelper = new SeoHelper()
-    seoHelper.downloadHtaccess()
-
+    if (process.env.ENV == 'PROD') {
+      const seoHelper:SeoHelper = new SeoHelper()
+      seoHelper.downloadHtaccess()
+    }
   }
 
   setupExpress() {
@@ -72,6 +82,22 @@ class App {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
+  }
+
+  async setupFirstAdminUser() {
+    const data = await User.find({username: 'admin'})
+    if (data.length === 0) {
+      let user = new User({
+        _id: new Types.ObjectId(),
+        username: process.env.ADMIN_USER,
+        password: process.env.ADMIN_PWD,
+        hash: toHash(process.env.ADMIN_USER, process.env.ADMIN_PWD)
+      })
+
+      const result = await user.save()
+      console.log(result)
+    }
+    
   }
     
 }

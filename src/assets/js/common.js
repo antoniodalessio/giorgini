@@ -1,4 +1,14 @@
 $(document).ready(function(){
+	
+	$( window ).scroll(function() {
+        console.log()
+        if ($(window).scrollTop() > 0) {
+            $("header.main").addClass('scrolled')
+        }else {
+            $("header.main").removeClass('scrolled')
+        }
+    })
+	
 	newsletter();
 	// $(".contact-email").on("click", function(e) {
 	// 	e.preventDefault();

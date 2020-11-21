@@ -54,7 +54,6 @@ class Assemble {
   async renderPage(data: any) {
     let templateFile = await fs.readFileSync(`${this.options.defaultLayout}`, 'utf8')
     let newdata = await this.setTemplate(data.template, data)
-    console.log(newdata)
     let template = handlebars.compile(templateFile)
     const tmpData = Object.assign(data, newdata);
     return await template(tmpData)

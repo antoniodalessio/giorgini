@@ -1,14 +1,5 @@
 $(document).ready(function(){
     
-    $( window ).scroll(function() {
-        console.log()
-        if ($(window).scrollTop() > 0) {
-            $("header.main").addClass('scrolled')
-        }else {
-            $("header.main").removeClass('scrolled')
-        }
-    })
-
     var sliderImage = $(".slideshow--img .slideshow-content").lightSlider({
         item: 1,
         gallery: true,

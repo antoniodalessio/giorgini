@@ -38,7 +38,7 @@ class FTPClient {
       await this.client.access(this.settings);
       await this.client.downloadTo(sourcePath, remotePath)
     }catch(e) {
-      console.log(e)
+      console.log(`Error download ${remotePath}: ${e}`)
     }
     this.client.close();
   }

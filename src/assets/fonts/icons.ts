@@ -1,3 +1,51 @@
+export type IconsId =
+  | "arrow-down"
+  | "arrow-dx"
+  | "arrow-sx"
+  | "chirurgia-orale"
+  | "chirurgia"
+  | "conservativa"
+  | "estetica-sorriso"
+  | "facebook"
+  | "finanziamento"
+  | "formazione"
+  | "geoloc"
+  | "igiene-orale"
+  | "impianti-dentali"
+  | "instagram"
+  | "logo"
+  | "mail"
+  | "orario"
+  | "ortodonzia-invisibile"
+  | "paradontologia"
+  | "pododanzia"
+  | "tecnologia"
+  | "telefono";
+
+export type IconsKey =
+  | "ArrowDown"
+  | "ArrowDx"
+  | "ArrowSx"
+  | "ChirurgiaOrale"
+  | "Chirurgia"
+  | "Conservativa"
+  | "EsteticaSorriso"
+  | "Facebook"
+  | "Finanziamento"
+  | "Formazione"
+  | "Geoloc"
+  | "IgieneOrale"
+  | "ImpiantiDentali"
+  | "Instagram"
+  | "Logo"
+  | "Mail"
+  | "Orario"
+  | "OrtodonziaInvisibile"
+  | "Paradontologia"
+  | "Pododanzia"
+  | "Tecnologia"
+  | "Telefono";
+
 export enum Icons {
   ArrowDown = "arrow-down",
   ArrowDx = "arrow-dx",
@@ -47,27 +95,3 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Tecnologia]: "61717",
   [Icons.Telefono]: "61718",
 };
-
-export type IconsId =
-  | "arrow-down"
-  | "arrow-dx"
-  | "arrow-sx"
-  | "chirurgia-orale"
-  | "chirurgia"
-  | "conservativa"
-  | "estetica-sorriso"
-  | "facebook"
-  | "finanziamento"
-  | "formazione"
-  | "geoloc"
-  | "igiene-orale"
-  | "impianti-dentali"
-  | "instagram"
-  | "logo"
-  | "mail"
-  | "orario"
-  | "ortodonzia-invisibile"
-  | "paradontologia"
-  | "pododanzia"
-  | "tecnologia"
-  | "telefono";

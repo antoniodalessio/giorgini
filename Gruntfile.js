@@ -1,3 +1,6 @@
+const http = require('http');
+
+
 module.exports = function(grunt) {
 
 	var baseDir = './src/assets/'
@@ -6,9 +9,20 @@ module.exports = function(grunt) {
 		
 	var common = [
 		bowerDir + 'jquery/dist/jquery.js',
-		//bowerDir + 'magnific-popup/dist/jquery.magnific-popup.js',
 		baseDir + 'js/common.js'
 	];
+
+	// grunt.registerTask('templates', 'My "default" task description.', function() {
+	// 	console.log("pre")
+
+	// 	fetch("http://127.0.0.1:15645/api/publish",
+	// 		 { 
+	// 			 method: "get",
+	// 			 headers: { 'Content-Type': 'application/json', "Authorization": "Bearer 8128422aa443a27e8ec407b5e9fc268add53566e48aa7898d415e06e5492068fe4010e777d877a73ec557ff7281dfc9765ef488840a551625c6b84c5e214aac7"},
+	// 	}).then(res => res.json())
+	// 	.then(json => console.log(json));
+		
+	// });
 
 
 	grunt.initConfig({
@@ -34,25 +48,33 @@ module.exports = function(grunt) {
 			},
 			my_target: {
 				files: {
-					[destDir + 'js/index.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/index.js'])
+					[destDir + 'js/index.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/index.js']),
+					[destDir + 'js/about.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/about.js'])
 				}
 			}
+		},
+		templates: {
+
 		},
 		watch: {
 			css: {
 				files: [baseDir + 'scss/**/*.scss'],
 				tasks: ['compass'],
 				options: {
-				spawn: false,
+					spawn: false,
 				},
 			},
 			js: {
 				files: [baseDir + 'js/**/*.js'],
 				tasks: ['uglify'],
 				options: {
-				spawn: false,
+					spawn: false,
 				},
-			}
+			},
+			// test: {
+			// 	files: [baseDir + 'templates/**/*.hbs'],
+			// 	tasks: ['templates']
+			// }
 		},
 	});
 
