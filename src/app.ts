@@ -40,16 +40,12 @@ class App {
   }
 
   createFolders() {
-
-    fs.removeSync(`${process.env.SITE_IMAGE_PATH}`); 
-    fs.removeSync(`${process.env.SITE_PATH}`); 
-
-    /*if (!fs.existsSync(`${process.env.SITE_PATH}`)){
+    if (!fs.existsSync(`${process.env.SITE_PATH}`)){
       fs.mkdirSync(`${process.env.SITE_PATH}`);
     }
     if (!fs.existsSync(`${process.env.SITE_IMAGE_PATH}`)){
       fs.mkdirSync(`${process.env.SITE_IMAGE_PATH}`);
-    }*/
+    }
   }
 
   setupExpress() {
