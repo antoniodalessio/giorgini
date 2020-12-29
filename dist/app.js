@@ -31,6 +31,7 @@ class App {
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("app init");
+            this.createFolders();
             this.setupExpress();
             this.initMongoose();
             this.setupFirstAdminUser();
@@ -39,6 +40,14 @@ class App {
                 seoHelper.downloadHtaccess();
             }
         });
+    }
+    createFolders() {
+        if (!fs.existsSync(`${process.env.SITE_PATH}`)) {
+            fs.mkdirSync(`${process.env.SITE_PATH}`);
+        }
+        if (!fs.existsSync(`${process.env.SITE_IMAGE_PATH}`)) {
+            fs.mkdirSync(`${process.env.SITE_IMAGE_PATH}`);
+        }
     }
     setupExpress() {
         this._expressApp = express();

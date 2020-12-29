@@ -28,6 +28,7 @@ class App {
 
   async init() {
     console.log("app init")
+    this.createFolders()
     this.setupExpress()
     this.initMongoose()
     this.setupFirstAdminUser()
@@ -35,6 +36,15 @@ class App {
     if (process.env.ENV == 'PROD') {
       const seoHelper:SeoHelper = new SeoHelper()
       seoHelper.downloadHtaccess()
+    }
+  }
+
+  createFolders() {
+    if (!fs.existsSync(`${process.env.SITE_PATH}`)){
+      fs.mkdirSync(`${process.env.SITE_PATH}`);
+    }
+    if (!fs.existsSync(`${process.env.SITE_IMAGE_PATH}`)){
+      fs.mkdirSync(`${process.env.SITE_IMAGE_PATH}`);
     }
   }
 
