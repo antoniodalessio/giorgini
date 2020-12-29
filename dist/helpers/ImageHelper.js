@@ -55,7 +55,7 @@ class ImageHelper {
             yield image.resize(size.width, size.height).quality(90);
             let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
             yield fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result);
-            //await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755)
+            yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755);
         });
     }
     createWEBPAndUpload(name, size, suffix) {
