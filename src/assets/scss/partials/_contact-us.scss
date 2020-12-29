@@ -1,0 +1,41 @@
+.contact-us {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 101;
+    width: calc(100% - #{$mobile-padding-h * 2});
+    padding: 10px $mobile-padding-h 10px $mobile-padding-h;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 2px 20px 0px #ccc;
+    height: $padding-bottom-mobile;
+    transition: bottom 0.5s;
+    .button {
+        border: 1px solid $primary;
+        color: $primary;
+        padding: 20px 0;
+        width: 36vw;
+    }
+    &__icons {
+        font-size: 13vw;;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        a {
+            color: $primary;
+        }
+        i {
+            margin-right: calc(#{$gutter-mobile} + 5vw);
+            &:first-child {
+                margin-left: -2 * $gutter-mobile;
+            }
+        }
+    }
+
+    &.hide {
+        bottom: -$padding-bottom-mobile - 5vw
+    }
+}

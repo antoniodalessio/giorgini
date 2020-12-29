@@ -1,0 +1,21 @@
+@import "common";
+@import "partials/homeblock";
+@import "partials/cards";
+@import "partials/double-text-block";
+
+
+.link {
+    @include font-text(12px);
+    color: $primary;
+    margin-top: 20px;
+    text-decoration: underline;
+}
+
+
+.cards {
+    a.card {
+        &:hover {
+            background-color: inherit;
+        }
+    }
+}

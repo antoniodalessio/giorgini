@@ -1,0 +1,44 @@
+---
+home: active
+key: service
+---
+
+{{>header}}
+
+<main>
+
+    <section class="main-image main-image--top">
+         <img class="hide-sm" src="" style="background-image: url('images/studio-dentistico-firenze-giorgini-dentista-23.jpg');"/>
+         <img class="hide-desktop" src="images/studio-dentistico-firenze-giorgini-dentista-23.jpg"/>
+    </section>
+
+    <section class="double-text-block">
+        <h1>{{this.title}}</h1>
+        <div class="double-text-block--text">
+            <div>{{this.description}}</div>
+        </div>
+    </section>
+
+    <section class="image-half">
+        <img src="images/{{this.images.[0].uri}}.jpg"/>
+    </section>
+
+    <section class="image-double">
+        <div>
+            <div class="image-double__inner">
+                <img src="images/{{this.images.[1].uri}}.jpg"/>
+            </div>
+            <div class="image-double__inner">
+                <img src="images/{{this.images.[2].uri}}.jpg"/>
+            </div>
+        </div>
+    </section>
+
+    <section class="button-container padded padded-mobile">
+        <a href="servizi.html" class="button">Tutti i servizi</a>
+    </section>
+
+</main>
+
+
+<script src="js/about.min.js" async deferred></script>

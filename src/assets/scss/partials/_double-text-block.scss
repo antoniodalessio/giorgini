@@ -1,0 +1,39 @@
+.double-text-block {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-left: column(2);
+    padding-right: column(2);
+    h1 {
+        width: column(4)
+    }
+    &--text {
+        > div {
+            column-count: 2;
+            column-gap: $gutter;
+            @include font-text(16px);
+        }
+    }
+
+    @media screen and (max-width: $mobile) {
+        padding-left: $mobile-padding-h;
+        padding-right: $mobile-padding-h;
+        h1, p{
+            width: auto;
+        }
+        p {
+            margin-bottom: 60px;
+            @include mobile-p-font;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        &--text {
+            display: block;
+            > div {
+                column-count: 1;
+                margin-right: 0;
+                width: 100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+---
+home: active
+key: stories
+---
+
+{{>header}}
+
+<main>
+
+    <section class="main-image main-image--top">
+         <img class="hide-sm" src="" style="background-image: url('images/studio-dentistico-firenze-giorgini-dentista-24.jpg');"/>
+         <img class="hide-desktop" src="images/studio-dentistico-firenze-giorgini-dentista-24.jpg"/>
+    </section>
+
+    <section class="double-text-block">
+        <h1>{{title}}</h1>
+        <div class="double-text-block--text">
+            <div>{{{body}}}</div>
+        </div>
+    </section>
+
+    {{resources.story}}
+
+    <section class="doctor-list padded padded-mobile">
+        <div class="cards">
+        {{#each resources.stories}}
+            <a href="{{this.slug}}.html" class="card">
+                <div class="card__image card__image--with-bottom-margin">
+                    <img src="images/{{this.images.[0].uri}}_thumb.jpg" />
+                </div>
+                <div class="card__txt">
+                    <h3>{{this.name}}</h3>
+                    <p class="card__description">{{truncate this.text 200}}</p>
+                    <p class="link">continua a leggere</p>
+                </div>
+            </a>
+        {{/each}}
+        </div>
+    </section>
+
+</main>
+
+
+<script src="js/about.min.js" async deferred></script>

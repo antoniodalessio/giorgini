@@ -1,0 +1,84 @@
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+ 
+ <form class="contact-form" id="contact-form" action="public/contact.php" method="POST">
+        <h1>Scrivici</h1>
+        <div class="contact-form-inner">
+            <div class="form-row">
+                <div class="sx">
+                    <label>Nome</label>
+                </div>
+                <div class="dx">
+                    <input type="text" name="name" minlength="2" required/>
+                    <div class="error name"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="sx">
+                    <label>Telefono</label>
+                </div>
+                <div class="dx">
+                    <input type="tel" name="phone" minlength="2" required/>
+                    <div class="error phone"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="sx">
+                    <label>E-mail</label>
+                </div>
+                <div class="dx">
+                    <input type="email" name="email" minlength="2" required/>
+                    <div class="error email"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="sx">
+                    <label>Messaggio</label>
+                </div>
+                <div class="dx">
+                    <textarea name="message" required></textarea>
+                    <div class="error message"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="sx">
+                    <label> </label>
+                </div>
+                <div class="dx">
+                    <div class="g-recaptcha" data-sitekey="6LenLgIaAAAAAFHfvUBth_P2Q_bPj5ZwVqDg8aJo"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="sx">
+                    <label> </label>
+                </div>
+                <div class="dx inline">
+                    <label class="control control-checkbox">
+                        <input type="checkbox" name="privacy" required/>
+                        <div class="control_indicator"></div>
+                    </label>
+                    <div>
+                        <p>Dichiaro di aver preso visione dell'<a class="link" href="privacy-policy.html">informativa</a> sul trattamento dei dati personali</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="sx">
+                    <label> </label>
+                </div>
+                <div class="dx">
+                    <div class="info-message"></div>
+                    <button type="submit" class="button">invia</button>
+                </div>
+            </div>
+        </div>
+        <div class="success-msg-container">
+            <div class="success-msg-container__overlay"></div>
+            <div class="success-msg-container__inner">
+                <div class="sx"><i class="icon icon-messaggio-ok"></i></div>
+                <div class="dx">
+                    <h6>Il tuo messaggio è stato inviato con successo</h6>
+                    <p>Grazie per averci scritto. Sarà nostra premuora contattarti prima possibile</p>
+                </div>
+            </div>
+        </div>
+</form>

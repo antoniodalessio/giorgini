@@ -1,0 +1,50 @@
+---
+key: story
+---
+
+{{>header}}
+
+<main>
+
+    <section class="main-image main-image--top">
+         <img class="hide-sm" src="" style="background-image: url('images/studio-dentistico-firenze-giorgini-dentista-25.jpg');"/>
+         <img class="hide-desktop" src="images/studio-dentistico-firenze-giorgini-dentista-25.jpg"/>
+    </section>
+
+
+     <section class="text-double padded">
+        <div>
+            <div>
+                <img src="images/{{this.images.[0].uri}}.jpg"/>
+            </div>
+            <div class="text-double__text">
+                <h2>{{this.name}}</h2>
+                <p>{{text}}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="image-double padded">
+        <div>
+            <div class="image-double__inner">
+                <p>PRIMA</p>
+                <img src="images/{{this.images.[1].uri}}.jpg"/>
+            </div>
+            <div class="image-double__inner">
+                <p>DOPO</p>
+                <img src="images/{{this.images.[2].uri}}.jpg"/>
+            </div>
+        </div>
+    </section>
+
+    <section class="button-container padded padded-mobile">
+        <a href="storie.html" class="button">Tutte le storie</a>
+    </section>
+
+   
+    {{>contactform}}
+
+</main>
+
+
+<script src="js/about.min.js" async deferred></script>

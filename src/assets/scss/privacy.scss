@@ -1,0 +1,21 @@
+@import "common";
+
+
+main {
+    
+    width: column(10);
+    margin: 0 auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    h2 {
+        margin-top: 40px;
+    }
+    h3 {
+        margin: 20px 0;
+    }
+
+    @media screen and (max-width: $mobile) {
+        width: calc(100vw - #{$mobile-padding-h * 2});
+        padding: 0 $mobile-padding-h;
+    }
+}

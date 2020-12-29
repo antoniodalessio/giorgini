@@ -1,0 +1,53 @@
+---
+home: active
+key: services
+---
+
+{{>header}}
+
+<main>
+
+    <section class="main-image main-image--top">
+         <img class="hide-sm" src="" style="background-image: url('images/studio-dentistico-firenze-giorgini-dentista-22.jpg');"/>
+          <img class="hide-desktop" src="images/studio-dentistico-firenze-giorgini-dentista-22.jpg"/>
+    </section>
+
+    <section class="double-text-block bg-color-middle-primary">
+        <h1>{{title}}</h1>
+        <div class="double-text-block--text">
+            <div>{{{body}}}</div>
+        </div>
+    </section>
+
+     <div class="services">
+
+        {{#each resources.services}}
+        <a href="{{this.slug}}.html" class="blocklist__row padded">
+            <div class="services__title"></div>
+            <div class="services__text">
+                <div class="services__icon">
+                    <i class="icon icon-{{this.icon}}"></i>
+                </div>
+                <h2>{{this.title}}</h2>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+
+    <section class="service-not-found padded padded-mobile">
+        <div class="service-not-found-wrapper">
+            <div class="sx">
+                Non hai trovato quello che cerchi?<br>
+                Probabilmente lo facciamo.
+            </div>
+            <div class="dx">
+                Chiamaci allo<br>
+                <a href="callto:055606364">055.606364</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<script src="js/about.min.js" async deferred></script>

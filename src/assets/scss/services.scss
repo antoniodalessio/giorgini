@@ -1,0 +1,62 @@
+@import "common";
+@import "partials/double-text-block";
+@import "partials/blocklist";
+
+
+.services {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: column(2);
+    padding-right: column(2);
+    margin-top: 40px;
+    a {
+        width: 50%;
+        text-align: center;
+    }
+    &__icon {
+        font-size: 120px;
+        color: $primary;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    @media screen and (max-width: $mobile) {
+        padding: 0;
+        a {
+            width: 100%;
+        }
+    }
+}
+
+.service-not-found {
+    display: flex;
+    justify-content: center;
+    &-wrapper {
+        width: column(6);
+        display: flex;
+        @include font-text(30px);
+        font-family: $font-secondary;
+    }
+    .sx {
+        width: column(4);
+    }
+
+    .dx {
+        width: column(2);
+        color: $primary;
+        a {
+            color: $primary;
+        }
+    }
+    @media screen and (max-width: $mobile) {
+        &-wrapper {
+            display: block;
+            width: calc(100vw - #{$mobile-padding-h * 2});
+            padding: 0 $mobile-padding-h;
+        }
+        .sx, .dx {
+            width: 100%;
+        }
+    }
+}
