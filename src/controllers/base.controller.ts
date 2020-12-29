@@ -1,14 +1,18 @@
 import { Types } from 'mongoose';
 import SeoHelper from '../helpers/SeoHelper'
+import ImageHelper from '../helpers/ImageHelper'
+import { Image } from '../models/'
 
 
 class BaseController {
   
   protected model:any;
   protected seoHelper: SeoHelper
+  private imageHelper: ImageHelper
 
   constructor() {
     this.seoHelper = new SeoHelper()
+    this.imageHelper = new ImageHelper()
   }
 
   isEmpty(obj: any) {
@@ -77,6 +81,9 @@ class BaseController {
       try {
         req.body._id = new Types.ObjectId()
         const model = new this.model(req.body)
+        if (req.body.hasOwnProperty('images')) {
+            req.body.images = await this.saveOrUpdateImages(req.body)
+        }
         const result = await model.save()
         res.status(201).json(result);
       }catch(e) {
@@ -99,6 +106,10 @@ class BaseController {
           this.seoHelper.resourceChangeName( `oldData.slug}.html`, `${req.body.slug}.html`)
         }
 
+        if (req.body.hasOwnProperty('images')) {
+          req.body.images = await this.saveOrUpdateImages(req.body)
+        }
+
         let result = await this.model.updateOne({ _id: id }, req.body)
         res.status(200).json({data: result});
       }catch(e) {
@@ -115,6 +126,48 @@ class BaseController {
         }
       });
     }
+
+
+    async saveOrUpdateImages(newData: any) {
+    
+      let imagesIDS: any = []
+  
+      if (newData.images && newData.images.length > 0) {
+        let images = newData.images
+        for (const image of images) {
+          let imageName = image.hasOwnProperty('uri') ? image.uri : image.file.rawFile.path.replace(".jpeg", "").replace(".jpg", "")
+          
+          // upload image
+          if (image.file.hasOwnProperty('base64')){
+            await this.imageHelper.saveImageFile(image.file.base64, imageName)
+            image.uri = imageName
+          }else{
+            // modify only image name
+            const imageOld = await Image.findOne({_id: image._id})
+            if (imageOld && imageOld.uri != image.uri) {
+              await this.imageHelper.ftpRename(imageOld.uri, image.uri)
+            }
+          }
+  
+          //update or save
+          if (image.hasOwnProperty('_id')) {
+            await Image.updateOne({ _id: image._id }, image)
+            imagesIDS.push(image._id)
+          }else{
+              image._id = new Types.ObjectId()
+              let imageInstance = new Image(image)
+              await imageInstance.save()
+              imagesIDS.push(image._id)
+          } 
+          
+        }
+      }
+  
+      return imagesIDS
+  
+    }
+
+
 }
 
 export default BaseController;

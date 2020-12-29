@@ -10,6 +10,7 @@ $(document).ready(function(){
         useCSS: true,
         cssEasing: 'ease',
         easing: 'linear', 
+        pager: true,
     });
 
     var $slideshowImage = $('.slideshow.slideshow--img');
@@ -33,7 +34,9 @@ $(document).ready(function(){
         mode: "slide",
         useCSS: true,
         cssEasing: 'ease',
-        easing: 'linear', 
+        easing: 'linear',
+        pager: true,
+        adaptiveHeight: true,
     });
 
     var $slideshowText = $('.slideshow.slideshow--text');

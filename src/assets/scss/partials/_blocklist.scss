@@ -1,26 +1,69 @@
 .blocklist {
     padding: 80px 0;
     &__row {
+        display: block;
+    }
+    a.blocklist__row {
+        &:hover {
+            background-color: $primary-light;
+        }
+    }
+    &__title {
+        padding-left: column(5);
+    }
+    &__text {
+        padding-left: column(3);
         display: flex;
-        padding-bottom: 80px;
-        &:last-child {
-            padding-bottom: 0;
+        h2 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
         }
     }
     &__icon {
-        width: column(5);
-        font-size: 80px;
-        text-align: right;
+        width: column(1);
+        font-size: 120px;
+        margin-right: column(1);
         color: $primary;
-        padding-top: 90px;
-        i {
-            margin-right: column(1);
-        }
+        text-align: center;
     }
-    &__text {
-        width: column(7);
-        h2, p {
-            width: column(4)
-        }
+    p, h2 {
+        width: column(4);
     }
+    p {
+        margin-left: -$gutter;
+    }
+    h2 {
+        margin-left: 1vw;
+    }
+
+    @media screen and (max-width: $mobile) {
+        &__row {
+            padding: 0 $mobile-padding-h;
+            margin-bottom: 60px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        &__title {
+            padding: 0;
+            margin-left: calc(30vw - #{$mobile-padding-h});
+        }
+        &__icon {
+            font-size: 20vw;
+            width: calc(30vw - #{$mobile-padding-h * 2});
+            margin-right: $mobile-padding-h;
+        }
+        &__text {
+            padding-left: 0;
+            h2 {
+                width: inherit;
+            }
+        }
+        p {
+            margin-left: $gutter;
+            width: column(8);
+            @include mobile-p-font;
+        }
+	}
 }

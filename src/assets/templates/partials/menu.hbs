@@ -1,9 +1,9 @@
 <nav class="menu">
     <ul>
-        <li><a href="chi-siamo.html">Chi siamo</a></li>
-        <li><a href="">Servizi</a></li>
-        <li><a href="">Storie</a></li>
-        <li><a href="">Contatti</a></li>
-        <li><a class="button" href="">Scrivici</a></li>
+        <li class="{{#ifEquals key "about"}}active{{/ifEquals}}"><a href="chi-siamo.html">Chi siamo</a></li>
+        <li class="{{#ifEquals key "services"}}active{{/ifEquals}}"><a href="servizi.html">Servizi</a></li>
+        <li class="{{#ifEquals key "stories"}}active{{/ifEquals}}"><a href="storie.html">Storie</a></li>
+        <li class="{{#ifEquals key "contact"}}active{{/ifEquals}}"><a href="contatti.html">Contatti</a></li>
+        <li class="button-contact"><a class="button" href="contatti.html#contact-form">Scrivici</a></li>
     </ul>
 </nav>

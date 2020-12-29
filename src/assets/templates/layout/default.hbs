@@ -5,6 +5,9 @@
     </head>
     <body>
         {{> body }}
+        {{#ifNotEquals key "contact"}}
+            {{> contact-us }}
+        {{/ifNotEquals}}
     	{{> footer }}
         {{> cookielaw}}
         <!-- Global site tag (gtag.js) - Google Analytics -->

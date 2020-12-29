@@ -2,13 +2,20 @@
     padding: 0 column(1);
     display: flex;
     flex-wrap: wrap;
+    a.card {
+        &:hover {
+            background-color: $primary-light;
+        }
+    }
     .card {
         width: calc(50% - #{$gutter});
         display: flex;
         margin-right: $gutter;
-        margin-bottom: 80px;
+        padding-bottom: 80px;
+        
         &:nth-child(2n+0) {
             margin-right: 0;
+            margin-left: $gutter;
         }
         &__image {
             width: column(2);
@@ -19,9 +26,44 @@
         &__txt {
             width: column(3);
             margin-left: $gutter;
+            h3 {
+                text-transform: capitalize;
+            }
         }
         &__label, h3 {
             margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        &__label {
+            @include font-text(12px);
+        }
+    }
+
+    @media screen and (max-width: $mobile) {
+        width: calc(100vw - #{$mobile-padding-h * 2});
+        padding: 0 $mobile-padding-h;
+        .card {
+            width: 100%;
+            margin-right: 0;
+            display: block;
+            &__image {
+                width: 100%;
+                &--with-bottom-margin {
+                    margin-bottom: 60px;
+                }
+            }
+            &__txt {
+                width: 100%;
+            }
+            &__label {
+                margin-top: 60px;
+            }
+            p {
+                @include mobile-p-font;
+            }
+            &:last-child {
+                padding-bottom: 0;
+            }
         }
     }
 }

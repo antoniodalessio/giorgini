@@ -25,46 +25,50 @@ $.extend($.validator.messages, {
 
 
 $(document).ready(function(){
+
+    $('button.submit').on('click', function(e) {
+        e.preventDefault();
+    })
     
-    var $form = $('.contactForm');
+    var $form = $('.contact-form');
     var $infoMessage = $form.find('.info-message')
-    var $successMsg = $('.success-message');
+    var $successMsg = $('.success-msg-container');
 
     $form.validate({
         lang : 'it',
         submitHandler: function(form) {
+            
             var formData = $form.serializeArray();
-
+            console.log(formData)
             var msg = {
                 name: formData[0].value,
-                email: formData[1].value,
-                message: formData[2].value,
+                phone: formData[1].value,
+                email: formData[2].value,
+                message: formData[3].value,
+                ['g-recaptcha-response']: formData[4].value
             }
-    
-            msg['g-recaptcha-response'] = formData[3].value
-            $('.contactForm button').addClass("loading")
+
+            console.log(msg)
+            $('.contact-form button').addClass("loading")
     
             $.ajax({
-                url: 'https://amaliacardo.cloudno.de/public/contact',
+                url: 'public/contact.php',
                 type: 'POST',
                 data: JSON.stringify(msg),
                 contentType: 'application/json',
                 dataType: "json",
                 success: function(response) {
                     if (response.result) {
-                        $('.contactForm button').removeClass("loading")
-                        $successMsg.text("Grazie. Richiesta inviata con successo. A breve riceverai una email di conferma.")
-                        $form.slideUp();
-                        $successMsg.slideDown();
-                        $('html,body').animate({ scrollTop: 0 }, 'slow');
+                        $('.contact-form button').removeClass("loading")
+                        $successMsg.css({display: 'flex'});
                     }else{
-                        $('.contactForm button').removeClass("loading")
-                        $infoMessage.text("La tua richiesta non è andata a buon fine. Controlla il campo email o il captcha").css({color: '#cc0000'})
+                        $('.contact-form button').removeClass("loading")
+                        $infoMessage.text("Errore. La tua richiesta non è andata a buon fine. Controlla il campo email o il captcha").css({color: '#cc0000'})
                     }
                 },
                 error: function(e) {
-                    $('.contactForm button').removeClass("loading")
-                    $infoMessage.text("La tua richiesta non è andata a buon fine. Controlla il campo email o il captcha").css({color: '#cc0000'})
+                    $('.contact-form button').removeClass("loading")
+                    $infoMessage.text("Errore. La tua richiesta non è andata a buon fine. Controlla il campo email o il captcha").css({color: '#cc0000'})
                 }
             })
           

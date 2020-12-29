@@ -2,12 +2,11 @@ var fs = require('fs');
 var Jimp = require('jimp');
 var webp = require('webp-converter');
 import FTP from './../utils/ftp'
+import { IMAGES_TYPES } from "../config/config"
 
 var clientftp = new FTP(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 
 class ImageHelper {
-
-  types = ["_normal", "_thumb", "_x2"]
   
   async saveImageFile(imageBase64: any, name: string) {
     try{
@@ -20,13 +19,27 @@ class ImageHelper {
     }
   }
 
+  async createImageFormatAndUpload(name: string) {
+    for (const type of IMAGES_TYPES) {
+      await this.createSingleImageAndUpload(name, {width: type.width, height: type.height}, type.postfix)
+    }
+  }
+
+  async createSingleImageAndUpload(name: string, size: any, suffix: string) {
+    await this.createJPGAndUpload(name, size, suffix)
+    //await this.createWEBPAndUpload(name, size, suffix)
+  }
+
   async createJPGAndUpload(name: string, size: any, suffix: string) {
     const originalImage = `${process.env.SITE_IMAGE_PATH}${name}.jpg`
     const image = await Jimp.read(originalImage)
+    if (size.height === 0) {
+      size.height = Jimp.AUTO
+    }
     await image.resize(size.width, size.height).quality(90);
     let result = await image.getBufferAsync(Jimp.MIME_JPEG);
     await fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result)
-    await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755)
+    //await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755)
   }
 
   async createWEBPAndUpload(name: string, size: any, suffix: string) {
@@ -39,31 +52,22 @@ class ImageHelper {
         //if conversion fails status will be '101'
         console.log(status,error);	
       });
-      await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.webp`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.webp`, 755)
+      //await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.webp`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.webp`, 755)
   }
 
-  async createSingleImageAndUpload(name: string, size: any, suffix: string) {
-    await this.createJPGAndUpload(name, size, suffix)
-    await this.createWEBPAndUpload(name, size, suffix)
-  }
-
-  async createImageFormatAndUpload(name: string) {
-    for (const type of this.types) {
-      await this.createSingleImageAndUpload(name, {width: 640, height: 640}, type)
-    }
-  }
+  
 
   async ftpRename(oldName: string, newName: string) {
-    for (const type of this.types) {
-      const oldFile = `${process.env.REMOTE_IMAGES_PATH}${oldName}${type}.jpg`
-      const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type}.jpg`
+    for (const type of IMAGES_TYPES) {
+      const oldFile = `${process.env.REMOTE_IMAGES_PATH}${oldName}${type.postfix}.jpg`
+      const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type.postfix}.jpg`
       await clientftp.rename(oldFile, newFile)
     }
   }
 
   async ftpRemove(fileName: string) {
-    for (const type of this.types) {
-      fileName = `${process.env.REMOTE_IMAGES_PATH}${fileName}${type}.jpg`
+    for (const type of IMAGES_TYPES) {
+      fileName = `${process.env.REMOTE_IMAGES_PATH}${fileName}${type.postfix}.jpg`
       await clientftp.remove(fileName)
     }
   }

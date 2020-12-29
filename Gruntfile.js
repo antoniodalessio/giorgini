@@ -49,7 +49,11 @@ module.exports = function(grunt) {
 			my_target: {
 				files: {
 					[destDir + 'js/index.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/index.js']),
-					[destDir + 'js/about.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/about.js'])
+					[destDir + 'js/about.min.js']: common.concat([bowerDir + 'lightslider/dist/js/lightslider.js', baseDir + 'js/about.js']),
+					[destDir + 'js/services.min.js']: common.concat([baseDir + 'js/services.js']),
+					[destDir + 'js/stories.min.js']: common.concat([baseDir + 'js/stories.js']),
+					[destDir + 'js/contact.min.js']: common.concat([bowerDir + 'jquery-validation/dist/jquery.validate.js' , baseDir + 'js/contact.js']),
+					[destDir + 'js/privacy.min.js']: common.concat([])
 				}
 			}
 		},

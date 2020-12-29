@@ -4,6 +4,37 @@ handlebars.registerHelper('limit', function (arr: any, limit: any) {
     if (!Array.isArray(arr)) { return []; }
     return arr.slice(0, limit);
   });
+
+  handlebars.registerHelper('ifEquals', function(arg1: any, arg2: any, options: any) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+  });
+
+  handlebars.registerHelper('ifNotEquals', function(arg1: any, arg2: any, options: any) {
+    return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
+  });
+
+  handlebars.registerHelper ('truncate', function (str: string, len: number) {
+    if (str.length > len) {
+        var new_str = str.substr (0, len+1);
+
+        while (new_str.length) {
+            var ch = new_str.substr ( -1 );
+            new_str = new_str.substr ( 0, -1 );
+
+            if (ch == ' ') {
+                break;
+            }
+        }
+
+        if ( new_str == '' ) {
+            new_str = str.substr ( 0, len );
+        }
+
+        return new handlebars.SafeString ( new_str +'...' ); 
+    }
+    return str;
+});
+
   
   handlebars.registerHelper({
     eq: (v1: any, v2: any) => v1 === v2,

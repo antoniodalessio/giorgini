@@ -1,8 +1,35 @@
-<header class="main">
+<header class="main hide-sm">
     <div class="logo">
         <a href="/">
-            <img src="svg/logo.svg" />
+            <img src="images/logo.png" />
         </a>
     </div>
     {{>menu}}
+</header>
+
+<header class="mobile hide-desktop">
+    <div class="header-top">
+        <a href="/">
+            <img class="logo-mobile" src="images/logo.png" />
+        </a>
+        <div class="menu-buttons">
+            <i class="icon icon-hamburger"></i>
+        </div>
+    </div>
+    
+    <div class="menu-mobile">
+        <div class="header-top">
+            <a href="/">
+                <img class="logo-mobile" src="images/logo.png" />
+            </a>
+            <div class="menu-buttons">
+                <i class="icon icon-close"></i>
+            </div>
+        </div>
+        {{>menu}}
+        <div class="menu-link">
+            <a href="#">+ 39 055.606364</a>
+            <a href="#">Via Aretina, 167/B 50136 Firenze(FI)</a>
+        </div>
+    </div>
 </header>

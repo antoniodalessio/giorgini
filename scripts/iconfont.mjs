@@ -18,7 +18,7 @@ async function init() {
         formatOptions: {},
         pathOptions: {},
         codepoints: {},
-        fontHeight: 300,
+        //fontHeight: 300,
         round: undefined, 
         descent: undefined, 
         normalize: undefined,

@@ -10,6 +10,8 @@ import { fabric, IFabric } from './fabric'
 import { review, IReview } from './review'
 import { ISubmission, submission } from './submission';
 import { IOrder, order } from './order';
+import { story, IStory } from './story'
+import { IService, service } from './service';
 
 let User = model<IUser>('User', user)
 let Page = model<IPage>('Page', page)
@@ -21,6 +23,8 @@ let Submission = model<ISubmission>('Submission', submission)
 let Fabric = model<IFabric>('Fabric', fabric)
 let Review = model<IReview>('Review', review)
 let Order = model<IOrder>('Order', order)
+let Story = model<IStory>('Story', story)
+let Service = model<IService>('Service', service)
 
 export {
     Page,
@@ -40,4 +44,8 @@ export {
     ISubmission,
     Order,
     IOrder,
+    Story,
+    IStory,
+    Service,
+    IService
 }

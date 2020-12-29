@@ -1,20 +1,18 @@
 .blockimage {
     width: 100vw;
-    height: calc(100vw * 0.75);
     position: relative;
     padding-top: 80px;
     margin-top: 80px;
     display: flex;
     justify-content: center;
+    background-color: #a4e1ff;
     &__tag {
         margin-bottom: 20px;
     }
     img {
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
-        z-index: 1
+        z-index: 1;
+        vertical-align: bottom;
     }
     &__text {
         position: relative;
@@ -24,5 +22,11 @@
         h2 {
             color: white;
         }
+    }
+    button {
+        margin-bottom: 40px;
+    }
+    @media screen and (max-width: $mobile) {
+        height: inherit;
     }
 }

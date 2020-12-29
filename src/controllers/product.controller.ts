@@ -69,11 +69,6 @@ class ProductController extends BaseController{
         this.seoHelper.resourceChangeName( `${oldData.slug}.html`,  `${req.body.slug}.html`)
       }
 
-      // if (data.images.length > req.body.images.length) {
-      //   //remove from ftp
-      //   console.log(_.difference(data.images, req.body.images))
-      // }
-      
       let result = await Product.updateOne({ _id: id }, req.body)
       res.status(200).json({data: result});
     }catch(e) {

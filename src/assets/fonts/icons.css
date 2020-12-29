@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("../fonts/icons.eot?b5e0f659983d29a1d3fb46cb42dbf143#iefix") format("embedded-opentype"),
-url("../fonts/icons.woff2?b5e0f659983d29a1d3fb46cb42dbf143") format("woff2"),
-url("../fonts/icons.woff?b5e0f659983d29a1d3fb46cb42dbf143") format("woff");
+    src: url("../fonts/icons.eot?b6b63c857dab10714ef0312409e8b0f5#iefix") format("embedded-opentype"),
+url("../fonts/icons.woff2?b6b63c857dab10714ef0312409e8b0f5") format("woff2"),
+url("../fonts/icons.woff?b6b63c857dab10714ef0312409e8b0f5") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -31,54 +31,66 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-chirurgia:before {
     content: "\f105";
 }
-.icon-conservativa:before {
+.icon-close:before {
     content: "\f106";
 }
-.icon-estetica-sorriso:before {
+.icon-conservativa:before {
     content: "\f107";
 }
-.icon-facebook:before {
+.icon-error:before {
     content: "\f108";
 }
-.icon-finanziamento:before {
+.icon-estetica-sorriso:before {
     content: "\f109";
 }
-.icon-formazione:before {
+.icon-facebook:before {
     content: "\f10a";
 }
-.icon-geoloc:before {
+.icon-finanziamento:before {
     content: "\f10b";
 }
-.icon-igiene-orale:before {
+.icon-formazione:before {
     content: "\f10c";
 }
-.icon-impianti-dentali:before {
+.icon-geoloc:before {
     content: "\f10d";
 }
-.icon-instagram:before {
+.icon-hamburger:before {
     content: "\f10e";
 }
-.icon-logo:before {
+.icon-igiene-orale:before {
     content: "\f10f";
 }
-.icon-mail:before {
+.icon-impianti-dentali:before {
     content: "\f110";
 }
-.icon-orario:before {
+.icon-instagram:before {
     content: "\f111";
 }
-.icon-ortodonzia-invisibile:before {
+.icon-logo:before {
     content: "\f112";
 }
-.icon-paradontologia:before {
+.icon-mail:before {
     content: "\f113";
 }
-.icon-pododanzia:before {
+.icon-messaggio-ok:before {
     content: "\f114";
 }
-.icon-tecnologia:before {
+.icon-orario:before {
     content: "\f115";
 }
-.icon-telefono:before {
+.icon-ortodonzia-invisibile:before {
     content: "\f116";
+}
+.icon-paradontologia:before {
+    content: "\f117";
+}
+.icon-pododanzia:before {
+    content: "\f118";
+}
+.icon-tecnologia:before {
+    content: "\f119";
+}
+.icon-telefono:before {
+    content: "\f11a";
 }

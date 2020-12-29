@@ -72,19 +72,65 @@ $font-primary: 'Nunito', sans-serif;
 $font-secondary: 'Halant', serif;
 
 $primary: #0080c9;
+$pimary-middle:#a4e1ff;
+$primary-light: #edf3f6;
+
+$primary-dark: #132b45;
 
 $black: #000;
 $white: #fff;
 
 $default-grid-margin: 20px;
 $gutter: 1vw;
+$gutter-mobile: 1.53vw;
+$padding-bottom-mobile: 13vw;
 
 $tablet: 1024px;
 $mobile: 769px;
+$normal: 1500px;
+
+$mobile-padding-h: 24px;
+
+// 120 per i titoli di line-height
+// 150 per i testi
 
 @function column($num) {
 	@return calc( (((100vw - #{$gutter * 13})/12) * #{$num})  + #{$gutter * ($num + 1)});
-    //@return calc( (((100vw - #{$gutter})/12) * #{$num})  + #{$gutter * ($num + 1)});
+}
+
+@function fontsize($size) {
+	//@return calc((100vw - 360px) * (36 - #{$size}) / (767 - 360) + #{$size}px );
+}
+
+@mixin mobile-p-font {
+	font-size: 4.5vw;
+    line-height: 6.7vw;
+}
+
+@mixin font-text($num){
+	font-size: $num;
+	line-height: ($num * 150)/100;
+	@media screen and (min-width: $mobile) and (max-width: $normal){
+		//font-size: $num - 2;
+		//line-height: (($num - 2) * 150)/100;
+	}
+	@media screen and (min-width: $normal) {
+		font-size: $num + 1;
+		line-height: (($num + 1) * 150)/100;
+	}
+}
+
+@mixin font-title($num){
+	font-size: $num;
+	line-height: ($num * 120)/100;
+	@media screen and (min-width: $mobile) and (max-width: $normal){
+		font-size: $num - 6;
+		line-height: (($num - 6) * 120)/100;
+	}
+	@media screen and (min-width: $normal) {
+		font-size: $num + 2;
+		line-height: (($num + 2) * 120)/100;
+	}
 }
 
 
@@ -95,20 +141,25 @@ h1, h2, h3 {
 }
 
 h1 {
-	font-size: 44px;
-	line-height: 60px;
+	@include font-title(44px);
 	margin-bottom: 40px;
+	@media screen and (max-width: $mobile) {
+		font-size: 7vw;
+    	line-height: 9vw;
+	}
 }
 
 h2 {
-	font-size: 36px;
-	line-height: 40px;
+	@include font-title(36px);
 	margin-bottom: 40px;
+	@media screen and (max-width: $mobile) {
+		font-size: 6vw;
+    	line-height: 8vw;
+	}
 }
 
 p {
-	font-size: 14px;
-	line-height: 22px;
+	@include font-text(16px);
 }
 
 a {
@@ -121,8 +172,6 @@ a {
 @import "partials/header";
 @import "partials/footer";
 @import "partials/cookie_law";
-//@import "vendor/simple-grid";
-//@import "../../../bower_components/magnific-popup/src/css/main";
 
 
 
@@ -130,23 +179,73 @@ body {
 	color: #000;
 	font-family: 'Nunito', sans-serif;
 	font-size: 14px;
-	//padding: $default-grid-margin 0;
+	@media screen and (max-width: $mobile) {
+		//padding-bottom: $padding-bottom-mobile;
+	}
 }
+
+img {
+	display: block;
+}
+img[src=""] { content:url("data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="); }
 
 a.button, button.button {
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 	padding: 10px 30px;
-	border: 1px solid black;
-	color: black;
+	border: 1px solid $primary-dark;
+	color: $primary-dark;
 	text-transform: uppercase;
 	background-color: transparent;
 	font-size: 12px;
+	transition: all 0.3s;
+	&:hover {
+		background-color: $primary-dark;
+		color: white;
+		border: 1px solid transparent;
+		
+	}
+	@media screen and (max-width: $mobile) {
+		padding: 4vw 0;
+    	width: 34vw;
+		font-size: 3vw;
+	}
+}
+
+.button-container {
+    text-align: center;
 }
 
 .padded {
 	padding: 80px 0;
+	@media screen and (max-width: $mobile) {
+		padding: 0;
+	}
+}
+
+.padded-mobile {
+	@media screen and (max-width: $mobile) {
+		padding: 80px 0;
+	}
+}
+
+.bg-light {
+	background-color: $primary-light;
+}
+
+.bg-color-middle-primary {
+	background-color: $pimary-middle;
+	h1, h2, h3 {
+		color: white;
+	}
+}
+
+.half-padded {
+	padding: 40px 0;
+	@media screen and (max-width: $mobile) {
+		padding: 0;
+	}
 }
 
 .block-h1 {
@@ -165,6 +264,18 @@ a.button, button.button {
 
 main {
 	//padding: 0 $default-grid-margin;
+}
+
+.hide-sm {
+	@media screen and (max-width: $mobile) {
+		display: none !important;
+	}
+}
+
+.hide-desktop {
+	@media screen and (min-width: $mobile) {
+		display: none !important;
+	}
 }
 
 /* FORM */
@@ -279,3 +390,140 @@ main {
 .control-checkbox input:checked + .control_indicator::before {
 	animation-name: s-ripple-dup;
 }
+
+$main-image-height: 70vh;
+.main-image {
+	height: $main-image-height;
+	position: relative;
+	img {
+		width: 100vw;
+		height: 70vh;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-position: center;
+    	background-repeat: no-repeat;
+    	background-size: cover;
+	}
+	@media screen and (max-width: $mobile) {
+		position: relative;
+    	width: 100vw;
+		height: inherit;
+		img {
+			position: relative;
+			background-position: revert;
+			background-repeat: no-repeat;
+			background-size: contain;
+			width: 100vw;
+			height: auto;
+		}
+		.block-h1 {
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 0 $mobile-padding-h;
+			margin-top: 50%;
+        }
+	}
+	&--top {
+		@media screen and (max-width: $mobile) {
+			margin-top: 110px;
+		}
+	}
+}
+
+.image-half {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 80px;
+    img {
+        width: column(8);
+    }
+}
+
+.image-double {
+    display: flex;
+    justify-content: center;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        width: column(8);
+    }
+    &__inner {
+		width: column(4);
+		margin-right: $gutter;
+		&:last-child {
+			margin-right: 0;
+		}
+		img {
+			width: column(4);
+			border-radius: 2%;
+		}
+		p {
+			font-size: 14px;
+			margin-bottom: 40px;
+			font-family: $font-secondary !important;
+		}
+	}
+	@media screen and (max-width: $mobile) {
+		&__inner {
+			margin-right: 0;
+			width: calc(100vw - #{$mobile-padding-h * 2});
+			padding: 0 $mobile-padding-h;
+		}
+		> div {
+			flex-direction: column;
+			width: 100%;
+		}
+		img {
+			width: 100%;
+			border-radius: 0;
+		}
+		p {
+			margin-top: 40px;
+			margin-bottom: 20px;
+		}
+	}
+}
+
+.text-double {
+	display: flex;
+	justify-content: center;
+	> div {
+        display: flex;
+        justify-content: space-between;
+        width: column(8);
+	}
+	> div > div {
+		width: column(3);
+	}
+	img {
+		width: 100%;
+	}
+	h2 {
+		text-transform: capitalize;
+	}
+	@media screen and (max-width: $mobile) {
+		> div > div {
+			width: 100%;
+		}
+		> div {
+			flex-direction: column;
+			width: 100%;
+		}
+		img {
+			width: 100%;
+			margin-bottom: 40px;
+		}
+		&__text {
+			width: calc(100vw - #{$mobile-padding-h * 2}) !important;
+			padding: 0 $mobile-padding-h;
+		}
+	}
+}
+
+.g-recaptcha {
+	margin-bottom: 40px;
+}
+
+@import "partials/contact-us";

@@ -2,6 +2,9 @@
     margin-top: 80px;
     display: flex;
     font-size: 16px;
+    h2, p {
+        margin-bottom: 0;
+    }
     &__tag {
         margin-bottom: 40px;
         font-size: 0.8em;
@@ -18,19 +21,31 @@
     &__text {
         display: flex;
         align-items: center;
+        // &__content {
+        //     @include font-text(14px);
+        // }
         &__container {
             &--left {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
                 padding-left: column(1);
                 padding-right: column(2);
             }
             &--right {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
                 padding-left: column(2);
                 padding-right: column(1);
             }
         }
     }
     .button {
-        margin-top: 54px;
+        //margin-top: 54px;
+        width: 20%;
     }
     &--reverse {
         .homeblock__img {
@@ -40,4 +55,81 @@
             margin-right: $gutter;
         }
     }
+    &--img-little {
+        .homeblock__img {
+            width: column(5);
+        }
+        .homeblock__text {
+            width: column(7);
+        }
+    }
+
+    @media screen and (min-width: 1240px) {
+        &__text {
+            &__content {
+                //@include font-text(16px);
+            }
+        }
+        
+    }
+
+    @media screen and (max-width: $mobile) {
+        flex-direction: column;
+        margin-top: 0;
+        h2, p {
+            margin-bottom: 40px;
+        }
+        .button {
+            width: 50%;
+        }
+        &__text, &__img {
+            width: 100vw;
+        }
+        &__tag {
+            font-size: 1em;
+            margin-top: 60px;
+        }
+        &__img {
+            order: 1;
+            margin-left: 0;
+        }
+        &__text {
+            order: 2;
+            &__content {
+                @include mobile-p-font;
+            }
+            &__container {
+                &--left {
+                    padding: 0 $mobile-padding-h 0 $mobile-padding-h;
+                }
+                &--right {
+                    padding: 0 $mobile-padding-h 0 $mobile-padding-h;
+                }
+            }
+        }
+        &--img-little {
+            .homeblock__img {
+                width: 100%;
+            }
+            .homeblock__text {
+                width: 100%;
+            }
+        }
+    }
+    
+    @media screen and (min-width: $mobile) and (max-width: $normal){
+		&__text {
+            &__container {
+                &--left {
+                    padding-left: column(1);
+                    padding-right: column(1);
+                }
+                &--right {
+                    padding-left: column(1);
+                    padding-right: column(1);
+                }
+            }
+        }
+	}
+
 }

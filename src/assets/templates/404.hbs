@@ -1,25 +1,27 @@
 ---
-key: index
+home: active
+key: 404
 ---
 
-<div class="content full-page">
-	<div class="content--wrapper">
-		{{> menu}}
-		<img class="logo" src="/images/logo.png" alt="logo Amalia cardo" />
-	</div>
-	<div class="images column--second">
-			<a alt="Amalia Cardo Stilista, sarta e modellista a Firenze" href="/">
-                <img class="logo" src="/images/logo.png" alt="logo Amalia Cardo"/>
-            </a>
-		<img class="site-bg" src="/images/bg_site_x2.webp" alt="sfondo Amalia Cardo"/>
-	</div>
-	<div class="column--third">
-		<div class="quote quote--big">
-			<div class="quote__text">{{{body}}}</div>
+{{>header}}
+
+<main class="padded">
+	<section class="padded error404">
+		<div class="error404-wrapper">
+			<div class="sx">
+				<i class="icon icon-error"></i>
+			</div>
+			<div class="dx">
+				<div class="title">
+					{{{title}}}
+				</div>
+				<div class="description">
+					{{{body}}}
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
-
-{{> categories}}
-
-<script src="/js/index.min.js" async deferred></script>
+	</section>
+	<section class="button-container padded padded-mobile">
+        <a href="/" class="button">Torna alla home</a>
+    </section>
+</main>
