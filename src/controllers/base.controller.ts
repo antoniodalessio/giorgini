@@ -103,7 +103,7 @@ class BaseController {
         let oldData = data[0].toObject()
 
         if (oldData.hasOwnProperty('slug') && oldData.slug != req.body.slug) {
-          this.seoHelper.resourceChangeName( `oldData.slug}.html`, `${req.body.slug}.html`)
+          this.seoHelper.resourceChangeName( `${oldData.slug}.html`, `${req.body.slug}.html`)
         }
 
         if (req.body.hasOwnProperty('images')) {
