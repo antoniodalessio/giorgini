@@ -1,5 +1,5 @@
 node_modules
-site
+./site
 .env
 bower_components
 .sass-cache
