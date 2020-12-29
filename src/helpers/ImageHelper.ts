@@ -39,7 +39,7 @@ class ImageHelper {
     await image.resize(size.width, size.height).quality(90);
     let result = await image.getBufferAsync(Jimp.MIME_JPEG);
     await fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result)
-    //await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755)
+    await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755)
   }
 
   async createWEBPAndUpload(name: string, size: any, suffix: string) {
