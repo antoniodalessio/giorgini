@@ -56,14 +56,6 @@ class App {
       console.log(`Server running on port ${process.env.PORT!}`);
     });
 
-    // this._expressApp.get('/', async (req: any, res: any) => {
-    //   res.send("hello world")
-    // })
-
-    this._expressApp.post('/testgh', async (req: any, res: any) => {
-      res.status(200).json({data: 'hello google home'});
-    })
-
     let loginCTRL = new loginController()
 
     this._expressApp.post('/authenticate', async (req: any, res: any) => { await loginCTRL.login(req, res)} )

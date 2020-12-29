@@ -56,12 +56,6 @@ class App {
         this._expressApp.listen(process.env.PORT, () => {
             console.log(`Server running on port ${process.env.PORT}`);
         });
-        // this._expressApp.get('/', async (req: any, res: any) => {
-        //   res.send("hello world")
-        // })
-        this._expressApp.post('/testgh', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            res.status(200).json({ data: 'hello google home' });
-        }));
         let loginCTRL = new login_controller_1.default();
         this._expressApp.post('/authenticate', (req, res) => __awaiter(this, void 0, void 0, function* () { yield loginCTRL.login(req, res); }));
         this._expressApp.post('/checkAuth', (req, res) => __awaiter(this, void 0, void 0, function* () { yield loginCTRL.checkAuth(req, res); }));
