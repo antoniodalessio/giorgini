@@ -16,6 +16,7 @@ class LoginController {
         return __awaiter(this, void 0, void 0, function* () {
             const { username, password } = req.body;
             const hash = utils_1.toHash(username, password);
+            console.log(hash);
             let result = yield models_1.User.find({ hash });
             if (result.length > 0) {
                 let token = utils_1.createRandomToken();

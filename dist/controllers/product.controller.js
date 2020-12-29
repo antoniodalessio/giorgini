@@ -15,13 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
-const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
 const _ = require('underscore');
 class ProductController extends base_controller_1.default {
     constructor() {
         super();
         this.model = models_1.Product;
-        this.imageHelper = new ImageHelper_1.default();
     }
     getAll(req, res) {
         const _super = Object.create(null, {
@@ -75,10 +73,6 @@ class ProductController extends base_controller_1.default {
                 if (oldData.slug != req.body.slug) {
                     this.seoHelper.resourceChangeName(`${oldData.slug}.html`, `${req.body.slug}.html`);
                 }
-                // if (data.images.length > req.body.images.length) {
-                //   //remove from ftp
-                //   console.log(_.difference(data.images, req.body.images))
-                // }
                 let result = yield models_1.Product.updateOne({ _id: id }, req.body);
                 res.status(200).json({ data: result });
             }

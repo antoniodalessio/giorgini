@@ -15,12 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
 const mongoose_1 = require("mongoose");
-const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
 class CategoryController extends base_controller_1.default {
     constructor() {
         super();
         this.model = models_1.Category;
-        this.imageHelper = new ImageHelper_1.default();
     }
     getAll(req, res) {
         const _super = Object.create(null, {

@@ -17,7 +17,6 @@ const ftp_1 = __importDefault(require("./../utils/ftp"));
 const models_1 = require("../models");
 var fs = require('fs');
 const SeoHelper_1 = __importDefault(require("../helpers/SeoHelper"));
-const array_1 = require("../utils/array");
 class BuilderController {
     constructor() {
         this.fileToUpload = [];
@@ -47,27 +46,7 @@ class BuilderController {
                 slug: 'sitemap'
             };
             yield this.assemble.renderSimple('sitemap', data, "xml");
-            //await this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755)
-        });
-    }
-    getSubcategories(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return (yield models_1.Category.find({ parent: id }).sort('ord')).map((item) => item ? item.toObject() : null);
-        });
-    }
-    getProductsOfCategory(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return (yield models_1.Product.find({ category: id }).sort('ord').populate('images')).map((item) => item ? item.toObject() : null);
-        });
-    }
-    getProductsFromSubCategory(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const categories = (yield models_1.Category.find({ parent: id }).sort('ord')).map((item) => item ? item.toObject() : null);
-            let products = [];
-            for (const category of categories) {
-                products = products.concat((yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null));
-            }
-            return array_1.shuffle(products);
+            yield this.clientFtp.upload(`${process.env.SITE_PATH}sitemap.xml`, `${process.env.FTP_FOLDER}sitemap.xml`, 755);
         });
     }
     addResources(page) {
@@ -75,32 +54,16 @@ class BuilderController {
             if (page.hasOwnProperty('resources') && page.resources.length > 0) {
                 let resources = {};
                 for (const resource of page.resources) {
-                    if (resource.type == 'category') {
-                        // find main category
-                        const parentCategory = yield models_1.Category.findOne({ parent: null });
-                        const _id = parentCategory.toObject()._id;
-                        // get subcategory of main category
-                        const categories = (yield models_1.Category.find({ parent: _id }).sort('ord')).map((item) => item ? item.toObject() : null);
-                        for (const category of categories) {
-                            const products = (yield models_1.Product.find({ category: category._id }).populate('images')).map((item) => item ? item.toObject() : null);
-                            if (products.length > 0) {
-                                const subcategoryProduct = yield this.getProductsFromSubCategory(category._id);
-                                category.products = array_1.shuffle(products.concat(subcategoryProduct));
-                            }
-                            else {
-                                // load products randomly? from subcategory 
-                                category.products = yield this.getProductsFromSubCategory(category._id);
-                            }
-                        }
-                        resources.categories = categories;
+                    if (resource.type == 'story') {
+                        resources.stories = (yield models_1.Story.find(resource.filter)
+                            .sort('order')
+                            .populate({ path: 'images', options: { sort: { 'ord': 1 } } }))
+                            .map((item) => item ? item.toObject() : null);
                     }
-                    if (resource.type == 'review') {
-                        const reviews = (yield models_1.Review.find(resource.filter).sort('_id')).map((item) => item ? item.toObject() : null);
-                        resources.reviews = reviews;
-                    }
-                    if (resource.type == 'fabric') {
-                        const fabrics = (yield models_1.Fabric.find(resource.filter).sort('_id')).map((item) => item ? item.toObject() : null);
-                        resources.fabrics = fabrics;
+                    if (resource.type == 'service') {
+                        resources.services = (yield models_1.Service.find(resource.filter)
+                            .sort('order'))
+                            .map((item) => item ? item.toObject() : null);
                     }
                 }
                 page.resources = resources;
@@ -114,6 +77,7 @@ class BuilderController {
             const pags = [];
             for (let page of pages) {
                 page = yield this.addResources(page);
+                console.log(page);
                 page.pageImage = `${process.env.SITE_URL}/images/logo.png`;
                 pags.push(page);
             }
@@ -146,98 +110,57 @@ class BuilderController {
             }
         });
     }
-    buildCategories() {
+    buildServices() {
         return __awaiter(this, void 0, void 0, function* () {
-            let categories = yield models_1.Category.find().sort('ord');
-            let cats = [];
-            for (const category of categories) {
-                let cat = category.toObject();
-                cat.products = yield this.getProductsOfCategory(category._id);
-                cat.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${cat.thumb_preview}_normal.jpg`;
-                cat.products.forEach((product) => {
-                    product.thumb = product.hasOwnProperty("images") && product.images.length > 0 ? product.images[0].uri : null;
-                });
-                cat.breadcrumb = (yield this.buildBreadCrumb(cat)).reverse();
-                //if(category.hasSubcategory) {
-                cat.categories = yield this.getSubcategories(category._id);
-                //}
-                cats.push(cat);
+            let services = yield models_1.Service.find().populate({ path: 'images', options: { sort: { 'ord': 1 } } });
+            let servs = [];
+            for (let service of services) {
+                let serv = service.toObject();
+                serv = yield this.addResources(serv);
+                servs.push(serv);
             }
-            return cats;
+            return servs;
         });
     }
-    uploadCategories(categories, unpublished) {
+    uploadServices(services, unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            for (const cat of categories) {
-                if (!unpublished || !cat.published) {
-                    cat.hasSubcategory ? yield this.assemble.render("categories", cat) : yield this.assemble.render("category", cat);
-                    this.fileToUpload.push(cat.slug);
-                    yield models_1.Category.updateOne({ _id: cat._id }, { published: true });
+            for (const service of services) {
+                if (!unpublished || !service.published) {
+                    yield this.assemble.render("service", service);
+                    this.fileToUpload.push(service.slug);
+                    yield models_1.Product.updateOne({ _id: service._id }, { published: true });
                 }
             }
         });
     }
-    renderFabrics(product) {
+    buildStories() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (product.fabrics) {
-                const fabrics = {
-                    internal: product.fabrics.internal.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null),
-                    external: product.fabrics.external.map((item) => item && typeof item.toObject == 'function' ? item.toObject() : null),
-                };
-                const tmpData = {
-                    slug: product.slug + '_fabrics',
-                    fabrics
-                };
-                yield this.assemble.renderSimple('fabrics-popup', tmpData);
+            let stories = yield models_1.Story.find().sort('-order').populate({ path: 'images', options: { sort: { 'ord': 1 } } });
+            let stors = [];
+            for (let story of stories) {
+                let stor = story.toObject();
+                stor = yield this.addResources(stor);
+                stors.push(stor);
             }
+            return stors;
         });
     }
-    buildProducts() {
+    uploadStories(stories, unpublished) {
         return __awaiter(this, void 0, void 0, function* () {
-            let products = yield models_1.Product.find().populate({ path: 'images', options: { sort: { 'ord': 1 } } }).populate('fabrics.internal fabrics.external category');
-            let prods = [];
-            for (const product of products) {
-                let prod = product.toObject();
-                prod.resources = [{ type: 'review', filter: { product: prod._id } }];
-                prod = yield this.addResources(prod);
-                prod.pageImage = `${process.env.SITE_URL}${process.env.IMAGES_PATH}${prod.images[0].uri}_normal.jpg`;
-                const category = (yield models_1.Category.findOne({ _id: prod.category })).toObject();
-                prod.breadcrumb = (yield this.buildBreadCrumb(category)).reverse();
-                prod.breadcrumb.push({ slug: prod.slug, label: prod.title });
-                prod.fabrics = product.fabrics;
-                prods.push(prod);
-            }
-            return prods;
-        });
-    }
-    uploadProducts(products, unpublished) {
-        return __awaiter(this, void 0, void 0, function* () {
-            for (const product of products) {
-                if (!unpublished || !product.published) {
-                    if (product.fabrics.internal.length || product.fabrics.external.length) {
-                        yield this.renderFabrics(product);
-                        this.fileToUpload.push(`${product.slug}_fabrics`);
-                    }
-                    yield this.assemble.render("product", product);
-                    this.fileToUpload.push(product.slug);
-                    yield models_1.Product.updateOne({ _id: product._id }, { published: true });
+            for (const story of stories) {
+                if (!unpublished || !story.published) {
+                    yield this.assemble.render("story", story);
+                    this.fileToUpload.push(story.slug);
+                    yield models_1.Product.updateOne({ _id: story._id }, { published: true });
                 }
             }
-        });
-    }
-    build(unpublished) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //await this.uploadCategories(await this.buildCategories(), unpublished)
-            //await this.uploadProducts(await this.buildProducts(), unpublished)
-            //await this.uploadStaticPages(await this.buildStaticPages(), unpublished)
-            yield this.buildStaticPages();
         });
     }
     upload() {
         return __awaiter(this, void 0, void 0, function* () {
             let filesUploaded = [];
             for (const file of this.fileToUpload) {
-                //await this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755)
+                yield this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755);
                 filesUploaded.push(`${file}`);
             }
             this.fileToUpload = [];
@@ -256,17 +179,23 @@ class BuilderController {
     }
     renderBySlug(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            const allPages = [yield this.buildCategories(), yield this.buildStaticPages(), yield this.buildProducts()].reduce((acc, curr) => {
+            const allPages = [yield this.buildStaticPages()].reduce((acc, curr) => {
                 return acc.concat(curr);
             });
             for (let page of allPages) {
                 page = yield this.addResources(page);
             }
             name = name.replace(".html", "");
-            const page = allPages.filter(resource => resource.slug == name);
-            console.log(page[0].template);
+            const page = allPages.filter((resource) => resource.slug == name);
             const result = yield this.assemble.renderPage(page[0]);
             return result;
+        });
+    }
+    build(unpublished) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.uploadStaticPages(yield this.buildStaticPages(), unpublished);
+            yield this.uploadServices(yield this.buildServices(), unpublished);
+            yield this.uploadStories(yield this.buildStories(), unpublished);
         });
     }
     publish(req, res) {
@@ -281,8 +210,8 @@ class BuilderController {
                 yield this.clearFolder();
             }
             yield this.buildSitemapXml();
-            //await this.seoHelper.uploadHtaccess()
-            //await this.seoHelper.downloadHtaccess()
+            yield this.seoHelper.uploadHtaccess();
+            yield this.seoHelper.downloadHtaccess();
             res.status(200).json(result);
         });
     }

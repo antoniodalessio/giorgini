@@ -61,7 +61,6 @@ class Assemble {
         return __awaiter(this, void 0, void 0, function* () {
             let templateFile = yield fs.readFileSync(`${this.options.defaultLayout}`, 'utf8');
             let newdata = yield this.setTemplate(data.template, data);
-            console.log(newdata);
             let template = handlebarsHelper_1.default.compile(templateFile);
             const tmpData = Object.assign(data, newdata);
             return yield template(tmpData);

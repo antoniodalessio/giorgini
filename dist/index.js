@@ -6,6 +6,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 const app_1 = __importDefault(require("./app"));
 const app = new app_1.default();
-// import BatchOperations from './batchOperations'
-// const app = new BatchOperations()
 //# sourceMappingURL=index.js.map

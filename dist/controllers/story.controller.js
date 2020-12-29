@@ -12,15 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const routes = require('express').Router();
-const contact_controller_1 = __importDefault(require("../controllers/contact.controller"));
-function initPublicRoutes() {
-    const contactCTRL = new contact_controller_1.default();
-    routes.post('/contact', (req, res) => __awaiter(this, void 0, void 0, function* () { yield contactCTRL.contact(req, res); }));
-    //routes.post('/comment', async (req: any, res: any) => { await contactCTRL.comment(req, res)} )
+const base_controller_1 = __importDefault(require("./base.controller"));
+const models_1 = require("../models");
+class StoryController extends base_controller_1.default {
+    constructor() {
+        super();
+        this.model = models_1.Story;
+    }
+    getAll(req, res) {
+        const _super = Object.create(null, {
+            getAll: { get: () => super.getAll }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            yield _super.getAll.call(this, req, res, 'images');
+        });
+    }
+    get(req, res) {
+        const _super = Object.create(null, {
+            get: { get: () => super.get }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            yield _super.get.call(this, req, res, 'images');
+        });
+    }
 }
-exports.default = () => {
-    initPublicRoutes();
-    return routes;
-};
-//# sourceMappingURL=public.js.map
+exports.default = StoryController;
+//# sourceMappingURL=story.controller.js.map

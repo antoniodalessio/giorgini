@@ -14,13 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const base_controller_1 = __importDefault(require("./base.controller"));
 const models_1 = require("../models/");
-const ImageHelper_1 = __importDefault(require("../helpers/ImageHelper"));
 const mongoose_1 = require("mongoose");
 class FabricController extends base_controller_1.default {
     constructor() {
         super();
         this.model = models_1.Fabric;
-        this.imageHelper = new ImageHelper_1.default();
     }
     getAll(req, res) {
         const _super = Object.create(null, {

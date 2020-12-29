@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.product = void 0;
 const mongoose_1 = require("mongoose");
 const basePage_1 = require("./basePage");
 const product = new mongoose_1.Schema(Object.assign(basePage_1.defaultPageField, {

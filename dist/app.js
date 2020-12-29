@@ -17,16 +17,28 @@ var cors = require('cors');
 const login_controller_1 = __importDefault(require("./controllers/login.controller"));
 const api_1 = __importDefault(require("./routes/api"));
 const public_1 = __importDefault(require("./routes/public"));
+//import siteRoutes from './routes/site'
+const models_1 = require("./models");
+const mongoose_1 = require("mongoose");
+const utils_1 = require("./utils/utils");
 const SeoHelper_1 = __importDefault(require("./helpers/SeoHelper"));
 const mongoose = require('mongoose');
 var fs = require('fs');
 class App {
     constructor() {
-        console.log("app init");
-        this.setupExpress();
-        this.initMongoose();
-        const seoHelper = new SeoHelper_1.default();
-        seoHelper.downloadHtaccess();
+        this.init();
+    }
+    init() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("app init");
+            this.setupExpress();
+            this.initMongoose();
+            this.setupFirstAdminUser();
+            if (process.env.ENV == 'PROD') {
+                const seoHelper = new SeoHelper_1.default();
+                seoHelper.downloadHtaccess();
+            }
+        });
     }
     setupExpress() {
         this._expressApp = express();
@@ -64,6 +76,21 @@ class App {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             });
+        });
+    }
+    setupFirstAdminUser() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield models_1.User.find({ username: 'admin' });
+            if (data.length === 0) {
+                let user = new models_1.User({
+                    _id: new mongoose_1.Types.ObjectId(),
+                    username: process.env.ADMIN_USER,
+                    password: process.env.ADMIN_PWD,
+                    hash: utils_1.toHash(process.env.ADMIN_USER, process.env.ADMIN_PWD)
+                });
+                const result = yield user.save();
+                console.log(result);
+            }
         });
     }
 }

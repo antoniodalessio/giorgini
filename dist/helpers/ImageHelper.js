@@ -16,11 +16,9 @@ var fs = require('fs');
 var Jimp = require('jimp');
 var webp = require('webp-converter');
 const ftp_1 = __importDefault(require("./../utils/ftp"));
+const config_1 = require("../config/config");
 var clientftp = new ftp_1.default(process.env.FTP_HOST, 21, process.env.FTP_USER, process.env.FTP_PWD, false);
 class ImageHelper {
-    constructor() {
-        this.types = ["_normal", "_thumb", "_x2"];
-    }
     saveImageFile(imageBase64, name) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -34,14 +32,30 @@ class ImageHelper {
             }
         });
     }
+    createImageFormatAndUpload(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (const type of config_1.IMAGES_TYPES) {
+                yield this.createSingleImageAndUpload(name, { width: type.width, height: type.height }, type.postfix);
+            }
+        });
+    }
+    createSingleImageAndUpload(name, size, suffix) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.createJPGAndUpload(name, size, suffix);
+            //await this.createWEBPAndUpload(name, size, suffix)
+        });
+    }
     createJPGAndUpload(name, size, suffix) {
         return __awaiter(this, void 0, void 0, function* () {
             const originalImage = `${process.env.SITE_IMAGE_PATH}${name}.jpg`;
             const image = yield Jimp.read(originalImage);
+            if (size.height === 0) {
+                size.height = Jimp.AUTO;
+            }
             yield image.resize(size.width, size.height).quality(90);
             let result = yield image.getBufferAsync(Jimp.MIME_JPEG);
             yield fs.writeFileSync(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, result);
-            yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755);
+            //await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.jpg`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.jpg`, 755)
         });
     }
     createWEBPAndUpload(name, size, suffix) {
@@ -51,35 +65,22 @@ class ImageHelper {
                 //if conversion fails status will be '101'
                 console.log(status, error);
             });
-            yield clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.webp`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.webp`, 755);
-        });
-    }
-    createSingleImageAndUpload(name, size, suffix) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.createJPGAndUpload(name, size, suffix);
-            yield this.createWEBPAndUpload(name, size, suffix);
-        });
-    }
-    createImageFormatAndUpload(name) {
-        return __awaiter(this, void 0, void 0, function* () {
-            for (const type of this.types) {
-                yield this.createSingleImageAndUpload(name, { width: 640, height: 640 }, type);
-            }
+            //await clientftp.upload(`${process.env.SITE_IMAGE_PATH}${name}${suffix}.webp`, `${process.env.REMOTE_IMAGES_PATH}${name}${suffix}.webp`, 755)
         });
     }
     ftpRename(oldName, newName) {
         return __awaiter(this, void 0, void 0, function* () {
-            for (const type of this.types) {
-                const oldFile = `${process.env.REMOTE_IMAGES_PATH}${oldName}${type}.jpg`;
-                const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type}.jpg`;
+            for (const type of config_1.IMAGES_TYPES) {
+                const oldFile = `${process.env.REMOTE_IMAGES_PATH}${oldName}${type.postfix}.jpg`;
+                const newFile = `${process.env.REMOTE_IMAGES_PATH}${newName}${type.postfix}.jpg`;
                 yield clientftp.rename(oldFile, newFile);
             }
         });
     }
     ftpRemove(fileName) {
         return __awaiter(this, void 0, void 0, function* () {
-            for (const type of this.types) {
-                fileName = `${process.env.REMOTE_IMAGES_PATH}${fileName}${type}.jpg`;
+            for (const type of config_1.IMAGES_TYPES) {
+                fileName = `${process.env.REMOTE_IMAGES_PATH}${fileName}${type.postfix}.jpg`;
                 yield clientftp.remove(fileName);
             }
         });

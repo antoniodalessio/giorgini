@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Service = exports.Story = exports.Order = exports.Submission = exports.Review = exports.Fabric = exports.Customer = exports.User = exports.Image = exports.Product = exports.Category = exports.Page = void 0;
 const mongoose_1 = require("mongoose");
 const user_1 = require("./user");
 const page_1 = require("./page");
@@ -11,6 +12,8 @@ const fabric_1 = require("./fabric");
 const review_1 = require("./review");
 const submission_1 = require("./submission");
 const order_1 = require("./order");
+const story_1 = require("./story");
+const service_1 = require("./service");
 let User = mongoose_1.model('User', user_1.user);
 exports.User = User;
 let Page = mongoose_1.model('Page', page_1.page);
@@ -31,4 +34,8 @@ let Review = mongoose_1.model('Review', review_1.review);
 exports.Review = Review;
 let Order = mongoose_1.model('Order', order_1.order);
 exports.Order = Order;
+let Story = mongoose_1.model('Story', story_1.story);
+exports.Story = Story;
+let Service = mongoose_1.model('Service', service_1.service);
+exports.Service = Service;
 //# sourceMappingURL=index.js.map
