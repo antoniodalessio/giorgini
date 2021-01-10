@@ -11,6 +11,9 @@ const image: Schema = new Schema({
     },
     ord: {
         type: Number
+    },
+    type: {
+        type: String
     }
 })
 
@@ -18,7 +21,8 @@ interface IImage extends Document {
     alt: string;
     uri: string;
     uri_full: string;
-    ord: number
+    ord: number,
+    type: string
 }
 
 export { 
