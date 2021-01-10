@@ -16,6 +16,7 @@ export type IconsId =
   | "igiene-orale"
   | "impianti-dentali"
   | "instagram"
+  | "logo-fristudio"
   | "logo"
   | "mail"
   | "messaggio-ok"
@@ -44,6 +45,7 @@ export type IconsKey =
   | "IgieneOrale"
   | "ImpiantiDentali"
   | "Instagram"
+  | "LogoFristudio"
   | "Logo"
   | "Mail"
   | "MessaggioOk"
@@ -72,6 +74,7 @@ export enum Icons {
   IgieneOrale = "igiene-orale",
   ImpiantiDentali = "impianti-dentali",
   Instagram = "instagram",
+  LogoFristudio = "logo-fristudio",
   Logo = "logo",
   Mail = "mail",
   MessaggioOk = "messaggio-ok",
@@ -101,13 +104,14 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.IgieneOrale]: "61711",
   [Icons.ImpiantiDentali]: "61712",
   [Icons.Instagram]: "61713",
-  [Icons.Logo]: "61714",
-  [Icons.Mail]: "61715",
-  [Icons.MessaggioOk]: "61716",
-  [Icons.Orario]: "61717",
-  [Icons.OrtodonziaInvisibile]: "61718",
-  [Icons.Paradontologia]: "61719",
-  [Icons.Pododanzia]: "61720",
-  [Icons.Tecnologia]: "61721",
-  [Icons.Telefono]: "61722",
+  [Icons.LogoFristudio]: "61714",
+  [Icons.Logo]: "61715",
+  [Icons.Mail]: "61716",
+  [Icons.MessaggioOk]: "61717",
+  [Icons.Orario]: "61718",
+  [Icons.OrtodonziaInvisibile]: "61719",
+  [Icons.Paradontologia]: "61720",
+  [Icons.Pododanzia]: "61721",
+  [Icons.Tecnologia]: "61722",
+  [Icons.Telefono]: "61723",
 };

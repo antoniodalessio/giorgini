@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("../fonts/icons.eot?b6b63c857dab10714ef0312409e8b0f5#iefix") format("embedded-opentype"),
-url("../fonts/icons.woff2?b6b63c857dab10714ef0312409e8b0f5") format("woff2"),
-url("../fonts/icons.woff?b6b63c857dab10714ef0312409e8b0f5") format("woff");
+    src: url("../fonts/icons.eot?d83fa2d8b081922736ec5190b67180b3#iefix") format("embedded-opentype"),
+url("../fonts/icons.woff2?d83fa2d8b081922736ec5190b67180b3") format("woff2"),
+url("../fonts/icons.woff?d83fa2d8b081922736ec5190b67180b3") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -67,30 +67,33 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-instagram:before {
     content: "\f111";
 }
-.icon-logo:before {
+.icon-logo-fristudio:before {
     content: "\f112";
 }
-.icon-mail:before {
+.icon-logo:before {
     content: "\f113";
 }
-.icon-messaggio-ok:before {
+.icon-mail:before {
     content: "\f114";
 }
-.icon-orario:before {
+.icon-messaggio-ok:before {
     content: "\f115";
 }
-.icon-ortodonzia-invisibile:before {
+.icon-orario:before {
     content: "\f116";
 }
-.icon-paradontologia:before {
+.icon-ortodonzia-invisibile:before {
     content: "\f117";
 }
-.icon-pododanzia:before {
+.icon-paradontologia:before {
     content: "\f118";
 }
-.icon-tecnologia:before {
+.icon-pododanzia:before {
     content: "\f119";
 }
-.icon-telefono:before {
+.icon-tecnologia:before {
     content: "\f11a";
+}
+.icon-telefono:before {
+    content: "\f11b";
 }

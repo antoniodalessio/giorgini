@@ -12,6 +12,9 @@
     a {
         width: 50%;
         text-align: center;
+        &:hover {
+            background-color: $primary-light;
+        }
     }
     &__icon {
         font-size: 120px;
