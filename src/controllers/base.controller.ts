@@ -129,6 +129,8 @@ class BaseController {
 
 
     async saveOrUpdateImages(newData: any) {
+
+      console.log(newData);
     
       let imagesIDS: any = []
   

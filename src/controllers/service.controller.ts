@@ -4,7 +4,6 @@ import { Service, Image } from '../models'
 
 class ServiceController extends BaseController{
 
-  
   constructor() {
     super()
     this.model = Service
