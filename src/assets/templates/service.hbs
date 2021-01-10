@@ -19,21 +19,21 @@ key: service
         </div>
     </section>
 
-    <section class="image-half">
-        {{#each this.images}}
-            {{#ifEquals this.type "full"}}
-                <img src="images/{{this.uri}}_normal.jpg"/>
-            {{/ifEquals}}
-        {{/each}}
-    </section>
+    {{#each this.images}}
+        {{#ifEquals this.type "full"}}
+        <section class="image-half">
+            <img src="images/{{this.uri}}_normal.jpg"/>
+        </section>
+        {{/ifEquals}}
+    {{/each}}
 
     <section class="image-double padded">
         <div>
             {{#each this.images}}
                 {{#ifEquals this.type "half"}}
                 <div class="image-double__inner">
-                        <img src="images/{{this.uri}}_normal.jpg"/>
-                    </div>
+                    <img src="images/{{this.uri}}_normal.jpg"/>
+                </div>
                 {{/ifEquals}}
             {{/each}}
         </div>
