@@ -53,6 +53,14 @@ function initApiRoutes() {
   
 }
 
+function createDefaultRoutes(route: String, controller: any) {
+  routes.get(`/${route}`, async (req: any, res: any) => { await controller.getAll(req, res)} )
+  routes.get(`/${route}/:id`, async (req: any, res: any) => { await controller.get(req, res)} )
+  routes.post(`/${route}`, async (req: any, res: any) => { await controller.create(req, res)} )
+  routes.put(`/${route}/:id`, async (req: any, res: any) => { await controller.update(req, res)} )
+  routes.delete(`/${route}/:id`, async (req: any, res: any) => { await controller.delete(req, res)} )
+}
+
 function verifyToken(req: any, res: any, next: any) {
   const bearerHeader = req.headers['authorization'];
 
