@@ -1,5 +1,5 @@
 import BaseController from './base.controller'
-import { Collaborator, Image } from '../models'
+import { Collaborator } from '../models'
 
 
 class CollaboratorController extends BaseController{

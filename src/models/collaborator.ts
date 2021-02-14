@@ -1,9 +1,8 @@
 import { Schema, Document } from 'mongoose';
 import { IImage } from './image'
-import { defaultPageField} from './basePage'
 
 
-const collaborator: Schema = new Schema(Object.assign(defaultPageField,  {
+const collaborator: Schema = new Schema({
     _id: Schema.Types.ObjectId,
     images: [
         { type: Schema.Types.ObjectId, ref: 'Image' }
@@ -20,13 +19,13 @@ const collaborator: Schema = new Schema(Object.assign(defaultPageField,  {
     order: {
         type: Number
     }
-}))
+})
 
 collaborator.index({'$**': 'text'});
 
 interface ICollaborator extends Document {
-    images: IImage[];
-    appellation: string;
+    images: IImage[]
+    appellation: string
     name: string
     text: string,
     order: number,

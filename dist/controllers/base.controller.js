@@ -80,6 +80,7 @@ class BaseController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log("test");
                 req.body._id = new mongoose_1.Types.ObjectId();
                 const model = new this.model(req.body);
                 if (req.body.hasOwnProperty('images')) {
@@ -89,6 +90,7 @@ class BaseController {
                 res.status(201).json(result);
             }
             catch (e) {
+                console.log(e);
                 res.status(500).json(e);
             }
         });
@@ -110,7 +112,13 @@ class BaseController {
                     req.body.images = yield this.saveOrUpdateImages(req.body);
                 }
                 let result = yield this.model.updateOne({ _id: id }, req.body);
-                res.status(200).json({ data: result });
+                console.log(result);
+                result = {
+                    data: {
+                        id: id
+                    }
+                };
+                res.status(200).json(result);
             }
             catch (e) {
                 res.status(500).json(e);

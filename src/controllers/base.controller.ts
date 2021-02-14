@@ -79,6 +79,7 @@ class BaseController {
 
     async create(req: any, res: any) {
       try {
+        console.log("test")
         req.body._id = new Types.ObjectId()
         const model = new this.model(req.body)
         if (req.body.hasOwnProperty('images')) {
@@ -87,6 +88,7 @@ class BaseController {
         const result = await model.save()
         res.status(201).json(result);
       }catch(e) {
+        console.log(e)
         res.status(500).json(e);
       }
     }
@@ -111,7 +113,13 @@ class BaseController {
         }
 
         let result = await this.model.updateOne({ _id: id }, req.body)
-        res.status(200).json({data: result});
+        console.log(result)
+        result = {
+          data: {
+            id: id
+          }
+        }
+        res.status(200).json(result);
       }catch(e) {
         res.status(500).json(e);
       }
