@@ -89,7 +89,6 @@ class BuilderController {
     const pags = []
     for(let page of pages) {
       page = await this.addResources(page)
-      console.log(page)
       page.pageImage = `${process.env.SITE_URL}/images/logo.png`
       pags.push(page)
     }
