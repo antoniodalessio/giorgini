@@ -86,86 +86,18 @@ Prende regolarmente parte a numerosi corsi di aggiornamento e congressi nelle mi
     <section class="doctor-list padded padded-mobile">
         <div class="cards">
             
+            {{#each resources.collaborator}}
             <div class="card">
                 <div class="card__image">
-                    <img src="images/giulia-dentista-giorgini-firenze.jpg" />
+                     <img src="images/{{this.images.[0].uri}}_thumb.jpg" />
                 </div>
                 <div class="card__txt">
-                    <p class="card__label">Specialista in ortodonzia</p>
-                    <h3>Giulia</h3>
-                    <p class="card__description">Entrata in squadra nel 2014, la dott.ssa Pieraccini è sempre molto
-attenta alla cura dei pazienti, dai bambini, agli adolescenti fino agli
-adulti.</p>
+                    <p class="card__label">{{this.appellation}}</p>
+                    <h3>{{this.name}}</h3>
+                    <p class="card__description">{{this.text}}</p>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card__image">
-                    <img src="images/sandra-dentista-giorgini-firenze.jpg" />
-                </div>
-                <div class="card__txt">
-                    <p class="card__label">Responsabile segreteria</p>
-                    <h3>Sandra</h3>
-                    <p class="card__description">Ogni studio dentistico che si rispetti ha una colonna portante. Qui da noi
-è Sandra, instancabile lavoratrice e responsabile segreteria, al nostro
-fianco da 35 anni. Il motore dello studio che si destreggia con abilità tra
-agende, pagamenti e rapporto con i clienti.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image">
-                    <img src="images/simona-dentista-giorgini-firenze.jpg" />
-                </div>
-                <div class="card__txt">
-                    <p class="card__label">Assistente alla poltrona</p>
-                    <h3>Simona</h3>
-                    <p class="card__description">In studio da oltre 20 anni, Simona è l'assistente alla poltrona del Dott.
-Marino Giorgini. È una figura professionale, sulla quale si può fare
-affidamento per qualsiasi cosa.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image">
-                    <img src="images/valentina-dentista-giorgini-firenze.jpg" />
-                </div>
-                <div class="card__txt">
-                    <p class="card__label">Assistente alla poltrona</p>
-                    <h3>Valentina</h3>
-                    <p class="card__description">Instancabile e pragmatica, Valentina è l'assistente alla poltrona del Dott.
-Stefano Giorgini. In studio da sei anni, si riconosce per la sua risata
-contagiosa che trasmette a ogni paziente, piccolo o adulto che sia.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image">
-                    <img src="images/sabrina-dentista-giorgini-firenze.jpg" />
-                </div>
-                <div class="card__txt">
-                    <p class="card__label">Igienista dentale</p>
-                    <h3>Sabrina</h3>
-                    <p class="card__description">Precisione e gentilezza, oltre a sonde parodontali, specchietti e
-pinzette, sono gli strumenti che utilizza maggiormente. Sabrina è una
-professionista che sa mettere a proprio agio le persone.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card__image">
-                    <img src="images/laura-dentista-giorgini-firenze.jpg" />
-                </div>
-                <div class="card__txt">
-                    <p class="card__label">Igienista dentale</p>
-                    <h3>Laura</h3>
-                    <p class="card__description">La meticolosità è il suo mestiere. Anche se Laura è l'ultima arrivata in
-studio, dal primo momento sapeva come mettere a proprio agio i
-pazienti.</p>
-                </div>
-            </div>
-
-            
+            {{/each}}            
 
         </div>
     </section>
