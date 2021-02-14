@@ -36,10 +36,10 @@ class BuilderController {
     }
     buildSitemapXml() {
         return __awaiter(this, void 0, void 0, function* () {
-            const categories = (yield models_1.Category.find()).map((item) => item ? item.toObject() : null);
-            const products = (yield models_1.Product.find().populate('images')).map((item) => item ? item.toObject() : null);
+            const stories = (yield models_1.Story.find()).map((item) => item ? item.toObject() : null);
+            const services = (yield models_1.Story.find()).map((item) => item ? item.toObject() : null);
             const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
-            const resources = categories.concat(products).concat(pages);
+            const resources = stories.concat(services).concat(pages);
             const data = {
                 resources: resources.filter((resource) => resource.template != 'index' && resource.template != '404'),
                 baseUrl: process.env.SITE_URL,
@@ -63,6 +63,12 @@ class BuilderController {
                     if (resource.type == 'service') {
                         resources.services = (yield models_1.Service.find(resource.filter)
                             .sort('order'))
+                            .map((item) => item ? item.toObject() : null);
+                    }
+                    if (resource.type == 'collaborator') {
+                        resources.collaborator = (yield models_1.Collaborator.find(resource.filter)
+                            .sort('order')
+                            .populate({ path: 'images', options: { sort: { 'ord': 1 } } }))
                             .map((item) => item ? item.toObject() : null);
                     }
                 }
@@ -91,21 +97,6 @@ class BuilderController {
                     this.fileToUpload.push(page.slug);
                     yield models_1.Page.updateOne({ _id: page._id }, { published: true });
                 }
-            }
-        });
-    }
-    buildBreadCrumb(cat, array = []) {
-        return __awaiter(this, void 0, void 0, function* () {
-            array.push({
-                slug: cat.slug,
-                label: cat.category_name
-            });
-            if (!cat.parent) {
-                return array;
-            }
-            else {
-                const parentCat = (yield models_1.Category.findOne({ _id: cat.parent })).toObject();
-                return yield this.buildBreadCrumb(parentCat, array);
             }
         });
     }
@@ -150,7 +141,7 @@ class BuilderController {
                 if (!unpublished || !story.published) {
                     yield this.assemble.render("story", story);
                     this.fileToUpload.push(story.slug);
-                    yield models_1.Product.updateOne({ _id: story._id }, { published: true });
+                    yield models_1.Story.updateOne({ _id: story._id }, { published: true });
                 }
             }
         });
