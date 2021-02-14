@@ -8,6 +8,9 @@ const collaborator: Schema = new Schema(Object.assign(defaultPageField,  {
     images: [
         { type: Schema.Types.ObjectId, ref: 'Image' }
     ],
+    appellation: {
+        type: String
+    },
     name: {
         type: String
     },
@@ -23,6 +26,7 @@ collaborator.index({'$**': 'text'});
 
 interface ICollaborator extends Document {
     images: IImage[];
+    appellation: string;
     name: string
     text: string,
     order: number,

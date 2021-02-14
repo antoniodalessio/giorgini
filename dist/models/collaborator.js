@@ -8,6 +8,9 @@ const collaborator = new mongoose_1.Schema(Object.assign(basePage_1.defaultPageF
     images: [
         { type: mongoose_1.Schema.Types.ObjectId, ref: 'Image' }
     ],
+    appellation: {
+        type: String
+    },
     name: {
         type: String
     },
