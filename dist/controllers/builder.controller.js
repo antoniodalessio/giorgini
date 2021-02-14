@@ -36,9 +36,9 @@ class BuilderController {
     }
     buildSitemapXml() {
         return __awaiter(this, void 0, void 0, function* () {
-            const stories = (yield models_1.Story.find()).map((item) => item ? item.toObject() : null);
-            const services = (yield models_1.Story.find()).map((item) => item ? item.toObject() : null);
-            const pages = (yield models_1.Page.find()).map((item) => item ? item.toObject() : null);
+            const stories = (yield models_1.Story.find().populate('images')).map((item) => item ? item.toObject() : null);
+            const services = (yield models_1.Story.find().populate('images')).map((item) => item ? item.toObject() : null);
+            const pages = (yield models_1.Page.find().populate('images')).map((item) => item ? item.toObject() : null);
             const resources = stories.concat(services).concat(pages);
             const data = {
                 resources: resources.filter((resource) => resource.template != 'index' && resource.template != '404'),

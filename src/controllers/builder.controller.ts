@@ -34,9 +34,9 @@ class BuilderController {
 
   async buildSitemapXml(){
 
-    const stories = (await Story.find()).map((item: any) => item ? item.toObject() : null)
-    const services = (await Story.find()).map((item: any) => item ? item.toObject() : null)
-    const pages = (await Page.find()).map((item: any) => item ? item.toObject() : null)
+    const stories = (await Story.find().populate('images')).map((item: any) => item ? item.toObject() : null)
+    const services = (await Story.find().populate('images')).map((item: any) => item ? item.toObject() : null)
+    const pages = (await Page.find().populate('images')).map((item: any) => item ? item.toObject() : null)
     const resources = stories.concat(services).concat(pages)
 
     const data = {
