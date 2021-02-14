@@ -54,6 +54,13 @@ function initApiRoutes() {
     routes.delete('/image/:id', (req, res) => __awaiter(this, void 0, void 0, function* () { yield imageCTRL.delete(req, res); }));
     routes.get('/publish', (req, res) => __awaiter(this, void 0, void 0, function* () { yield builderCTRL.publish(req, res); }));
 }
+function createDefaultRoutes(route, controller) {
+    routes.get(`/${route}`, (req, res) => __awaiter(this, void 0, void 0, function* () { yield controller.getAll(req, res); }));
+    routes.get(`/${route}/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () { yield controller.get(req, res); }));
+    routes.post(`/${route}`, (req, res) => __awaiter(this, void 0, void 0, function* () { yield controller.create(req, res); }));
+    routes.put(`/${route}/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () { yield controller.update(req, res); }));
+    routes.delete(`/${route}/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () { yield controller.delete(req, res); }));
+}
 function verifyToken(req, res, next) {
     const bearerHeader = req.headers['authorization'];
     if (bearerHeader) {

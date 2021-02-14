@@ -77,7 +77,6 @@ class BuilderController {
             const pags = [];
             for (let page of pages) {
                 page = yield this.addResources(page);
-                console.log(page);
                 page.pageImage = `${process.env.SITE_URL}/images/logo.png`;
                 pags.push(page);
             }
@@ -128,7 +127,7 @@ class BuilderController {
                 if (!unpublished || !service.published) {
                     yield this.assemble.render("service", service);
                     this.fileToUpload.push(service.slug);
-                    yield models_1.Product.updateOne({ _id: service._id }, { published: true });
+                    yield models_1.Service.updateOne({ _id: service._id }, { published: true });
                 }
             }
         });
@@ -158,13 +157,18 @@ class BuilderController {
     }
     upload() {
         return __awaiter(this, void 0, void 0, function* () {
-            let filesUploaded = [];
-            for (const file of this.fileToUpload) {
-                yield this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755);
-                filesUploaded.push(`${file}`);
+            try {
+                let filesUploaded = [];
+                for (const file of this.fileToUpload) {
+                    yield this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755);
+                    filesUploaded.push(`${file}`);
+                }
+                this.fileToUpload = [];
+                return { filesUploaded };
             }
-            this.fileToUpload = [];
-            return { filesUploaded };
+            catch (e) {
+                console.log(e);
+            }
         });
     }
     clearFolder() {
