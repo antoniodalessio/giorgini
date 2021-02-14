@@ -164,16 +164,20 @@ class BuilderController {
   }
 
   async upload() {
-    let filesUploaded = []
+    try {
+      let filesUploaded = []
 
-    for(const file of this.fileToUpload) {
-      await this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755)
-      filesUploaded.push(`${file}`)
+      for(const file of this.fileToUpload) {
+        await this.clientFtp.upload(`${process.env.SITE_PATH}${file}.html`, `${process.env.FTP_FOLDER}${file}.html`, 755)
+        filesUploaded.push(`${file}`)
+      }
+
+      this.fileToUpload = []
+
+      return {filesUploaded}
+    }catch(e){
+      console.log(e)
     }
-
-    this.fileToUpload = []
-
-    return {filesUploaded}
   }
 
   async clearFolder() {
