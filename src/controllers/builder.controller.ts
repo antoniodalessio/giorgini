@@ -1,10 +1,8 @@
 import Assemble from './../assemble'
 import FTP from './../utils/ftp'
-import { Page, Category, Product, Image, ICategory, Story, Service } from '../models'
-import { IProduct  } from '../models/product';
+import { Page, Image, Story, Service, Collaborator } from '../models'
 var fs = require('fs');
 import SeoHelper from '../helpers/SeoHelper'
-import { shuffle } from '../utils/array'
 
 interface IBreadcrumb {
   slug: string
@@ -36,10 +34,10 @@ class BuilderController {
 
   async buildSitemapXml(){
 
-    const categories = (await Category.find()).map((item: any) => item ? item.toObject(): null)
-    const products = (await Product.find().populate('images')).map((item: any) => item ? item.toObject() : null)
+    const stories = (await Story.find()).map((item: any) => item ? item.toObject() : null)
+    const services = (await Story.find()).map((item: any) => item ? item.toObject() : null)
     const pages = (await Page.find()).map((item: any) => item ? item.toObject() : null)
-    const resources = categories.concat(products).concat(pages)
+    const resources = stories.concat(services).concat(pages)
 
     const data = {
       resources: resources.filter((resource) => resource.template != 'index' && resource.template != '404'),
@@ -71,6 +69,14 @@ class BuilderController {
           resources.services = (await Service.find(resource.filter)
                                 .sort('order'))
                                 .map((item: any) => item ? item.toObject() : null)
+        }
+
+        if (resource.type == 'collaborator') {
+          resources.collaborator = (
+            await Collaborator.find(resource.filter)
+                        .sort('order')
+                        .populate({path: 'images', options: { sort: { 'ord': 1 } } }))
+                        .map((item: any) => item ? item.toObject() : null)
         }
 
       }
@@ -105,21 +111,6 @@ class BuilderController {
     }
   }
 
-
-  async buildBreadCrumb(cat: ICategory, array: IBreadcrumb[] = []):Promise<IBreadcrumb[]> {
-    array.push(
-      {
-        slug: cat.slug,
-        label: cat.category_name
-      }
-    )
-    if (!cat.parent){
-      return array
-    }else{
-      const parentCat = (await Category.findOne({_id: cat.parent})).toObject()
-      return await this.buildBreadCrumb(parentCat, array)
-    }
-  }
 
   async buildServices() {
     let services = await Service.find().populate({path: 'images', options: { sort: { 'ord': 1 } } })
@@ -158,7 +149,7 @@ class BuilderController {
       if (!unpublished || !story.published) {
         await this.assemble.render("story", story)
         this.fileToUpload.push(story.slug)
-        await Product.updateOne({_id: story._id}, {published: true})
+        await Story.updateOne({_id: story._id}, {published: true})
       }
     }
   }
