@@ -137,7 +137,7 @@ class BuilderController {
       if (!unpublished || !service.published) {
         await this.assemble.render("service", service)
         this.fileToUpload.push(service.slug)
-        await Product.updateOne({_id: service._id}, {published: true})
+        await Service.updateOne({_id: service._id}, {published: true})
       }
     }
   }
