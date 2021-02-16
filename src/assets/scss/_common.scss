@@ -465,6 +465,22 @@ $main-image-height: 70vh;
 			color: $primary;
 			font-family: $font-secondary !important;
 		}
+		&:first-child {
+			p.ordered {
+				&::after {
+					text-transform: uppercase;
+					content: "prima"
+				}
+			}
+		}
+		&:last-child {
+			p.ordered {
+				&::after {
+					text-transform: uppercase;
+					content: "dopo"
+				}
+			}
+		}
 	}
 	@media screen and (max-width: $mobile) {
 		&__inner {

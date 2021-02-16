@@ -2,8 +2,11 @@
     margin-top: 80px;
     display: flex;
     font-size: 16px;
-    h2, p {
-        margin-bottom: 0;
+    p {
+        margin-bottom: 10px;
+    }
+    h2 {
+        margin-bottom: 26px;
     }
     &__tag {
         margin-bottom: 40px;
@@ -28,7 +31,6 @@
             &--left {
                 display: flex;
                 flex-direction: column;
-                justify-content: space-between;
                 height: 100%;
                 padding-left: column(1);
                 padding-right: column(2);
@@ -36,7 +38,6 @@
             &--right {
                 display: flex;
                 flex-direction: column;
-                //justify-content: space-between;
                 height: 100%;
                 padding-left: column(2);
                 padding-right: column(1);
