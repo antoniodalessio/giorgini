@@ -28,7 +28,7 @@ function initApiRoutes() {
     let storyCTRL = new story_controller_1.default();
     let serviceCTRL = new service_controller_1.default();
     let collaboratorCTRL = new collaborator_controllerr_1.default();
-    routes.use((req, res, next) => verifyToken(req, res, next));
+    routes.use((req, res, next) => __awaiter(this, void 0, void 0, function* () { return yield verifyToken(req, res, next); }));
     createDefaultRoutes("user", userCTRL);
     createDefaultRoutes("page", pageCTRL);
     createDefaultRoutes("story", storyCTRL);
@@ -45,17 +45,19 @@ function createDefaultRoutes(route, controller) {
     routes.delete(`/${route}/:id`, (req, res) => __awaiter(this, void 0, void 0, function* () { yield controller.delete(req, res); }));
 }
 function verifyToken(req, res, next) {
-    const bearerHeader = req.headers['authorization'];
-    if (bearerHeader) {
-        const bearer = bearerHeader.split(' ');
-        const bearerToken = bearer[1];
-        req.token = bearerToken;
-        next();
-    }
-    else {
-        // Forbidden
-        res.sendStatus(403);
-    }
+    return __awaiter(this, void 0, void 0, function* () {
+        const bearerHeader = req.headers['authorization'];
+        if (bearerHeader && bearerHeader.split(' ').length > 0 && bearerHeader.split(' ')[1] != "null") {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+            yield next();
+        }
+        else {
+            // Forbidden
+            res.sendStatus(403);
+        }
+    });
 }
 exports.default = () => {
     initApiRoutes();

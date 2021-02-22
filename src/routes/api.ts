@@ -18,7 +18,7 @@ function initApiRoutes() {
   let collaboratorCTRL = new collaboratorController()
   
 
-  routes.use((req: any, res: any, next: any) => verifyToken(req, res, next))
+  routes.use(async (req: any, res: any, next: any) => await verifyToken(req, res, next))
 
   createDefaultRoutes("user", userCTRL)
   createDefaultRoutes("page", pageCTRL)
@@ -40,14 +40,13 @@ function createDefaultRoutes(route: String, controller: any) {
   routes.delete(`/${route}/:id`, async (req: any, res: any) => { await controller.delete(req, res)} )
 }
 
-function verifyToken(req: any, res: any, next: any) {
+async function verifyToken(req: any, res: any, next: any) {
   const bearerHeader = req.headers['authorization'];
-
-  if (bearerHeader) {
+  if (bearerHeader && bearerHeader.split(' ').length > 0 && bearerHeader.split(' ')[1] != "null") {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
     req.token = bearerToken;
-    next();
+    await next();
   } else {
     // Forbidden
     res.sendStatus(403);

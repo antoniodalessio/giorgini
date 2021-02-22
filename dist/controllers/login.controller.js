@@ -45,9 +45,13 @@ class LoginController {
         return __awaiter(this, void 0, void 0, function* () {
             const token = req.body.token;
             let result = yield models_1.User.find({ token });
-            result[0].token = "";
-            yield models_1.User.updateOne({ _id: result[0]._id }, result[0]);
-            res.status(200).json({ message: "logout" });
+            if (result && result.length) {
+                result[0].token = "";
+                yield models_1.User.updateOne({ _id: result[0]._id }, result[0]);
+            }
+            else {
+                res.status(200).json({ message: "logout" });
+            }
         });
     }
 }
