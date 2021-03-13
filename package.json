@@ -27,6 +27,7 @@
     "handlebars": "^4.7.6",
     "jimp": "^0.10.3",
     "jquery-zoom": "^1.7.21",
+    "mailchimp-api-v3": "^1.14.0",
     "mongoose": "^5.9.10",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.4.6",
