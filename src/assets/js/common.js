@@ -86,7 +86,11 @@ function newsletter(type) {
 
 	$submitNewsletter.on('click', function(e) {
 		e.preventDefault();
-		alert($emailNewsletter.val() + "  " + $privacyNewsletter.val());
+		alert($emailNewsletter.val() + "  " + $privacyNewsletter.attr("checked"));
+		$.post('http://giorgini.cloudno.de/public/emailsubscribe', { email: $emailNewsletter.val() })
+			.then(function(res){
+				console.log(res)
+			})
 	})
 }
 
