@@ -77,6 +77,11 @@ function cookieLaw() {
 	}
 }
 
+function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
 
 function newsletter(type) {
 	var $newsletterForm = $(type + ' .newsletter');
@@ -86,11 +91,16 @@ function newsletter(type) {
 
 	$submitNewsletter.on('click', function(e) {
 		e.preventDefault();
-		alert($emailNewsletter.val() + "  " + $privacyNewsletter.attr("checked"));
-		$.post('http://giorgini.cloudno.de/public/emailsubscribe', { email: $emailNewsletter.val() })
-			.then(function(res){
-				console.log(res)
-			})
+		if (validateEmail($emailNewsletter.val()) && $privacyNewsletter.is(":checked")) {
+			$.post('https://giorgini.cloudno.de/public/emailsubscribe', { email: $emailNewsletter.val() })
+				.then(function(res){
+					if (res.result) {
+						alert("Iscrizione avvenuta con successo")
+					}
+				})
+		}else{
+			alert("I campi non sono completi")
+		}
 	})
 }
 

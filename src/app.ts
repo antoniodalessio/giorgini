@@ -5,7 +5,7 @@ import loginController from './controllers/login.controller'
 
 import apiRoutes from './routes/api'
 import publicRoutes from './routes/public'
-//import siteRoutes from './routes/site'
+import siteRoutes from './routes/site'
 import { User } from './models'
 
 import { Types } from 'mongoose';
@@ -33,6 +33,9 @@ class App {
     this.initMongoose()
     this.setupFirstAdminUser()
 
+    // comment if you don't want serve site without publishing
+    //this.serveDynamcSite()
+
     if (process.env.ENV == 'PROD') {
       const seoHelper:SeoHelper = new SeoHelper()
       seoHelper.downloadHtaccess()
@@ -47,6 +50,8 @@ class App {
       fs.mkdirSync(`${process.env.SITE_IMAGE_PATH}`);
     }
   }
+
+  
 
   setupExpress() {
     this._expressApp = express();
@@ -74,9 +79,16 @@ class App {
 
     this._expressApp.use('/api/', apiRoutes());
     this._expressApp.use('/public/', publicRoutes());
-
-    //this._expressApp.use('/', siteRoutes())
     
+  }
+
+  serveDynamcSite() {
+    this._expressApp.use('/fonts', express.static('site/fonts'))
+    this._expressApp.use('/js', express.static('site/js'))
+    this._expressApp.use('/svg', express.static('site/svg'))
+    this._expressApp.use('/images', express.static('site/images'))
+    this._expressApp.use('/css', express.static('site/css'))
+    this._expressApp.use('/', siteRoutes())
   }
 
   async initMongoose() {
